@@ -75,43 +75,46 @@ const App = () => {
 		email: '',
 		password: '',
 	});
-	const [isLogged, setIsLogged] = useState(false);
+
+	// const [isLogged, setIsLogged] = useState(false);
+
 	return (
 		<Router>
-			<div className='header'>
-				<div className='logos-header'>
-					{isLogged ? (
-						<button id='notification-btn' onClick={openPopUp}>
-							<img src={correo} className='correo-logo' />
-						</button>
-					) : null}
-					<div id='notification-popup'>
-						<div className='popup-content'>
-							<div className='popup-header'>
-								<h3>Notificaciones</h3>
-								<button id='close-btn'>
-									<i className='fa fa-times' aria-hidden='true'></i>
-								</button>
+			<main>
+				<div className='header'>
+					<div className='logos-header'>
+						{/* {isLogged ? ( */}
+							<button id='notification-btn' onClick={openPopUp}>
+								<img src={correo} className='correo-logo' />
+							</button>
+						{/* ) : null} */}
+						<div id='notification-popup'>
+							<div className='popup-content'>
+								<div className='popup-header'>
+									<h3>Notificaciones</h3>
+									<button id='close-btn'>
+										<i className='fa fa-times' aria-hidden='true'></i>
+									</button>
+								</div>
+								<ul className='notifications-list'>
+									{cronogramaActual.map((actividades, index) => {
+										return (
+											<li className='d-flex justify-content-start' key={index}>
+												<a href='#'>
+													<strong>Actividad: </strong>
+													{actividades.titulo} <strong>Hora: </strong>
+													{actividades.hora_inicio}
+												</a>
+											</li>
+										);
+									})}
+								</ul>
 							</div>
-							<ul className='notifications-list'>
-								{cronogramaActual.map((actividades, index) => {
-									return (
-										<li className='d-flex justify-content-start' key={index}>
-											<a href='#'>
-												<strong>Actividad: </strong>
-												{actividades.titulo} <strong>Hora: </strong>
-												{actividades.hora_inicio}
-											</a>
-										</li>
-									);
-								})}
-							</ul>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className='d-flex' style={{ height: '90vh' }}>
-				{!isLogged && (
+				<div className='d-flex' style={{ height: '90vh' }}>
+					{/* {!isLogged && (
 					<section
 						className='w-100 justify-content-center'
 						style={{ display: 'flex' }}
@@ -123,8 +126,8 @@ const App = () => {
 							setUser={setUser}
 						/>
 					</section>
-				)}
-				{isLogged && (
+				)} */}
+					{/* {isLogged && ( */}
 					<section style={{ display: 'flex', overflow: 'hidden' }}>
 						<Sidebar user={user} />
 						<div
@@ -172,8 +175,9 @@ const App = () => {
 							</Routes>
 						</div>
 					</section>
-				)}
-			</div>
+					{/* )} */}
+				</div>
+			</main>
 		</Router>
 	);
 };
