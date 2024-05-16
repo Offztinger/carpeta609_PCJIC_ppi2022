@@ -44,10 +44,10 @@ const useAxiosHandler = () => {
 			});
 	};
 
-	const PUTRequest = async (data, url, id) => {
+	const PUTRequest = async (data, url) => {
 		try {
 			const response = await Axios.put(
-				`${url}/${id}`,
+				`${url}/${data.id}`,
 				{
 					data,
 				},
