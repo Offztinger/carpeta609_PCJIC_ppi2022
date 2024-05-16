@@ -1,9 +1,12 @@
-import React from 'react'
+import React from 'react';
+import UserProvider from '../../context/UserContext/UserProvider';
 
 const StudentPage = () => {
-  return (
-    <div>StudentPage</div>
-  )
-}
+	return (
+		<UserProvider>
+			<div>StudentPage</div>
+		</UserProvider>
+	);
+};
 
-export default StudentPage
+export default StudentPage;

@@ -18,6 +18,8 @@ import CalendarComponent from './components/CalendarComponent/calendarComponet';
 import Sidebar from './components/Sidebar/Sidebar';
 import Login from './components/Login/Login';
 import Dashboard from './components/Dashboard/Dashboard';
+import { ToastContainer, Bounce, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 	function zero() {
@@ -81,12 +83,14 @@ const App = () => {
 	return (
 		<Router>
 			<main>
+				<ToastContainer autoClose={5000} />
+
 				<div className='header'>
 					<div className='logos-header'>
 						{/* {isLogged ? ( */}
-							<button id='notification-btn' onClick={openPopUp}>
-								<img src={correo} className='correo-logo' />
-							</button>
+						<button id='notification-btn' onClick={openPopUp}>
+							<img src={correo} className='correo-logo' />
+						</button>
 						{/* ) : null} */}
 						<div id='notification-popup'>
 							<div className='popup-content'>
