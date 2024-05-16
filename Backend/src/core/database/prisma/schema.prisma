@@ -30,7 +30,7 @@ model User {
   teamMembers    TeamMembers[]
   Schedule       Schedule[]
 
-  @@map("users")
+  @@map("users")  
 }
 
 model Roles {
