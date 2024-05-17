@@ -37,7 +37,7 @@ function UserTable() {
         return result;
     };
 
-    const secciones = chunkArray(users, 8);
+    const secciones = chunkArray(users, 10);
 
     const handleSectionClick = index => {
         setCurrentSection(index);
