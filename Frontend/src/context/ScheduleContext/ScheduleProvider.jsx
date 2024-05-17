@@ -37,7 +37,7 @@ const ScheduleProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<ScheduleContext.Provider value={{}}>{children}</ScheduleContext.Provider>
+		<ScheduleContext.Provider value={{schedule}}>{children}</ScheduleContext.Provider>
 	);
 };
 export default ScheduleProvider;

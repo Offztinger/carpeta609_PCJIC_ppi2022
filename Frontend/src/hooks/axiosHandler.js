@@ -93,4 +93,4 @@ const useAxiosHandler = () => {
 	return { GETRequest, POSTRequest, PUTRequest, DELETERequest };
 };
 
-export default useaxiosHandler;
+export default useAxiosHandler;
