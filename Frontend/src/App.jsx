@@ -2,24 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import VerEstudiantes from './components/VerEstudiantes/VerEstudiantes';
-import RegistrarEstudiantes from './components/RegistrarEstudiantes/RegistrarEstudiantes';
-import EditarEstudiantes from './components/EditarEstudiantes/EditarEstudiantes';
-import CrearEquipos from './components/CrearEquipos/CrearEquipos';
-import VerEquipos from './components/VerEquipos/VerEquipos';
 import correo from './icons/envelope.png';
-import calendario from './icons/calendar-page.png';
-import RegistrarDocentes from './components/CrearDocentes/RegistrarDocentes';
-import RegistrarAsesores from './components/CrearAsesores/RegistrarAsesores';
-import VerDocentes from './components/VerDocentes/VerDocentes';
-import VerAsesores from './components/VerAsesores/VerAsesores';
-import RegistrarCitas from './components/CrearCitas/RegistrarCitas';
-import CalendarComponent from './components/CalendarComponent/calendarComponet';
 import Sidebar from './components/Sidebar/Sidebar';
-import Login from './components/Login/Login';
-import Dashboard from './components/Dashboard/Dashboard';
 import { ToastContainer, Bounce, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import StudentPage from './pages/StudentPage/StudentPage';
+import UserProvider from './context/UserContext/UserProvider';
+import ProfessorPage from './pages/ProfessorPage/ProfessorPage';
+import CounselorPage from './pages/CounselorPage/CounselorPage';
 
 const App = () => {
 	function zero() {
@@ -47,22 +37,22 @@ const App = () => {
 		actividad => actividad.fecha === today,
 	);
 
-	const fetchApi = async () => {
-		const response = await fetch('http://localhost:8080/estudiante', {
-			method: 'GET',
-		});
-		const responseJSON = await response.json();
-		setEstudiantes(responseJSON);
-		const response2 = await fetch('http://localhost:8080/cronograma', {
-			method: 'GET',
-		});
-		const responseJSON2 = await response2.json();
-		setCronograma(responseJSON2);
-	};
+	// const fetchApi = async () => {
+	// 	const response = await fetch('http://localhost:8080/estudiante', {
+	// 		method: 'GET',
+	// 	});
+	// 	const responseJSON = await response.json();
+	// 	setEstudiantes(responseJSON);
+	// 	const response2 = await fetch('http://localhost:8080/cronograma', {
+	// 		method: 'GET',
+	// 	});
+	// 	const responseJSON2 = await response2.json();
+	// 	setCronograma(responseJSON2);
+	// };
 
-	useEffect(() => {
-		fetchApi();
-	}, []);
+	// useEffect(() => {
+	// 	fetchApi();
+	// }, []);
 
 	let popUpOpen = false;
 	const openPopUp = () => {
@@ -135,46 +125,37 @@ const App = () => {
 					<section style={{ display: 'flex', overflow: 'hidden' }}>
 						<Sidebar user={user} />
 						<div
-							className='contenedorPrincipal d-flex flex-column align-items-center justify-content-center'
+							className='contenedorPrincipal'
 							style={{ height: '90vh' }}
 						>
 							<Routes>
-								<Route path='/' element={<Dashboard />} />
 								<Route
-									path='/readEstudiantes'
+									path='/estudiantes'
 									element={
-										<VerEstudiantes
-											estudiantes={estudiantes}
-											setPutIDEs={setPutIDEs}
-										/>
+										<UserProvider>
+											<StudentPage />
+										</UserProvider>
 									}
 								/>
+							</Routes>
+							<Routes>
 								<Route
-									path='/createEstudiante'
-									element={<RegistrarEstudiantes />}
-								/>
-								<Route path='/createDocente' element={<RegistrarDocentes />} />
-								<Route path='/createAsesor' element={<RegistrarAsesores />} />
-								<Route
-									path='/createCita'
-									element={<RegistrarCitas cronograma={cronograma} />}
-								/>
-								<Route
-									path='/editEstudiante'
+									path='/profesores'
 									element={
-										<EditarEstudiantes
-											putIDEs={putIDEs}
-											setPutIDEs={setPutIDEs}
-										/>
+										<UserProvider>
+											<ProfessorPage />
+										</UserProvider>
 									}
 								/>
-								<Route path='/createEquipo' element={<CrearEquipos />} />
-								<Route path='/readEquipos' element={<VerEquipos />} />
-								<Route path='/readDocentes' element={<VerDocentes />} />
-								<Route path='/readAsesores' element={<VerAsesores />} />
+							</Routes>
+							<Routes>
 								<Route
-									path='/calendar'
-									element={<CalendarComponent cronograma={cronograma} />}
+									path='/asesores'
+									element={
+										<UserProvider>
+											<CounselorPage />
+										</UserProvider>
+									}
 								/>
 							</Routes>
 						</div>
@@ -187,3 +168,45 @@ const App = () => {
 };
 
 export default App;
+
+{
+	/* <Routes>
+<Route path='/' element={<Dashboard />} />
+<Route
+	path='/readEstudiantes'
+	element={
+		<VerEstudiantes
+			estudiantes={estudiantes}
+			setPutIDEs={setPutIDEs}
+		/>
+	}
+/>
+<Route
+	path='/createEstudiante'
+	element={<RegistrarEstudiantes />}
+/>
+<Route path='/createDocente' element={<RegistrarDocentes />} />
+<Route path='/createAsesor' element={<RegistrarAsesores />} />
+<Route
+	path='/createCita'
+	element={<RegistrarCitas cronograma={cronograma} />}
+/>
+<Route
+	path='/editEstudiante'
+	element={
+		<EditarEstudiantes
+			putIDEs={putIDEs}
+			setPutIDEs={setPutIDEs}
+		/>
+	}
+/>
+<Route path='/createEquipo' element={<CrearEquipos />} />
+<Route path='/readEquipos' element={<VerEquipos />} />
+<Route path='/readDocentes' element={<VerDocentes />} />
+<Route path='/readAsesores' element={<VerAsesores />} />
+<Route
+	path='/calendar'
+	element={<CalendarComponent cronograma={cronograma} />}
+/>
+</Routes> */
+}

@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import './Sidebar.css'
 
 export default function Sidebar({ user }) {
   return (
@@ -16,125 +17,41 @@ export default function Sidebar({ user }) {
         />
       </a>
       <hr />
-      <ul className="nav nav-pills flex-column mb-auto">
+      <ul className="sidebar-content">
         <li className="nav-item">
           <NavLink
-            to="/createEstudiante"
+            to="/estudiantes"
             className="nav-link text-white"
             aria-current="page"
           >
             <svg className="bi me-2" width="16" height="16">
               <use href="#home"></use>
             </svg>
-            Crear estudiante
+            Estudiantes
           </NavLink>
         </li>
         <li className="nav-item">
           <NavLink
-            to="/createEquipo"
+            to="/profesores"
             className="nav-link text-white"
             aria-current="page"
           >
             <svg className="bi me-2" width="16" height="16">
               <use href="#home"></use>
             </svg>
-            Crear equipo
+            Profesores
           </NavLink>
         </li>
         <li className="nav-item">
           <NavLink
-            to="/createAsesor"
+            to="/asesores"
             className="nav-link text-white"
             aria-current="page"
           >
             <svg className="bi me-2" width="16" height="16">
               <use href="#home"></use>
             </svg>
-            Crear asesor
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/createDocente"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Crear docente
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/createCita"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Crear cita
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/readEstudiantes"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Ver estudiantes
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/readEquipos"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Ver equipos
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/readDocentes"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Ver docentes
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/readAsesores"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Ver asesores
-          </NavLink>
-        </li>
-        <li className="nav-item">
-          <NavLink
-            to="/calendar"
-            className="nav-link text-white"
-            aria-current="page"
-          >
-            <svg className="bi me-2" width="16" height="16">
-              <use href="#home"></use>
-            </svg>
-            Ver calendario
+            Asesores
           </NavLink>
         </li>
       </ul>

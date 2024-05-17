@@ -1,9 +1,27 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react';
+import { UserContext } from '../../context/UserContext/UserContext';
+import UserTable from '../../components/shared/UserTable/UserTable';
 
 const ProfessorPage = () => {
-  return (
-    <div>ProfessorPage</div>
-  )
-}
+	const {
+		getUsers,
+		deleteUser,
+		selectedID,
+	} = useContext(UserContext);
 
-export default ProfessorPage
+	useEffect(() => {
+		getUsers('professor');
+	}, []);
+
+	const deleteStudent = () => {
+		selectedID && deleteUser('professor', selectedID);
+	};
+
+	return (
+		<main>
+			<UserTable />
+		</main>
+	);
+};
+
+export default ProfessorPage;

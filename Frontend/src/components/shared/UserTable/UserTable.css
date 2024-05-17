@@ -1,0 +1,72 @@
+.usersList {
+    padding: 2%;
+    opacity: 100%;
+    transition: all 0.4s ease;
+    border-radius: 1%;
+}
+
+th, td{
+    list-style: none;
+    border: none; 
+    text-align: center;
+}
+.botonesaccion button {
+    justify-content: center;
+    margin-left: 0.3vw;
+}
+
+.seccion h3 {
+    text-align: center;
+}
+
+.sections {
+    margin-left: 15%;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    background-color: #196844;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sections span {
+    flex: 1;
+    text-align: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 10px;
+    cursor: pointer;
+    background-color: transparent !important;
+}
+
+.complementosTablas {
+    position: fixed;
+    top: 86%;
+    left: 20%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1vh 23.8vw;
+}
+
+.exportarExcel {
+    grid-column: 3;
+    margin-left: 2.5vw;
+}
+.contenedorEstudiantes{
+    text-align: center;
+}
+
+.crearModulo{
+    color: white;
+    background-color: #196844;
+    height: 8vh;
+    width: 9vw;
+    border-radius: 5px;
+    font-size: 1.2em;
+}
+
+.crearModulo:hover{
+    background-color: #1f925e;
+}
