@@ -10,6 +10,8 @@ import StudentPage from './pages/StudentPage/StudentPage';
 import UserProvider from './context/UserContext/UserProvider';
 import ProfessorPage from './pages/ProfessorPage/ProfessorPage';
 import CounselorPage from './pages/CounselorPage/CounselorPage';
+import ScheduleProvider from './context/ScheduleContext/ScheduleProvider';
+import SchedulePage from './pages/SchedulePage/SchedulePage';
 
 const App = () => {
 	function zero() {
@@ -124,10 +126,7 @@ const App = () => {
 					{/* {isLogged && ( */}
 					<section style={{ display: 'flex', overflow: 'hidden' }}>
 						<Sidebar user={user} />
-						<div
-							className='contenedorPrincipal'
-							style={{ height: '90vh' }}
-						>
+						<div className='contenedorPrincipal' style={{ height: '90vh' }}>
 							<Routes>
 								<Route
 									path='/estudiantes'
@@ -155,6 +154,16 @@ const App = () => {
 										<UserProvider>
 											<CounselorPage />
 										</UserProvider>
+									}
+								/>
+							</Routes>
+							<Routes>
+								<Route
+									path='/cronograma'
+									element={
+										<ScheduleProvider>
+											<SchedulePage />
+										</ScheduleProvider>
 									}
 								/>
 							</Routes>

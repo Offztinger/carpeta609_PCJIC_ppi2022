@@ -1,7 +1,7 @@
 import useToastHandler from './toastHandler';
 import axios from "axios";
 
-const useaxiosHandler = () => {
+const useAxiosHandler = () => {
 	const { toastSuccess, toastError } = useToastHandler();
 	const POSTRequest = async (data, url) => {
 		try {
