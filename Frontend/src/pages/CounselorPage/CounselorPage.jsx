@@ -3,24 +3,19 @@ import { UserContext } from '../../context/UserContext/UserContext';
 import UserTable from '../../components/shared/UserTable/UserTable';
 
 const CounselorPage = () => {
-	const {
-		getUsers,
-		deleteUser,
-		selectedID,
-
-	} = useContext(UserContext);
+	const { getUsers, deleteUser, selectedID } = useContext(UserContext);
 
 	useEffect(() => {
 		getUsers('counselor');
 	}, []);
 
-	const deleteStudent = () => {
-		selectedID && deleteUser('counselor', selectedID);
+	const deleteCounselor = idToDelete => {
+		selectedID && deleteUser('counselor', idToDelete);
 	};
 
 	return (
 		<main>
-			<UserTable />
+			<UserTable deleteFunction={deleteCounselor} />
 		</main>
 	);
 };

@@ -9,12 +9,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../../context/UserContext/UserContext';
 
-function UserTable() {
-    // const [deleteIDEs, setDeleteIDEs] = useState();
+function UserTable({deleteFunction}) {
+    const [deleteIDEs, setDeleteIDEs] = useState();
     const [show, setShow] = useState(false);
-    // const { DELETERequest } = useAxiosHandler();
     const [currentSection, setCurrentSection] = useState(0);
-    const { users, setSelectedID, exportToExcel } = useContext(UserContext);
+    const { users, setSelectedID, exportToExcel, selectedId } = useContext(UserContext);
     const location = useLocation();
 
     let moduleName = location.pathname.split('/').pop(); // Obtener el nombre del módulo desde la ruta
@@ -25,9 +24,9 @@ function UserTable() {
       moduleName = moduleName.slice(0, -1);
     }
 
-    // useEffect(() => {
-    //     deleteIDEs && DELETERequest('http://localhost:4000/student', deleteIDEs);
-    // }, [deleteIDEs]);
+    useEffect(() => {
+        setDeleteIDEs(selectedId);
+    }, [setSelectedID]);
 
     const chunkArray = (array, size) => {
         const result = [];
@@ -63,7 +62,7 @@ function UserTable() {
                         className='btn btn-warning'
                         onClick={() => {
                             setShow(false);
-                            setDeleteIDEs(deleteIDEs);
+                            deleteFunction(deleteIDEs);
                         }}
                     >
                         Sí, deseo eliminarlo
