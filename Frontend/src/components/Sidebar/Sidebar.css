@@ -1,0 +1,10 @@
+ul, li{
+    list-style: none;
+    border: none;
+}
+.sidebar-content{
+    font-size: 2vh;
+}
+li{
+    margin-top: 8%;
+}

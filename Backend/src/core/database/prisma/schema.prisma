@@ -1,8 +1,8 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 // How to make a migration on prisma: yarn prisma migrate dev --name ${name} 
-// How to run all migrations: yarn prisma migrate
 // Generate the new schema: yarn prisma generate
+// How to run all migrations: yarn prisma migrate
 
 // createdAt      DateTime @default(now()) @map("created_at")
 // updatedAt      DateTime @default(now()) @updatedAt @map("updated_at")

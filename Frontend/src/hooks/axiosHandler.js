@@ -1,11 +1,11 @@
 import useToastHandler from './toastHandler';
-import { Axios } from 'axios';
+import axios from "axios";
 
-const useAxiosHandler = () => {
+const useaxiosHandler = () => {
 	const { toastSuccess, toastError } = useToastHandler();
 	const POSTRequest = async (data, url) => {
 		try {
-			const response = await Axios.post(
+			const response = await axios.post(
 				`${url}`,
 				{
 					data,
@@ -30,7 +30,7 @@ const useAxiosHandler = () => {
 	};
 
 	const GETRequest = async (url, setState) => {
-		await Axios.get(`${url}`, {
+		await axios.get(`${url}`, {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
@@ -46,7 +46,7 @@ const useAxiosHandler = () => {
 
 	const PUTRequest = async (data, url) => {
 		try {
-			const response = await Axios.put(
+			const response = await axios.put(
 				`${url}/${data.id}`,
 				{
 					data,
@@ -72,7 +72,7 @@ const useAxiosHandler = () => {
 
 	const DELETERequest = async (url, id) => {
 		try {
-			const response = await Axios.delete(`${url}/${id}`, {
+			const response = await axios.delete(`${url}/${id}`, {
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
 				},
@@ -93,4 +93,4 @@ const useAxiosHandler = () => {
 	return { GETRequest, POSTRequest, PUTRequest, DELETERequest };
 };
 
-export default useAxiosHandler;
+export default useaxiosHandler;
