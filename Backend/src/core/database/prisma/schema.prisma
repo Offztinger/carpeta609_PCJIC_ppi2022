@@ -30,7 +30,7 @@ model User {
   teamMembers    TeamMembers[]
   Schedule       Schedule[]
 
-  @@map("users")  
+  @@map("users")
 }
 
 model Roles {
@@ -92,8 +92,31 @@ model Schedule {
   teamPPI       TeamPPI @relation(fields: [folderNumber], references: [folderNumber])
   user          User    @relation(fields: [idProfessor], references: [id])
 
-  
   @@map("schedule")
+}
+
+model Logbook {
+  id                 String @id @default(uuid()) @map("id_logbook")
+  projectName        String @map("project_name")
+  folderNumber       Int    @map("folder_number")
+  description        String @map("description")
+  detailedScope      String @map("detailed_scope")
+  firstMeetingScope  String @map("first_meeting_scope")
+  secondMeetingScope String @map("second_meeting_scope")
+
+  @@map("logbook")
+}
+
+model LogbookDetail {
+  id              String   @id @default(uuid()) @map("id_logbook")
+  logbookId       String   @map("logbook_id")
+  meetingDate     DateTime @map("meeting_date")
+  missingStudents String[] @map("missing_students")
+  meetingComments String   @map("meeting_comments")
+  meetingCommit   String   @map("meeting_commit")
+  professorId     String   @map("professor_id")
+
+  @@map("logbookDetail")
 }
 
 // model UserProfile {
