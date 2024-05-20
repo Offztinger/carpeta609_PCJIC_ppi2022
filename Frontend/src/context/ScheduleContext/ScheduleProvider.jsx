@@ -9,7 +9,10 @@ const ScheduleProvider = ({ children }) => {
 		useAxiosHandler();
 
 	const [schedule, setSchedule] = useState([]);
-
+	const [showLogbook, setShowLogbook] = useState(false);
+	const [idTeam, setIdTeam] = useState('');
+	const [folder, setFolder] = useState('');
+	const [team, setTeam] = useState('');
 	const postSchedule = (moduleName, formulario) => {
 		if (formulario) {
 			POSTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
@@ -36,8 +39,45 @@ const ScheduleProvider = ({ children }) => {
 		getSchedule('schedule');
 	}, []);
 
+	useEffect(() => {
+		folder && GETRequest(`http://127.0.0.1:4000/teams/605`, setTeam);
+	}, [folder]);
+
+	useEffect(() => {
+		if (team) {
+			setI;
+		}
+	}, [team]);
+
+	function createDateTime(scheduleDate, scheduleHour) {
+		const [hourString, minutePeriod] = scheduleHour.split(':');
+		const period = minutePeriod.slice(-2).toUpperCase();
+		const minute = minutePeriod.slice(0, -2);
+		let hour = parseInt(hourString, 10);
+
+		if (period === 'PM' && hour !== 12) {
+			hour += 12;
+		} else if (period === 'AM' && hour === 12) {
+			hour = 0;
+		}
+
+		const dateTimeString = `${scheduleDate}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
+		return new Date(dateTimeString);
+	}
+
 	return (
-		<ScheduleContext.Provider value={{schedule}}>{children}</ScheduleContext.Provider>
+		<ScheduleContext.Provider
+			value={{
+				schedule,
+				createDateTime,
+				setShowLogbook,
+				showLogbook,
+				setFolder,
+				folder,
+			}}
+		>
+			{children}
+		</ScheduleContext.Provider>
 	);
 };
 export default ScheduleProvider;

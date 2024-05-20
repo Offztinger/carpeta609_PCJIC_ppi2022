@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Link } from 'react-router-dom';
-
+import { ScheduleContext } from '../../../../context/ScheduleContext/ScheduleContext';
 export default function CalendarComponent({ cronograma }) {
+	const { createDateTime, setShowLogbook, showLogbook, setFolder } =
+		useContext(ScheduleContext);
 	const localizer = momentLocalizer(moment);
 
 	const events = cronograma.map(actividad => {
+		const scheduleDate = `${actividad.scheduleYear}-${actividad.scheduleMonth.padStart(2, '0')}-${actividad.scheduleDay.padStart(2, '0')}`;
+		const startDate = createDateTime(scheduleDate, actividad.scheduleHour);
+		console.log('startDate:', startDate.toISOString());
+		const endDate = new Date(startDate.getTime() + 30 * 60000);
+		console.log('endDate:', endDate.toISOString());
+
 		return {
 			title: 'Asesoria',
-			start: new Date(
-				`${actividad.scheduleDay}/${actividad.scheduleMonth}/${actividad.scheduleYear}`,
-			),
-			end: new Date(
-				`${actividad.scheduleDay}/${actividad.scheduleMonth}/${actividad.scheduleYear}`,
-			),
+			start: startDate,
+			end: endDate,
+			folder: actividad.folderNumber,
 		};
 	});
+
+	useEffect(() => {
+		if (showLogbook) {
+			setShowLogbook(false);
+		}
+	}, [showLogbook]);
 
 	return (
 		<div style={{ height: '700px', width: '70vw', marginTop: '12px' }}>
@@ -31,6 +42,10 @@ export default function CalendarComponent({ cronograma }) {
 				endAccessor='end'
 				defaultView='month'
 				style={{ width: '100%', height: '100%' }}
+				onSelectEvent={e => {
+					setShowLogbook(true);
+					setFolder(e.folder);
+				}}
 			/>
 		</div>
 	);
