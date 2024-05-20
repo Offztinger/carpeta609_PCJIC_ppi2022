@@ -25,9 +25,9 @@ export class TeamsController {
     return this.teamsService.findAllTeams();
   }
 
-  @Get(':id')
-  findTeamById(@Param('id') id: string) {
-    return this.teamsService.findTeamById(id);
+  @Get(':folderNumber')
+  findTeamById(@Param('folderNumber') folderNumber: string) {
+    return this.teamsService.findTeamById(folderNumber);
   }
 
   @Put(':id')

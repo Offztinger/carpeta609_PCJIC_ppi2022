@@ -18,7 +18,7 @@ export class ProfessorService {
   async findAllProfessors() {
     return this.prisma.user.findMany({
       where: {
-        role: {
+        Role: {
           roleName: "Profesor",
         }
       },
@@ -28,7 +28,7 @@ export class ProfessorService {
   async findProfessorById(id: string) {
 
     const professorById = await this.prisma.user.findFirst({
-      where: { id, role: { roleName: Roles.PROFESSOR }, }
+      where: { id, Role: { roleName: Roles.PROFESSOR }, }
     });
 
     if (!professorById) {

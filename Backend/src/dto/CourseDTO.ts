@@ -3,4 +3,5 @@ export interface CourseDTO {
     courseName: string
     courseDescription: string,
     idProfessor: string
+    courseLevel: number
 }

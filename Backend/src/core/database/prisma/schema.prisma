@@ -18,79 +18,121 @@ datasource db {
 }
 
 model User {
-  id             String        @id @default(uuid()) @map("id_user")
-  documentNumber Int           @unique @map("document_number")
-  email          String        @unique
+  id             String          @id @default(uuid()) @map("id_user")
+  documentNumber Int             @unique @map("document_number")
+  email          String          @unique
   password       String
-  name           String        @map("name")
-  lastName       String        @map("last_name")
-  idRole         String        @map("id_role")
-  role           Roles         @relation(fields: [idRole], references: [id])
-  course         Course[]
-  teamMembers    TeamMembers[]
+  name           String          @map("name")
+  lastName       String          @map("last_name")
+  idRole         String          @map("id_role")
+  Role           Roles           @relation(fields: [idRole], references: [id])
+  Course         Course[]
+  TeamMembers    TeamMembers[]
   Schedule       Schedule[]
+  CourseStudent  CourseStudent[]
+  SectorScore    SectorScore[]
+  LogbookDetail  LogbookDetail[]
 
   @@map("users")
 }
 
 model Roles {
-  id              String @id @default(uuid()) @map("id_role")
-  roleName        String @unique @map("role_name")
-  roleDescription String @map("role_description")
-  user            User[]
+  id              String        @id @default(uuid()) @map("id_role")
+  roleName        String        @unique @map("role_name")
+  roleDescription String        @map("role_description")
+  User            User[]
+  Permissions     Permissions[]
 
   @@map("roles")
 }
 
+model Permissions {
+  id               String  @id @default(uuid()) @map("id_permission")
+  idFormPermission String  @map("id_form_permission")
+  create           Boolean @map("create_permission")
+  update           Boolean @map("update_permission")
+  read             Boolean @map("read_permission")
+  delete           Boolean @map("delete_permission")
+  idRole           String  @map("id_role_permission")
+  Form             Form    @relation(fields: [idFormPermission], references: [idForm])
+  Role             Roles   @relation(fields: [idRole], references: [id])
+
+  @@map("permissions")
+}
+
+model Form {
+  idForm          String        @id @default(uuid()) @map("id_form")
+  formName        String        @unique @map("form_name")
+  formDescription String        @map("form_description")
+  route           String        @map("form_route")
+  Permissions     Permissions[]
+
+  @@map("forms")
+}
+
 model Course {
-  id                String        @id @default(uuid()) @map("id_course")
-  courseName        String        @unique @map("course_name")
-  courseDescription String        @map("course_description")
-  idProfessor       String        @map("id_professor")
-  user              User          @relation(fields: [idProfessor], references: [id])
+  id                String          @id @default(uuid()) @map("id_course")
+  courseName        String          @unique @map("course_name")
+  courseDescription String          @map("course_description")
+  idProfessor       String          @map("id_professor")
+  courseLevel       Int             @map("course_level")
+  user              User            @relation(fields: [idProfessor], references: [id])
   teamMembers       TeamMembers[]
   teamPPI           TeamPPI[]
+  CourseStudent     CourseStudent[]
+  SectorCourse      SectorCourse[]
 
   @@map("courses")
 }
 
-model TeamMembers {
-  id             String  @id @default(uuid()) @map("id_team_member")
-  folderNumber   Int     @map("folder_number")
-  idCourse       String  @map("id_course")
-  idUser         String  @map("id_user")
-  memberSemester String  @map("team_semester")
-  user           User    @relation(fields: [idUser], references: [id])
-  course         Course  @relation(fields: [idCourse], references: [id])
-  teamPPI        TeamPPI @relation(fields: [folderNumber], references: [folderNumber])
+model CourseStudent {
+  idCourseStudent String  @id @default(uuid()) @map("id_course_student")
+  idUser          String  @map("id_user")
+  idCourse        String  @map("id_course")
+  active          Boolean @map("active_student")
+  Course          Course  @relation(fields: [idCourse], references: [id])
+  User            User    @relation(fields: [idUser], references: [id])
 
-  @@map("team_members")
+  @@map("course_student")
 }
 
 model TeamPPI {
   id           String        @id @default(uuid()) @map("id_team_ppi")
-  folderNumber Int           @unique @map("folder_number")
+  folderNumber String        @unique @map("folder_number")
   teamName     String        @map("team_name")
   idCourse     String        @map("id_course")
   teamSemester String        @map("team_semester")
   course       Course        @relation(fields: [idCourse], references: [id])
   TeamMembers  TeamMembers[]
   Schedule     Schedule?
+  SectorScore  SectorScore[]
+  Logbook      Logbook?
 
   @@map("team_ppi")
 }
 
+model TeamMembers {
+  id             String  @id @default(uuid()) @map("id_team_member")
+  folderNumber   String  @map("folder_number")
+  idCourse       String  @map("id_course")
+  idUser         String  @map("id_user")
+  memberSemester String  @map("team_semester")
+  User           User    @relation(fields: [idUser], references: [id])
+  Course         Course  @relation(fields: [idCourse], references: [id])
+  TeamPPI        TeamPPI @relation(fields: [folderNumber], references: [folderNumber])
+
+  @@map("team_members")
+}
+
 model Schedule {
   id            String  @id @default(uuid()) @map("id_schedule")
-  folderNumber  Int     @unique @map("folder_number")
+  folderNumber  String  @unique @map("folder_number")
   idProfessor   String  @map("id_professor")
-  scheduleDay   String  @map("schedule_day")
-  scheduleMonth String  @map("schedule_month")
-  scheduleYear  String  @map("schedule_year")
+  scheduleDate  String  @map("schedule_date")
   schedulePlace String  @map("schedule_place")
   scheduleHour  String  @map("schedule_hour")
-  teamPPI       TeamPPI @relation(fields: [folderNumber], references: [folderNumber])
-  user          User    @relation(fields: [idProfessor], references: [id])
+  TeamPPI       TeamPPI @relation(fields: [folderNumber], references: [folderNumber])
+  User          User    @relation(fields: [idProfessor], references: [id])
 
   @@map("schedule")
 }
@@ -98,11 +140,14 @@ model Schedule {
 model Logbook {
   id                 String @id @default(uuid()) @map("id_logbook")
   projectName        String @map("project_name")
-  folderNumber       Int    @map("folder_number")
+  folderNumber       String @unique @map("folder_number")
   description        String @map("description")
   detailedScope      String @map("detailed_scope")
   firstMeetingScope  String @map("first_meeting_scope")
   secondMeetingScope String @map("second_meeting_scope")
+
+  TeamPPI        TeamPPI         @relation(fields: [folderNumber], references: [folderNumber])
+  LoogbookDetail LogbookDetail[]
 
   @@map("logbook")
 }
@@ -115,8 +160,54 @@ model LogbookDetail {
   meetingComments String   @map("meeting_comments")
   meetingCommit   String   @map("meeting_commit")
   professorId     String   @map("professor_id")
+  Loogbook        Logbook  @relation(fields: [logbookId], references: [id])
+  User            User     @relation(fields: [professorId], references: [id])
 
   @@map("logbookDetail")
+}
+
+model Meeting {
+  idMeeting    String   @id @default(uuid()) @map("id_meeting")
+  meetingDate  DateTime @map("meeting_date")
+  meetingPlace String   @map("meeting_place")
+  folderNumber String   @map("meeting_folder_number")
+  professorId  String   @map("meeting_professor_id")
+
+  @@map("meeting")
+}
+
+model Sector {
+  idSector        String         @id @default(uuid()) @map("id_sector")
+  sectorName      String         @unique @map("sector_name")
+  sectorObjective String         @map("sector_objective")
+  sectorCourses   SectorCourse[]
+  sectorScores    SectorScore[]
+
+  @@map("sector")
+}
+
+model SectorCourse {
+  idSectorCourse        String @id @default(uuid()) @map("id_sector_course")
+  idSector              String @map("id_sector")
+  idCourse              String @map("id_course")
+  sectorObjectiveCourse String @map("sector_objective_course")
+  Sector                Sector @relation(fields: [idSector], references: [idSector])
+  Course                Course @relation(fields: [idCourse], references: [id])
+
+  @@map("sector_course")
+}
+
+model SectorScore {
+  idSectorScore     String  @id @default(uuid()) @map("id_sector_score")
+  idSector          String  @map("id_sector")
+  scoreSector       Int     @map("score_sector")
+  folderNumberScore String  @map("folder_number_score")
+  idStudentScore    String  @map("id_student_score")
+  Sector            Sector  @relation(fields: [idSector], references: [idSector])
+  TeamPPI           TeamPPI @relation(fields: [folderNumberScore], references: [folderNumber])
+  User              User    @relation(fields: [idStudentScore], references: [id])
+
+  @@map("sector_score")
 }
 
 // model UserProfile {

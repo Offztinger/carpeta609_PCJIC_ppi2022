@@ -1,6 +1,6 @@
 export interface TeamDTO {
     id: string;
-    folderNumber: number;
+    folderNumber: string;
     teamName: string;
     idCourse: string;
     teamSemester: string;
@@ -8,7 +8,7 @@ export interface TeamDTO {
 
 export interface TeamMembersDTO {
     id: string
-    folderNumber: number;
+    folderNumber: string;
     idCourse: string;
     idUser: string;
     memberSemester: string;

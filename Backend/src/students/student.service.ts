@@ -21,7 +21,7 @@ export class StudentService {
   async findAllStudents() {
     return this.prisma.user.findMany({
       where: {
-        role: {
+        Role: {
           roleName: "Estudiante",
         }
       },
@@ -31,7 +31,7 @@ export class StudentService {
   async findStudentById(id: string) {
 
     const studentById = await this.prisma.user.findFirst({
-      where: { id, role: { roleName: Roles.STUDENT }, }
+      where: { id, Role: { roleName: Roles.STUDENT }, }
     });
 
     if (!studentById) {

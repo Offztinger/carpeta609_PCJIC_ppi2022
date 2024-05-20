@@ -17,7 +17,7 @@ export class CounselorService {
   async findAllCounselors() {
     return this.prisma.user.findMany({
       where: {
-        role: {
+        Role: {
           roleName: "Asesor",
         }
       },
@@ -27,7 +27,7 @@ export class CounselorService {
   async findCounselorById(id: string) {
 
     const counselorById = await this.prisma.user.findFirst({
-      where: { id, role: { roleName: Roles.COUNSELOR }, }
+      where: { id, Role: { roleName: Roles.COUNSELOR }, }
     });
 
     if (!counselorById) {

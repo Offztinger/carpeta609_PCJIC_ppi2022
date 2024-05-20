@@ -1,8 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/core/database/prisma/prisma.service";
 import { LogbookDTO } from "src/dto/LogbookDTO";
-
-
 @Injectable()
 export class LogbookService {
     constructor(private prisma: PrismaService) { }
@@ -17,9 +15,9 @@ export class LogbookService {
         return (await this.prisma.logbook.findMany())
     }
 
-    async findLogbookById(id: string) {
+    async findLogbookById(folderNumber: string) {
         return await this.prisma.logbook.findUnique({
-            where: { id },
+            where: { folderNumber },
         });
     }
 

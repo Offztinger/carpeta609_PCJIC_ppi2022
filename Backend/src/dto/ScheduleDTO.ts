@@ -1,10 +1,8 @@
 export interface ScheduleDTO {
     id: string;
-    folderNumber: number;
+    folderNumber: string;
     idProfessor: string;
-    scheduleDay: string;
-    scheduleMonth: string;
-    scheduleYear: string;
+    scheduleDate: string;
     schedulePlace: string;
     scheduleHour: string;
-}
+}   

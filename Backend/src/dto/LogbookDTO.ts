@@ -1,7 +1,7 @@
 export interface LogbookDTO {
     id: string;
     projectName: string;
-    folderNumber: number;
+    folderNumber: string;
     description: string;
     detailedScope: string;
     firstMeetingScope: string;
