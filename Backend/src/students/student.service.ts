@@ -10,12 +10,18 @@ export class StudentService {
   constructor(private prisma: PrismaService) { }
 
   async createStudent(data: UserDTO) {
-    return this.prisma.user.create({
-      data: {
-        ...data,
-        password: hashPassword(data.password),
-      },
-    });
+    try {
+      return await this.prisma.user.create(
+        {
+          data: {
+            ...data,
+            password: hashPassword(data.password),
+          },
+        }
+      );
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 
   async findAllStudents() {

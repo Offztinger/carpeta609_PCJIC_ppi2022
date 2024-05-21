@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode }
 import { StudentService } from './student.service';
 import { UserDTO } from 'src/dto/UserDTO';
 import { ApiTags } from '@nestjs/swagger';
+import { RolePipe } from 'src/roles/role.pipe';
 
 @ApiTags('Student')
 @Controller('student')
@@ -10,7 +11,7 @@ export class StudentController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createStudent(@Body() studentData: UserDTO) {
+  createStudent(@Body(RolePipe) studentData: UserDTO) {
     return this.studentService.createStudent(studentData);
   }
 
