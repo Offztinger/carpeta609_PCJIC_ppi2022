@@ -3,9 +3,9 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class ScheduleDTO {
     id: string;
 
-    @IsNotEmpty({ message: 'El número de carpeta no puede estar vacío' })
-    @IsString({ message: 'El número de carpeta debe ser un string' })
-    folderNumber: string;
+    @IsNotEmpty({ message: 'El id del número de carpeta no puede estar vacío' })
+    @IsString({ message: 'El id del número de carpeta debe ser un string' })
+    folderNumberId: string;
 
     @IsNotEmpty({ message: 'El id del asesor no puede estar vacío' })
     @IsString({ message: 'El id del asesor debe ser un string' })

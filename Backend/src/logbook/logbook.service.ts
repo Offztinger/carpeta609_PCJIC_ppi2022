@@ -15,9 +15,9 @@ export class LogbookService {
         return (await this.prisma.logbook.findMany())
     }
 
-    async findLogbookById(folderNumber: string) {
+    async findLogbookById(folderNumberId: string) {
         return await this.prisma.logbook.findUnique({
-            where: { folderNumber },
+            where: { folderNumberId },
         });
     }
 

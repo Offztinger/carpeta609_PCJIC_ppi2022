@@ -14,16 +14,14 @@ export class TeamDTO {
     @IsNotEmpty({ message: 'El id del curso no puede estar vacío' })
     @IsString({ message: 'El id del curso debe ser un string' })
     idCourse: string;
-
-    teamSemester: string;
 }
 
 export class TeamMembersDTO {
     id: string
 
-    @IsNotEmpty({ message: 'El número de carpeta del equipo no puede estar vacío' })
-    @IsString({ message: 'El número de carpeta del equipo debe ser un string' })
-    folderNumber: string;
+    @IsNotEmpty({ message: 'El id del número de carpeta del equipo no puede estar vacío' })
+    @IsString({ message: 'El id del número de carpeta del equipo debe ser un string' })
+    folderNumberId: string;
 
     @IsNotEmpty({ message: 'El id del curso no puede estar vacío' })
     @IsString({ message: 'El id del curso debe ser un string' })

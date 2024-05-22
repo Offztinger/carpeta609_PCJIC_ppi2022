@@ -24,22 +24,9 @@ export class CourseDTO {
     isAlternative: boolean
 }
 
-export class CourseStudentDTO {
-    idCourseStudent: string
 
-    @IsNotEmpty({ message: 'El idUser no puede estar vacío' })
-    @IsString({ message: 'El idUser debe ser un string' })
-    idUser: string
-    @IsNotEmpty({ message: 'El idCourse no puede estar vacío' })
-    @IsBoolean({ message: 'El idCourse debe ser un booleano' })
-    idCourse: string
-    @IsNotEmpty({ message: 'El estado active no puede estar vacío' })
-    @IsBoolean({ message: 'El estado active debe ser un booleano' })
-    active: boolean
-}
-
-export class CourseProfessorDTO {
-    idCourseProfessor: string
+export class CourseUserDTO {
+    idCourseUser: string
 
     @IsNotEmpty({ message: 'El idUser no puede estar vacío' })
     @IsString({ message: 'El idUser debe ser un string' })

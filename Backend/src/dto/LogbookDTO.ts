@@ -7,9 +7,9 @@ export class LogbookDTO {
     @IsString({ message: 'El nombre del proyecto debe ser un string' })
     projectName: string;
 
-    @IsNotEmpty({ message: 'El número de carpeta no puede estar vacío' })
-    @IsString({ message: 'El número de carpeta debe ser un string' })
-    folderNumber: string;
+    @IsNotEmpty({ message: 'El id del número de carpeta no puede estar vacío' })
+    @IsString({ message: 'El id del número de carpeta debe ser un string' })
+    folderNumberId: string;
 
     @IsNotEmpty({ message: 'La descripción del proyecto no puede estar vacía' })
     @IsString({ message: 'La descripción del proyecto debe ser un string' })

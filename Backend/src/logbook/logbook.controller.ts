@@ -19,9 +19,9 @@ export class LogbookController {
         return this.logbookService.findAllLogbooks();
     }
 
-    @Get(':folderNumber')
-    findLogbookById(@Param('folderNumber') folderNumber: string) {
-        return this.logbookService.findLogbookById(folderNumber);
+    @Get(':folderNumberId')
+    findLogbookById(@Param('folderNumberId') folderNumberId: string) {
+        return this.logbookService.findLogbookById(folderNumberId);
     }
 
     @Put(':id')

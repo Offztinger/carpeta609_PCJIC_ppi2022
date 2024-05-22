@@ -2,6 +2,9 @@ import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode }
 import { TeamsService } from './teams.service';
 import { TeamDTO, TeamMembersDTO } from 'src/dto/TeamDTO';
 import { ApiTags } from '@nestjs/swagger';
+import { CoursePipe } from 'src/course/course.pipe';
+import { TeamPipe } from './team.pipe';
+import { UserPipe } from 'src/user/user.pipe';
 
 @ApiTags('Teams')
 @Controller('teams')
@@ -10,13 +13,13 @@ export class TeamsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createTeam(@Body() teamData: TeamDTO) {
+  createTeam(@Body(CoursePipe) teamData: TeamDTO) {
     return this.teamsService.createTeam(teamData);
   }
 
   @Post("team-members")
   @HttpCode(HttpStatus.CREATED)
-  addStudentsToTeam(@Body() teamMembers: TeamMembersDTO[]) {
+  addStudentsToTeam(@Body(TeamPipe, CoursePipe, UserPipe) teamMembers: TeamMembersDTO[]) {
     return this.teamsService.addStudentToTeam(teamMembers);
   }
 
@@ -25,9 +28,9 @@ export class TeamsController {
     return this.teamsService.findAllTeams();
   }
 
-  @Get(':folderNumber')
-  findTeamById(@Param('folderNumber') folderNumber: string) {
-    return this.teamsService.findTeamById(folderNumber);
+  @Get(':folderNumberId')
+  findTeamById(@Param('folderNumberId') folderNumberId: string) {
+    return this.teamsService.findTeamById(folderNumberId);
   }
 
   @Put(':id')

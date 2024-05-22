@@ -17,9 +17,9 @@ export class TeamsService {
     return (await this.prisma.teamPPI.findMany())
   }
 
-  async findTeamById(folderNumber: string) {
+  async findTeamById(folderNumberId: string) {
     return this.prisma.teamPPI.findUnique({
-      where: { folderNumber },
+      where: { id: folderNumberId },
     });
   }
 

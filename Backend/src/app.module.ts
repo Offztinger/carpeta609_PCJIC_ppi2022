@@ -13,11 +13,11 @@ import { AuthModule } from './auth/auth.module';
 import { LogbookModule } from './logbook/logbook.module';
 import { LogbookDetailModule } from './logbookDetail/logbookDetail.module';
 import { CourseModule } from './course/course.module';
-import { CourseStudentModule } from './courseStudent/courseStudent.module';
-import { CourseProfessorModule } from './courseProfessor/courseProfessor.module';
+import { CourseUserModule } from './courseUser/courseUser.module';
+
 
 @Module({
-  imports: [ConfigModule.forRoot(configRoot()), DatabaseModule, StudentModule, TeamsModule, ProfessorModule, ScheduleModule, AuthModule, LogbookModule, LogbookDetailModule, CourseModule, CourseStudentModule, CourseProfessorModule],
+  imports: [ConfigModule.forRoot(configRoot()), DatabaseModule, StudentModule, TeamsModule, ProfessorModule, ScheduleModule, AuthModule, LogbookModule, LogbookDetailModule, CourseModule, CourseUserModule],
   controllers: [AppController],
   providers: [AppService, PrismaService],
 })
