@@ -18,6 +18,10 @@ export class CourseDTO {
     @IsNotEmpty({ message: 'El nivel del curso no puede estar vacío' })
     @IsNumber({}, { message: 'El nivel del curso debe ser un número' })
     courseLevel: number
+
+    @IsNotEmpty({ message: 'El estado de modulo sol alternativo no puede estar vacío' })
+    @IsBoolean({ message: 'El estado de modulo sol alternativo debe ser un booleano' })
+    isAlternative: boolean
 }
 
 export class CourseStudentDTO {
