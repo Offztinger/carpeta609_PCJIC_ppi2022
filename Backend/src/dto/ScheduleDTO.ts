@@ -9,7 +9,7 @@ export class ScheduleDTO {
 
     @IsNotEmpty({ message: 'El id del asesor no puede estar vacío' })
     @IsString({ message: 'El id del asesor debe ser un string' })
-    idProfessor: string;
+    idUser: string;
 
     @IsNotEmpty({ message: 'La fecha de la asesoría no puede estar vacío' })
     @IsString({ message: 'La fecha de la asesoría debe ser un string' })
