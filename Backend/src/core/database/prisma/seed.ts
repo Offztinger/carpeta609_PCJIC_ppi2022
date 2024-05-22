@@ -1,39 +1,87 @@
 import { PrismaClient } from "@prisma/client";
-
+import rolesSeed from "./data/roles";
+import formsSeed from "./data/forms";
+import { studentPermissions, professorPermissions, adminPermissions } from "./data/permissions";
+import coursesSeed from "./data/courses";
 const prisma = new PrismaClient();
 
 async function main() {
-    await prisma.roles.create({
-        data: {
-            id: "3284495c-136e-4215-b8cc-30e6d9ca52b0",
-            roleName: "Estudiante",
-            roleDescription: "Estudiante",
-        },
-    });
+    // Semilla de roles
+    for (const role of rolesSeed) {
+        await prisma.roles.create({
+            data: {
+                id: role.id,
+                roleName: role.roleName,
+                roleDescription: role.roleDescription,
+            },
+        });
+    }
 
-    await prisma.roles.create({
-        data: {
-            id: "1164b212-c28e-4f5c-a886-36795031cbf3",
-            roleName: "Profesor",
-            roleDescription: "Profesor",
-        },
-    });
+    // Semilla de formularios
+    for (const form of formsSeed) {
+        await prisma.form.create({
+            data: {
+                idForm: form.idForm,
+                formName: form.formName,
+                formDescription: form.formDescription,
+                route: form.route,
+            },
+        });
+    }
 
-    await prisma.roles.create({
-        data: {
-            id: "248d3d75-8e44-4bc6-a0ca-e02bfaa2c0e4",
-            roleName: "Asesor",
-            roleDescription: "Asesor",
-        },
-    });
+    // Semilla de permisos de estudiantes
+    for (const permission of studentPermissions) {
+        await prisma.permissions.create({
+            data: {
+                idFormPermission: permission.idFormPermission,
+                create: permission.create,
+                update: permission.update,
+                read: permission.read,
+                delete: permission.delete,
+                idRole: permission.idRole,
+            },
+        });
+    }
+    
+    // Semilla de permisos de profesores
+    for (const permission of professorPermissions) {
+        await prisma.permissions.create({
+            data: {
+                idFormPermission: permission.idFormPermission,
+                create: permission.create,
+                update: permission.update,
+                read: permission.read,
+                delete: permission.delete,
+                idRole: permission.idRole,
+            },
+        });
+    }
 
-    await prisma.roles.create({
-        data: {
-            id: "c27a2360-6bd6-4939-b03c-98e09d25fece",
-            roleName: "Coordinador",
-            roleDescription: "Coordinador",
-        },
-    });
+    // Semilla de permisos de coordinadores
+    for (const permission of adminPermissions) {
+        await prisma.permissions.create({
+            data: {
+                idFormPermission: permission.idFormPermission,
+                create: permission.create,
+                update: permission.update,
+                read: permission.read,
+                delete: permission.delete,
+                idRole: permission.idRole,
+            },
+        });
+    }
+    
+    // Semilla de cursos
+    for(const course of coursesSeed){
+        await prisma.course.create({
+            data: {
+                courseName: course.courseName,
+                courseDescription: course.courseDescription,
+                courseLevel: course.courseLevel,
+                isAlternative: course.isAlternative,
+            },
+        });
+    }
 }
 
 main()

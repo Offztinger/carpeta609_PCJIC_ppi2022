@@ -3,23 +3,23 @@ import { IsNotEmpty, IsString } from 'class-validator';
 export class ScheduleDTO {
     id: string;
 
-    @IsString({ message: 'El número de carpeta debe ser un string' })
     @IsNotEmpty({ message: 'El número de carpeta no puede estar vacío' })
+    @IsString({ message: 'El número de carpeta debe ser un string' })
     folderNumber: string;
 
-    @IsString({ message: 'El nombre de la materia debe ser un string' })
-    @IsNotEmpty({ message: 'El nombre de la materia no puede estar vacío' })
+    @IsNotEmpty({ message: 'El id del asesor no puede estar vacío' })
+    @IsString({ message: 'El id del asesor debe ser un string' })
     idProfessor: string;
 
-    @IsString({ message: 'El nombre de la materia debe ser un string' })
-    @IsNotEmpty({ message: 'El nombre de la materia no puede estar vacío' })
+    @IsNotEmpty({ message: 'La fecha de la asesoría no puede estar vacío' })
+    @IsString({ message: 'La fecha de la asesoría debe ser un string' })
     scheduleDate: string;
 
-    @IsString({ message: 'El nombre de la materia debe ser un string' })
-    @IsNotEmpty({ message: 'El nombre de la materia no puede estar vacío' })
+    @IsNotEmpty({ message: 'El lugar de la asesoría no puede estar vacío' })
+    @IsString({ message: 'El lugar de la asesoría debe ser un string' })
     schedulePlace: string;
 
-    @IsString({ message: 'El nombre de la materia debe ser un string' })
-    @IsNotEmpty({ message: 'El nombre de la materia no puede estar vacío' })
+    @IsNotEmpty({ message: 'La hora de la asesoría no puede estar vacío' })
+    @IsString({ message: 'La hora de la asesoría debe ser un string' })
     scheduleHour: string;
 }   

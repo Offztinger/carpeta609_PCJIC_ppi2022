@@ -18,20 +18,20 @@ datasource db {
 }
 
 model User {
-  id             String          @id @default(uuid()) @map("id_user")
-  documentNumber Int             @unique @map("document_number")
-  email          String          @unique
-  password       String
-  name           String          @map("name")
-  lastName       String          @map("last_name")
-  idRole         String          @map("id_role")
-  Role           Roles           @relation(fields: [idRole], references: [id])
-  Course         Course[]
-  TeamMembers    TeamMembers[]
-  Schedule       Schedule[]
-  CourseStudent  CourseStudent[]
-  SectorScore    SectorScore[]
-  LogbookDetail  LogbookDetail[]
+  id              String            @id @default(uuid()) @map("id_user")
+  documentNumber  Int               @unique @map("document_number")
+  email           String            @unique
+  password        String
+  name            String            @map("name")
+  lastName        String            @map("last_name")
+  idRole          String            @map("id_role")
+  Role            Roles             @relation(fields: [idRole], references: [id])
+  TeamMembers     TeamMembers[]
+  Schedule        Schedule[]
+  CourseStudent   CourseStudent[]
+  SectorScore     SectorScore[]
+  LogbookDetail   LogbookDetail[]
+  CourseProfessor CourseProfessor[]
 
   @@map("users")
 }
@@ -71,18 +71,29 @@ model Form {
 }
 
 model Course {
-  id                String          @id @default(uuid()) @map("id_course")
-  courseName        String          @unique @map("course_name")
-  courseDescription String          @map("course_description")
-  idProfessor       String          @map("id_professor")
-  courseLevel       Int             @map("course_level")
-  user              User            @relation(fields: [idProfessor], references: [id])
+  id                String            @id @default(uuid()) @map("id_course")
+  courseName        String            @unique @map("course_name")
+  courseDescription String            @map("course_description")
+  courseLevel       Int               @map("course_level")
+  isAlternative     Boolean           @map("is_alternative")
   teamMembers       TeamMembers[]
   teamPPI           TeamPPI[]
   CourseStudent     CourseStudent[]
   SectorCourse      SectorCourse[]
+  CourseProfessor   CourseProfessor[]
 
   @@map("courses")
+}
+
+model CourseProfessor {
+  idCourseProfessor String  @id @default(uuid()) @map("id_course_professor")
+  idUser            String  @map("id_user")
+  idCourse          String  @map("id_course")
+  active            Boolean @map("active_professor")
+  Course            Course  @relation(fields: [idCourse], references: [id])
+  User              User    @relation(fields: [idUser], references: [id])
+
+  @@map("course_professor")
 }
 
 model CourseStudent {
@@ -116,7 +127,6 @@ model TeamMembers {
   folderNumber   String  @map("folder_number")
   idCourse       String  @map("id_course")
   idUser         String  @map("id_user")
-  memberSemester String  @map("team_semester")
   User           User    @relation(fields: [idUser], references: [id])
   Course         Course  @relation(fields: [idCourse], references: [id])
   TeamPPI        TeamPPI @relation(fields: [folderNumber], references: [folderNumber])
@@ -155,7 +165,7 @@ model Logbook {
 model LogbookDetail {
   id              String   @id @default(uuid()) @map("id_logbook")
   logbookId       String   @map("logbook_id")
-  meetingDate     DateTime @map("meeting_date")
+  meetingDate     String   @map("meeting_date")
   missingStudents String[] @map("missing_students")
   meetingComments String   @map("meeting_comments")
   meetingCommit   String   @map("meeting_commit")
