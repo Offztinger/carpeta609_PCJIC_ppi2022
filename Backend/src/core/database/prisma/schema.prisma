@@ -31,6 +31,7 @@ model User {
   CourseUser     CourseUser[]
   SectorScore    SectorScore[]
   LogbookDetail  LogbookDetail[]
+  TeamPPI        TeamPPI[]
 
   @@map("users")
 }
@@ -87,7 +88,7 @@ model CourseUser {
   idCourseUser String  @id @default(uuid()) @map("id_course_student")
   idUser       String  @map("id_user")
   idCourse     String  @map("id_course")
-  active       Boolean @map("active_student")
+  active       Boolean @map("active_user")
   Course       Course  @relation(fields: [idCourse], references: [id])
   User         User    @relation(fields: [idUser], references: [id])
 
@@ -99,6 +100,8 @@ model TeamPPI {
   folderNumber String        @map("folder_number")
   teamName     String        @map("team_name")
   idCourse     String        @map("id_course")
+  idUser       String        @map("id_professor")
+  User         User          @relation(fields: [idUser], references: [id])
   course       Course        @relation(fields: [idCourse], references: [id])
   TeamMembers  TeamMembers[]
   Schedule     Schedule?
@@ -124,12 +127,12 @@ model TeamMembers {
 model Schedule {
   id             String  @id @default(uuid()) @map("id_schedule")
   folderNumberId String  @unique @map("folder_number")
-  idProfessor    String  @map("id_professor")
+  idUser         String  @map("id_professor")
   scheduleDate   String  @map("schedule_date")
   schedulePlace  String  @map("schedule_place")
   scheduleHour   String  @map("schedule_hour")
   TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
-  User           User    @relation(fields: [idProfessor], references: [id])
+  User           User    @relation(fields: [idUser], references: [id])
 
   @@map("schedule")
 }
@@ -156,9 +159,9 @@ model LogbookDetail {
   missingStudents String[] @map("missing_students")
   meetingComments String   @map("meeting_comments")
   meetingCommit   String   @map("meeting_commit")
-  professorId     String   @map("professor_id")
+  idUser          String   @map("id_professor")
   Loogbook        Logbook  @relation(fields: [logbookId], references: [id])
-  User            User     @relation(fields: [professorId], references: [id])
+  User            User     @relation(fields: [idUser], references: [id])
 
   @@map("logbookDetail")
 }

@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode }
 import { LogbookService } from './logbook.service';
 import { ApiTags } from '@nestjs/swagger';
 import { LogbookDTO } from 'src/dto/LogbookDTO';
+import { TeamPipe } from 'src/teams/team.pipe';
 
 @ApiTags('Logbook')
 @Controller('logbook')
@@ -10,7 +11,7 @@ export class LogbookController {
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    createLogbook(@Body() logbookData: LogbookDTO) {
+    createLogbook(@Body(TeamPipe) logbookData: LogbookDTO) {
         return this.logbookService.createLogbook(logbookData);
     }
 

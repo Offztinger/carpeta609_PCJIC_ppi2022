@@ -2,6 +2,8 @@ import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode }
 import { ScheduleService } from './schedule.service';
 import { ApiTags } from '@nestjs/swagger';
 import { ScheduleDTO } from 'src/dto/ScheduleDTO';
+import { TeamPipe } from 'src/teams/team.pipe';
+import { RoleProfessorPipe } from 'src/roles/roleProfessor.pipe';
 
 @ApiTags('Schedule')
 @Controller('schedule')
@@ -10,7 +12,7 @@ export class ScheduleController {
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    createSchedule(@Body() scheduleData: ScheduleDTO) {
+    createSchedule(@Body(TeamPipe, RoleProfessorPipe) scheduleData: ScheduleDTO) {
         return this.scheduleService.createSchedule(scheduleData);
     }
 

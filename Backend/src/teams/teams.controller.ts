@@ -4,7 +4,8 @@ import { TeamDTO, TeamMembersDTO } from 'src/dto/TeamDTO';
 import { ApiTags } from '@nestjs/swagger';
 import { CoursePipe } from 'src/course/course.pipe';
 import { TeamPipe } from './team.pipe';
-import { UserPipe } from 'src/user/user.pipe';
+import { RoleProfessorPipe } from 'src/roles/roleProfessor.pipe';
+import { RoleStudentPipe } from 'src/roles/roleStudent.pipe';
 
 @ApiTags('Teams')
 @Controller('teams')
@@ -13,13 +14,13 @@ export class TeamsController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createTeam(@Body(CoursePipe) teamData: TeamDTO) {
+  createTeam(@Body(CoursePipe, RoleProfessorPipe) teamData: TeamDTO) {
     return this.teamsService.createTeam(teamData);
   }
 
   @Post("team-members")
   @HttpCode(HttpStatus.CREATED)
-  addStudentsToTeam(@Body(TeamPipe, CoursePipe, UserPipe) teamMembers: TeamMembersDTO[]) {
+  addStudentsToTeam(@Body(TeamPipe, CoursePipe, RoleStudentPipe) teamMembers: TeamMembersDTO[]) {
     return this.teamsService.addStudentToTeam(teamMembers);
   }
 
