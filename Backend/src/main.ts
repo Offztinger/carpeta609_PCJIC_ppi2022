@@ -26,6 +26,19 @@ async function bootstrap() {
 
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter);
 
+  app.getHttpAdapter()
+    .getInstance()
+    .addHook('onRequest', (request: any, reply: any, done: any) => {
+      reply.setHeader = function (key: any, value: any) {
+        return this.raw.setHeader(key, value);
+      };
+      reply.end = function () {
+        this.raw.end();
+      };
+      request.res = reply;
+      done();
+    });
+
   app.use(
     helmet({
       contentSecurityPolicy: process.env.NODE_ENV === Environments.PRODUCTION ? true : false,
@@ -47,7 +60,7 @@ async function bootstrap() {
   const env = configurations();
   const backendPort = env.backendPort;
   await app.listen(backendPort, '0.0.0.0');
-  
+
   console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();

@@ -3,6 +3,7 @@ import { PrismaService } from "src/core/database/prisma/prisma.service";
 import { UserDTO } from "src/dto/UserDTO";
 import { Roles } from "src/roles/constants/roles.constants";
 import { hashPassword } from "src/utils";
+import { UndefinedException } from "src/utils/exceptions/UndefinedException";
 
 
 @Injectable()
@@ -58,6 +59,11 @@ export class StudentService {
   }
 
   async deleteStudent(id: string) {
+
+    if (id === undefined) {
+      throw new UndefinedException();
+    }
+
     return this.prisma.user.delete({
       where: { id },
     });

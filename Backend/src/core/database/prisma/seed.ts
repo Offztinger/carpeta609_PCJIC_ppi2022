@@ -3,6 +3,8 @@ import rolesSeed from "./data/roles";
 import formsSeed from "./data/forms";
 import { studentPermissions, professorPermissions, adminPermissions } from "./data/permissions";
 import coursesSeed from "./data/courses";
+import * as bcrypt from 'bcrypt';
+
 const prisma = new PrismaClient();
 
 async function main() {
@@ -42,7 +44,7 @@ async function main() {
             },
         });
     }
-    
+
     // Semilla de permisos de profesores
     for (const permission of professorPermissions) {
         await prisma.permissions.create({
@@ -70,9 +72,9 @@ async function main() {
             },
         });
     }
-    
+
     // Semilla de cursos
-    for(const course of coursesSeed){
+    for (const course of coursesSeed) {
         await prisma.course.create({
             data: {
                 courseName: course.courseName,
@@ -82,6 +84,17 @@ async function main() {
             },
         });
     }
+
+    await prisma.user.create({
+        data: {
+            documentNumber: 333635425,
+            email: "luis_calvo23211@elpoli.edu.co",
+            password: bcrypt.hashSync("admin", 10),
+            name: "Luis",
+            lastName: "Calvo",
+            idRole: "c27a2360-6bd6-4939-b03c-98e09d25fece"
+        }
+    })
 }
 
 main()

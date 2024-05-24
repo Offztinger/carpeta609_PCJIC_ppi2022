@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { TeamsService } from './teams.service';
 import { TeamDTO, TeamMembersDTO } from 'src/dto/TeamDTO';
 import { ApiTags } from '@nestjs/swagger';
@@ -6,8 +6,10 @@ import { CoursePipe } from 'src/course/course.pipe';
 import { TeamPipe } from './team.pipe';
 import { RoleProfessorPipe } from 'src/roles/roleProfessor.pipe';
 import { RoleStudentPipe } from 'src/roles/roleStudent.pipe';
+import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
 
 @ApiTags('Teams')
+@UseGuards(JwtAuthGuard, AuthGuard)
 @Controller('teams')
 export class TeamsController {
   constructor(private readonly teamsService: TeamsService) { }

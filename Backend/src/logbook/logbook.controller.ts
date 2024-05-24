@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { LogbookService } from './logbook.service';
 import { ApiTags } from '@nestjs/swagger';
 import { LogbookDTO } from 'src/dto/LogbookDTO';
 import { TeamPipe } from 'src/teams/team.pipe';
+import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
 
 @ApiTags('Logbook')
+@UseGuards(JwtAuthGuard, AuthGuard)
 @Controller('logbook')
 export class LogbookController {
     constructor(private readonly logbookService: LogbookService) { }

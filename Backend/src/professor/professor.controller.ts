@@ -1,16 +1,20 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { ProfessorService } from './professor.service';
 import { UserDTO } from 'src/dto/UserDTO';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
+import { UserDocumentPipe } from 'src/user/userDocument.pipe';
+import { RolePipe } from 'src/roles/role.pipe';
 
 @ApiTags('Professor')
+@UseGuards(JwtAuthGuard, AuthGuard)
 @Controller('professor')
 export class ProfessorController {
   constructor(private readonly professorService: ProfessorService) { }
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  createProfessor(@Body() professorData: UserDTO) {
+  createProfessor(@Body(RolePipe, UserDocumentPipe) professorData: UserDTO) {
     return this.professorService.createProfessor(professorData);
   }
 

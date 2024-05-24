@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { SectorService } from './sector.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SectorDTO } from 'src/dto/SectorDTO';
+import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
 
 
 @ApiTags('Sector')
+@UseGuards(JwtAuthGuard, AuthGuard)
 @Controller('sector')
 export class SectorController {
     constructor(private readonly sectorService: SectorService) { }

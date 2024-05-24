@@ -202,7 +202,7 @@ model SectorCourse {
 
 model SectorScore {
   idSectorScore  String  @id @default(uuid()) @map("id_sector_score")
-  idSectorCourse       String  @map("id_sector_course")
+  idSectorCourse String  @map("id_sector_course")
   scoreSector    Int     @map("score_sector")
   folderNumberId String  @map("folder_number_id")
   userId         String  @map("id_student_score")

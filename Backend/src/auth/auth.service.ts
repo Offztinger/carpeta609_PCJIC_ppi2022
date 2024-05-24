@@ -24,7 +24,9 @@ export class AuthService {
   }
 
   async login(userId: string) {
-    return `login ${userId}`;
+    return {
+      access_token: await this.generateJwt({ id: userId }),
+    };
   }
 
   async generateJwt(payload: Payload): Promise<string> {

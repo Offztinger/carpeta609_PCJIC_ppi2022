@@ -1,12 +1,14 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { SectorCourseService } from './sectorCourse.service';
 import { ApiTags } from '@nestjs/swagger';
 import { SectorCourseDTO } from 'src/dto/SectorDTO';
 import { CoursePipe } from 'src/course/course.pipe';
 import { SectorPipe } from 'src/sector/sector.pipe';
+import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
 
 
 @ApiTags('SectorCourse')
+@UseGuards(JwtAuthGuard, AuthGuard)
 @Controller('sectorCourse')
 export class SectorCourseController {
     constructor(private readonly sectorCourseService: SectorCourseService) { }

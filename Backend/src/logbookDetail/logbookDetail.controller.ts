@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { LogbookDetailService } from './logbookDetail.service';
 import { ApiTags } from '@nestjs/swagger';
 import { LogbookDetailDTO } from 'src/dto/LogbookDetailDTO';
 import { LogbookPipe } from 'src/logbook/logbook.pipe';
 import { RoleProfessorPipe } from 'src/roles/roleProfessor.pipe';
+import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
 
 @ApiTags('LogbookDetail')
+@UseGuards(JwtAuthGuard, AuthGuard)
 @Controller('logbookDetail')
 export class LogbookDetailController {
     constructor(private readonly logbookDetailService: LogbookDetailService) { }

@@ -2,7 +2,7 @@ import { IsNotEmpty, IsNumber, IsString, IsBoolean } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class CourseDTO {
     id: string
-    
+
     @ApiProperty({ type: String, description: 'Nombre del curso' })
     @IsNotEmpty({ message: 'El nombre del curso no puede estar vacío' })
     @IsString({ message: 'El nombre del curso debe ser un string' })
