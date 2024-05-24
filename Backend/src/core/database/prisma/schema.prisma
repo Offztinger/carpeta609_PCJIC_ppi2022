@@ -32,6 +32,7 @@ model User {
   SectorScore    SectorScore[]
   LogbookDetail  LogbookDetail[]
   TeamPPI        TeamPPI[]
+  Meeting        Meeting[]
 
   @@map("users")
 }
@@ -167,12 +168,13 @@ model LogbookDetail {
 }
 
 model Meeting {
-  idMeeting      String   @id @default(uuid()) @map("id_meeting")
-  meetingDate    DateTime @map("meeting_date")
-  meetingPlace   String   @map("meeting_place")
-  folderNumberId String   @map("meeting_folder_number")
-  professorId    String   @map("meeting_professor_id")
-  TeamPPI        TeamPPI  @relation(fields: [folderNumberId], references: [id])
+  idMeeting      String  @id @default(uuid()) @map("id_meeting")
+  meetingDate    String  @map("meeting_date")
+  meetingPlace   String  @map("meeting_place")
+  folderNumberId String  @map("meeting_folder_number")
+  userId         String  @map("meeting_professor_id")
+  TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
+  User           User    @relation(fields: [userId], references: [id])
 
   @@map("meeting")
 }
@@ -200,13 +202,13 @@ model SectorCourse {
 
 model SectorScore {
   idSectorScore  String  @id @default(uuid()) @map("id_sector_score")
-  idSector       String  @map("id_sector")
+  idSectorCourse       String  @map("id_sector_course")
   scoreSector    Int     @map("score_sector")
   folderNumberId String  @map("folder_number_id")
-  idStudentScore String  @map("id_student_score")
-  Sector         Sector  @relation(fields: [idSector], references: [idSector])
+  userId         String  @map("id_student_score")
+  Sector         Sector  @relation(fields: [idSectorCourse], references: [idSector])
   TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
-  User           User    @relation(fields: [idStudentScore], references: [id])
+  User           User    @relation(fields: [userId], references: [id])
 
   @@map("sector_score")
 }

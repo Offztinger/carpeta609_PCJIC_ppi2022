@@ -27,5 +27,5 @@ export class LogbookDetailDTO {
 
     @IsNotEmpty({ message: 'El id del profesor no puede estar vacío' })
     @IsString({ message: 'El id del profesor debe ser un string' })
-    professorId: string
+    idUser: string
 }   
