@@ -1,5 +1,5 @@
 import useToastHandler from './toastHandler';
-import axios from "axios";
+import axios from 'axios';
 
 const useAxiosHandler = () => {
 	const { toastSuccess, toastError } = useToastHandler();
@@ -13,6 +13,7 @@ const useAxiosHandler = () => {
 				{
 					headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
+						Authorization: 'Bearer ' + localStorage.getItem('token') || '',
 					},
 				},
 			);
@@ -30,11 +31,12 @@ const useAxiosHandler = () => {
 	};
 
 	const GETRequest = async (url, setState) => {
-		await axios.get(`${url}`, {
-			headers: {
-				'Content-Type': 'application/x-www-form-urlencoded',
-			},
-		})
+		await axios
+			.get(`${url}`, {
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded',
+				},
+			})
 			.then(res => {
 				res.data && setState(res.data);
 				return `Result: ${res.status}`;

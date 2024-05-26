@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './styles/styles.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import correo from './icons/envelope.png';
 import Sidebar from './components/Sidebar/Sidebar';
-import { ToastContainer, Bounce, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StudentPage from './pages/StudentPage/StudentPage';
 import UserProvider from './context/UserContext/UserProvider';
@@ -12,8 +13,15 @@ import ProfessorPage from './pages/ProfessorPage/ProfessorPage';
 import CounselorPage from './pages/CounselorPage/CounselorPage';
 import ScheduleProvider from './context/ScheduleContext/ScheduleProvider';
 import SchedulePage from './pages/SchedulePage/SchedulePage';
+import LoginPage from './pages/LoginPage/LoginPage';
 
 const App = () => {
+	const { user } = useSelector(state => state.auth);
+
+	useEffect(() => {
+		console.log('user', user);
+	}, [user]);
+
 	function zero() {
 		if (day < 10) {
 			day = '0' + day;
@@ -65,13 +73,6 @@ const App = () => {
 		popUpOpen = !popUpOpen;
 	};
 
-	const [user, setUser] = useState({
-		email: '',
-		password: '',
-	});
-
-	// const [isLogged, setIsLogged] = useState(false);
-
 	return (
 		<Router>
 			<main>
@@ -110,66 +111,61 @@ const App = () => {
 					</div>
 				</div>
 				<div className='d-flex' style={{ height: '90vh' }}>
-					{/* {!isLogged && (
-					<section
-						className='w-100 justify-content-center'
-						style={{ display: 'flex' }}
-					>
-						<Login
-							setIsLogged={setIsLogged}
-							isLogged={isLogged}
-							user={user}
-							setUser={setUser}
-						/>
-					</section>
-				)} */}
-					{/* {isLogged && ( */}
-					<section style={{ display: 'flex', overflow: 'hidden' }}>
-						<Sidebar user={user} />
-						<div className='contenedorPrincipal' style={{ height: '90vh' }}>
-							<Routes>
-								<Route
-									path='/estudiantes'
-									element={
-										<UserProvider>
-											<StudentPage />
-										</UserProvider>
-									}
-								/>
-							</Routes>
-							<Routes>
-								<Route
-									path='/profesores'
-									element={
-										<UserProvider>
-											<ProfessorPage />
-										</UserProvider>
-									}
-								/>
-							</Routes>
-							<Routes>
-								<Route
-									path='/asesores'
-									element={
-										<UserProvider>
-											<CounselorPage />
-										</UserProvider>
-									}
-								/>
-							</Routes>
-							<Routes>
-								<Route
-									path='/cronograma'
-									element={
-										<ScheduleProvider>
-											<SchedulePage />
-										</ScheduleProvider>
-									}
-								/>
-							</Routes>
-						</div>
-					</section>
-					{/* )} */}
+					{!user && (
+						<section
+							className='w-100 justify-content-center'
+							style={{ display: 'flex' }}
+						>
+							<LoginPage />
+						</section>
+					)}
+					{user && (
+						<section style={{ display: 'flex', overflow: 'hidden' }}>
+							<Sidebar user={user} />
+							<div className='contenedorPrincipal' style={{ height: '90vh' }}>
+								<Routes>
+									<Route
+										path='/estudiantes'
+										element={
+											<UserProvider>
+												<StudentPage />
+											</UserProvider>
+										}
+									/>
+								</Routes>
+								<Routes>
+									<Route
+										path='/profesores'
+										element={
+											<UserProvider>
+												<ProfessorPage />
+											</UserProvider>
+										}
+									/>
+								</Routes>
+								<Routes>
+									<Route
+										path='/asesores'
+										element={
+											<UserProvider>
+												<CounselorPage />
+											</UserProvider>
+										}
+									/>
+								</Routes>
+								<Routes>
+									<Route
+										path='/cronograma'
+										element={
+											<ScheduleProvider>
+												<SchedulePage />
+											</ScheduleProvider>
+										}
+									/>
+								</Routes>
+							</div>
+						</section>
+					)}
 				</div>
 			</main>
 		</Router>
