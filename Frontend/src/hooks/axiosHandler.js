@@ -21,12 +21,10 @@ const useAxiosHandler = () => {
 			if (response.status === 200) {
 				toastSuccess('Se ha creado el registro exitosamente');
 				return `Result: ${response.status}`;
-			} else {
-				console.error(`Error en la petición: ${response.status}`);
-				toastError(`Error en la creación del registro: ${response.status}`);
 			}
 		} catch (error) {
 			console.error(error);
+			toastError(error.response.data.message);
 		}
 	};
 
@@ -35,6 +33,7 @@ const useAxiosHandler = () => {
 			.get(`${url}`, {
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: 'Bearer ' + localStorage.getItem('token') || '',
 				},
 			})
 			.then(res => {
@@ -42,6 +41,7 @@ const useAxiosHandler = () => {
 				return `Result: ${res.status}`;
 			})
 			.catch(error => {
+				toastError(error.response.data.message);
 				console.error(error);
 			});
 	};
@@ -56,6 +56,7 @@ const useAxiosHandler = () => {
 				{
 					headers: {
 						'Content-Type': 'application/x-www-form-urlencoded',
+						Authorization: 'Bearer ' + localStorage.getItem('token') || '',
 					},
 				},
 			);
@@ -77,6 +78,7 @@ const useAxiosHandler = () => {
 			const response = await axios.delete(`${url}/${id}`, {
 				headers: {
 					'Content-Type': 'application/x-www-form-urlencoded',
+					Authorization: 'Bearer ' + localStorage.getItem('token') || '',
 				},
 			});
 
