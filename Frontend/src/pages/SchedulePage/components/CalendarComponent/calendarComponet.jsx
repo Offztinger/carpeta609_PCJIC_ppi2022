@@ -31,7 +31,7 @@ export default function CalendarComponent({ cronograma }) {
 	}, [showLogbook]);
 
 	return (
-		<div style={{ height: '700px', width: '70vw', marginTop: '12px' }}>
+		<div style={{ marginLeft: '150px', height: '700px', width: '70vw', marginTop: '12px' }}>
 			<Link to='/'>
 				<button className='btn btn-success mb-3'>Volver</button>
 			</Link>

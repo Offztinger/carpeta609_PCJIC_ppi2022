@@ -4,41 +4,72 @@ import useAxiosHandler from '../../hooks/axiosHandler';
 import * as XLSX from 'xlsx';
 
 const UserProvider = ({ children }) => {
-	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
-		useAxiosHandler();
-	const [users, setUsers] = useState([]);
-	const [selectedID, setSelectedID] = useState("");
-	const [show, setShow] = useState(false);
+    const { POSTRequest, GETRequest, PUTRequest, DELETERequest } = useAxiosHandler();
+    const [users, setUsers] = useState([]);
+    const [selectedID, setSelectedID] = useState('');
+    const [formulario, setFormulario] = useState({
+        documentNumber: '',
+        name: '',
+        lastName: '',
+        email: ''
+    });
+    const [formError, setFormError] = useState(true);
 
-	const postUser = (moduleName, formulario) => {
-		if (formulario) {
-			POSTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
-		}
-	};
+    const postUser = (moduleName, formulario) => {
+        if (formulario) {
+            POSTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+        }
+    };
 
-	const getUsers = moduleName => {
-		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setUsers);
-	};
+    const getUsers = moduleName => {
+        GETRequest(`http://127.0.0.1:4000/${moduleName}`, setUsers);
+    };
 
-	const putUser = (moduleName, formulario) => {
-		if (formulario) {
-			PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
-		}
-	};
+    const putUser = (moduleName, formulario) => {
+        if (formulario) {
+            PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+        }
+    };
 
-	const deleteUser = (moduleName, id) => {
-		if (id) {
-			DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
-		}
-	};
+    const deleteUser = (moduleName, id) => {
+        if (id) {
+            DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
+        }
+    };
 
-	useEffect(() => {
-		if (selectedID) {
-			DELETERequest('http://127.0.0.1:4000/student', selectedID);
-		}
-	}, [selectedID, DELETERequest]);
+    useEffect(() => {
+        if (selectedID) {
+            DELETERequest('http://127.0.0.1:4000/student', selectedID);
+        }
+    }, [selectedID, DELETERequest]);
 
-	const exportToExcel = () => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormulario({
+            ...formulario,
+            [name]: value
+        });
+    };
+
+    const multipleFunction = (moduleName) => {
+        if (
+            formulario.documentNumber !== '' &&
+            formulario.name !== '' &&
+            formulario.lastName !== '' &&
+            formulario.email !== ''
+        ) {
+            if (formulario.email.includes('@elpoli.edu.co')) {
+                setFormError(false);
+                postUser(moduleName, formulario);
+            } else {
+                alert('El correo institucional debe ser de la universidad');
+            }
+        } else {
+            alert('Valide los datos en el formulario');
+        }
+    };
+
+    const exportToExcel = (moduleName) => {
         const wb = XLSX.utils.book_new();
         let row = [
             [
@@ -66,28 +97,29 @@ const UserProvider = ({ children }) => {
             ];
         });
         const ws = XLSX.utils.aoa_to_sheet(row);
-        XLSX.utils.book_append_sheet(wb, ws, 'Estudiantes');
+        XLSX.utils.book_append_sheet(wb, ws, 'estudiantes');
         XLSX.writeFile(wb, 'lista' + 'Estudiantes' + '.xlsx');
     };
 
-	return (
-		<UserContext.Provider
-			value={{
-				postUser,
-				getUsers,
-				putUser,
-				deleteUser,
-				users,
-				selectedID,
-				setSelectedID,
-				show,
-				setShow,
-				exportToExcel,
-			}}
-		>
-			{children}
-		</UserContext.Provider>
-	);
+    return (
+        <UserContext.Provider
+            value={{
+                postUser,
+                getUsers,
+                putUser,
+                deleteUser,
+                users,
+                selectedID,
+                setSelectedID,
+                formulario,
+                handleChange,
+                multipleFunction,
+                exportToExcel,
+            }}
+        >
+            {children}
+        </UserContext.Provider>
+    );
 };
 
 export default UserProvider;
