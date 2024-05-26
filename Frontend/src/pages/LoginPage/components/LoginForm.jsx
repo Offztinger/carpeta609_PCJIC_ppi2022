@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../../../redux/slices/auth.slice';
-import { loginWithGoogle } from '../../../redux/slices/auth.slice';
 
 const LoginForm = () => {
 	const dispatch = useDispatch();
 	const { loading, error } = useSelector(state => state.auth);
 	const [credentials, setCredentials] = useState({ email: '', password: '' });
-
-	useEffect(() => {
-		dispatch(loginWithGoogle());
-	}, [dispatch]);
 
 	const handleChange = e => {
 		setCredentials({
@@ -22,10 +17,6 @@ const LoginForm = () => {
 	const handleSubmit = e => {
 		e.preventDefault();
 		dispatch(loginUser(credentials));
-	};
-
-	const handleGoogleLogin = () => {
-		dispatch(loginWithGoogle());
 	};
 
 	return (

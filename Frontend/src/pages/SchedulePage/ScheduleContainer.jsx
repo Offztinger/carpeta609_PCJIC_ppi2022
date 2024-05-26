@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { ScheduleContext } from '../../context/ScheduleContext/ScheduleContext';
 import CalendarComponent from './components/CalendarComponent/calendarComponet';
 import Logbook from './components/Logbook/Logbook';
 

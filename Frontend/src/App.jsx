@@ -123,11 +123,11 @@ const App = () => {
 							<div className='contenedorPrincipal' style={{ height: '90vh' }}>
 								<Routes>
 									<Route path='/' element={<Dashboard />} />
-									<Route path='/estudiantes' element={<StudentPage />} />
+									<Route path='/student' element={<StudentPage />} />
 
-									<Route path='/profesores' element={<ProfessorPage />} />
+									<Route path='/professor' element={<ProfessorPage />} />
 
-									<Route path='/cronograma' element={<SchedulePage />} />
+									<Route path='/schedule' element={<SchedulePage />} />
 								</Routes>
 							</div>
 						</section>

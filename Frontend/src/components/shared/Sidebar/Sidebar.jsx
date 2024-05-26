@@ -32,7 +32,7 @@ export default function Sidebar() {
 			<ul className='sidebar-content h-[85%]'>
 				<li className='nav-item'>
 					<NavLink
-						to='/estudiantes'
+						to='/student'
 						className='nav-link text-white'
 						aria-current='page'
 					>
@@ -44,7 +44,7 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
-						to='/profesores'
+						to='/professor'
 						className='nav-link text-white'
 						aria-current='page'
 					>
@@ -56,14 +56,14 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
-						to='/asesores'
+						to='/schedule'
 						className='nav-link text-white'
 						aria-current='page'
 					>
 						<svg className='bi me-2' width='16' height='16'>
 							<use href='#home'></use>
 						</svg>
-						Asesores
+						Calendario
 					</NavLink>
 				</li>
 			</ul>
