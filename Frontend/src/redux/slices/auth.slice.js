@@ -16,7 +16,7 @@ export const loginUser = createAsyncThunk(
 		}
 	},
 );
-
+    
 export const loginWithGoogle = createAsyncThunk(
 	'auth/loginWithGoogle',
 	async (tokenId, { rejectWithValue }) => {
@@ -60,7 +60,7 @@ const authSlice = createSlice({
 				state.user = action.payload; // Guardar toda la respuesta del backend
 				state.accessToken = action.payload.accessToken;
 				localStorage.setItem('token', action.payload.accessToken);
-				saveState(state); // Guardar el estado actualizado en localStorage
+				saveState({ auth: state }); // Guardar el estado actualizado en localStorage
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.loading = false;
@@ -75,7 +75,7 @@ const authSlice = createSlice({
 				state.user = action.payload; // Guardar toda la respuesta del backend
 				state.accessToken = action.payload.accessToken;
 				localStorage.setItem('token', action.payload.accessToken);
-				saveState(state); // Guardar el estado actualizado en localStorage
+				saveState({ auth: state }); // Guardar el estado actualizado en localStorage
 			})
 			.addCase(loginWithGoogle.rejected, (state, action) => {
 				state.loading = false;

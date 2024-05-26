@@ -1,6 +1,6 @@
 // src/store/index.js
 import { configureStore } from '@reduxjs/toolkit';
-import rootReducer from './slices/root.reducer'; // Suponiendo que combines tus reducers en un rootReducer
+import rootReducer from './slices/root.reducer';
 import { loadState, saveState } from '../utils/localStorage';
 
 const preloadedState = loadState();
@@ -11,7 +11,10 @@ const store = configureStore({
 });
 
 store.subscribe(() => {
-	saveState(store.getState());
+	const state = store.getState();
+	if (state.auth.user && state.auth.accessToken) {
+		saveState(state);
+	}
 });
 
 export default store;
