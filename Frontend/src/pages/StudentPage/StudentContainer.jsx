@@ -5,6 +5,10 @@ import UserTable from '../../components/shared/UserTable/UserTable';
 const StudentContainer = () => {
 	const { getUsers, deleteUser, selectedID } = useContext(UserContext);
 
+	useEffect(() => {
+		getUsers('student');
+	}, []);
+
 	const deleteStudent = idToDelete => {
 		selectedID && deleteUser('student', idToDelete);
 	};
