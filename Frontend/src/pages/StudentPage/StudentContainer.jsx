@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from '../../context/UserContext/UserContext';
 import UserTable from '../../components/shared/UserTable/UserTable';
 
