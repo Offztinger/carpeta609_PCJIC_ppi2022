@@ -1,0 +1,18 @@
+import React, { useContext } from 'react';
+import { UserContext } from '../../context/UserContext/UserContext';
+
+const StudentContainer = () => {
+	const { getUsers, deleteUser, selectedID } = useContext(UserContext);
+
+
+	const deleteStudent = idToDelete => {
+		selectedID && deleteUser('student', idToDelete);
+	};
+	return (
+		<main>
+			<UserTable deleteFunction={deleteStudent} />
+		</main>
+	);
+};
+
+export default StudentContainer;

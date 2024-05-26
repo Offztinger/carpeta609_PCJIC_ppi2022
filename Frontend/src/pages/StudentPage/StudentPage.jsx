@@ -1,22 +1,12 @@
-import React, { useEffect, useContext } from 'react';
-import { UserContext } from '../../context/UserContext/UserContext';
-import UserTable from '../../components/shared/UserTable/UserTable';
+import React from 'react';
+import UserProvider from '../../context/UserContext/UserProvider';
+import StudentContainer from './StudentContainer';
 
 const StudentPage = () => {
-	const { getUsers, deleteUser, selectedID } = useContext(UserContext);
-
-	useEffect(() => {
-		getUsers('student');
-	}, []);
-
-	const deleteStudent = idToDelete => {
-		selectedID && deleteUser('student', idToDelete);
-	};
-
 	return (
-		<main>
-			<UserTable deleteFunction={deleteStudent} />
-		</main>
+		<UserProvider>
+			<StudentContainer />
+		</UserProvider>
 	);
 };
 

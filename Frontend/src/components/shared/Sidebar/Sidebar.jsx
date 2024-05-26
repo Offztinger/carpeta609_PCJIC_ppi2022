@@ -4,7 +4,7 @@ import './Sidebar.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faUser } from '@fortawesome/free-solid-svg-icons';
-import { logout } from '../../redux/slices/auth.slice';
+import { logout } from '../../../redux/slices/auth.slice';
 
 export default function Sidebar() {
 	const { user } = useSelector(state => state.auth);

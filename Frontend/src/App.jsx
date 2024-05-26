@@ -4,16 +4,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import correo from './icons/envelope.png';
-import Sidebar from './components/Sidebar/Sidebar';
+import Sidebar from './components/shared/Sidebar/Sidebar';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StudentPage from './pages/StudentPage/StudentPage';
-import UserProvider from './context/UserContext/UserProvider';
 import ProfessorPage from './pages/ProfessorPage/ProfessorPage';
-import CounselorPage from './pages/CounselorPage/CounselorPage';
-import ScheduleProvider from './context/ScheduleContext/ScheduleProvider';
 import SchedulePage from './pages/SchedulePage/SchedulePage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import Dashboard from './components/Dashboard/Dashboard';
 
 const App = () => {
 	const { user } = useSelector(state => state.auth);
@@ -124,44 +122,12 @@ const App = () => {
 							<Sidebar user={user} />
 							<div className='contenedorPrincipal' style={{ height: '90vh' }}>
 								<Routes>
-									<Route
-										path='/estudiantes'
-										element={
-											<UserProvider>
-												<StudentPage />
-											</UserProvider>
-										}
-									/>
-								</Routes>
-								<Routes>
-									<Route
-										path='/profesores'
-										element={
-											<UserProvider>
-												<ProfessorPage />
-											</UserProvider>
-										}
-									/>
-								</Routes>
-								<Routes>
-									<Route
-										path='/asesores'
-										element={
-											<UserProvider>
-												<CounselorPage />
-											</UserProvider>
-										}
-									/>
-								</Routes>
-								<Routes>
-									<Route
-										path='/cronograma'
-										element={
-											<ScheduleProvider>
-												<SchedulePage />
-											</ScheduleProvider>
-										}
-									/>
+									<Route path='/' element={<Dashboard />} />
+									<Route path='/estudiantes' element={<StudentPage />} />
+
+									<Route path='/profesores' element={<ProfessorPage />} />
+
+									<Route path='/cronograma' element={<SchedulePage />} />
 								</Routes>
 							</div>
 						</section>
