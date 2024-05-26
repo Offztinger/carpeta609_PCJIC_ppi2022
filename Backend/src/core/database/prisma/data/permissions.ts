@@ -98,14 +98,6 @@ export const studentPermissions = [
         "idRole": "3284495c-136e-4215-b8cc-30e6d9ca52b0"
     },
     {
-        "idFormPermission": "cd24c0d6-c1fd-4dbe-a495-37c0354e0df5",
-        "create": false,
-        "update": false,
-        "read": true,
-        "delete": false,
-        "idRole": "3284495c-136e-4215-b8cc-30e6d9ca52b0"
-    },
-    {
         "idFormPermission": "9bac9db4-0c93-496b-90f3-975820451f46",
         "create": false,
         "update": false,
@@ -213,14 +205,6 @@ export const professorPermissions = [
         "idRole": "1164b212-c28e-4f5c-a886-36795031cbf3"
     },
     {
-        "idFormPermission": "cd24c0d6-c1fd-4dbe-a495-37c0354e0df5",
-        "create": false,
-        "update": false,
-        "read": true,
-        "delete": false,
-        "idRole": "1164b212-c28e-4f5c-a886-36795031cbf3"
-    },
-    {
         "idFormPermission": "9bac9db4-0c93-496b-90f3-975820451f46",
         "create": true,
         "update": true,
@@ -321,14 +305,6 @@ export const adminPermissions = [
     },
     {
         "idFormPermission": "957fdce6-7180-4781-a9dd-f5f2cc94a716",
-        "create": true,
-        "update": true,
-        "read": true,
-        "delete": true,
-        "idRole": "c27a2360-6bd6-4939-b03c-98e09d25fece"
-    },
-    {
-        "idFormPermission": "cd24c0d6-c1fd-4dbe-a495-37c0354e0df5",
         "create": true,
         "update": true,
         "read": true,

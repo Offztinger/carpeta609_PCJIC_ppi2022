@@ -8,7 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @Post('login')
   @UseGuards(LocalAuthGuard)
@@ -28,6 +28,6 @@ export class AuthController {
   async handleGoogleRedirect(@Req() req: Express.Request & { user: GoogleUser }) {
     await this.authService.handleGoogleLogin(req.user.email);
 
-    return { url: `${process.env.FRONT_URL}` };
+    return req.user;
   }
 }

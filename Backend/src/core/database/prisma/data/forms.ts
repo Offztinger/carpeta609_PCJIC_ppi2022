@@ -36,16 +36,10 @@ const formsSeed = [
         "route": "/course"
     },
     {
-        "idForm": "cd24c0d6-c1fd-4dbe-a495-37c0354e0df5",
-        "formName": "Curso por profesor",
-        "formDescription": "Endpoints para curso profesor",
-        "route": "/courseProfessor"
-    }, 
-    {
         "idForm": "11a5043d-e66a-428d-a176-05c87e7adfc5",
-        "formName": "Cursos por Estudiante",
-        "formDescription": "Endpoints para curso estudiante",
-        "route": "/courseStudent"
+        "formName": "Cursos por Usuario",
+        "formDescription": "Endpoints para curso usuario",
+        "route": "/courseUser"
     },
     {
         "idForm": "40e1f5db-a5b8-4e63-b449-293403f90eed",

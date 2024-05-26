@@ -17,7 +17,6 @@ export class LogbookDetailDTO {
     @IsArray({ message: 'Los estudiantes deben ser un array' })
     @ArrayNotEmpty({ message: 'El array de estudiantes no puede estar vacío' })
     @IsString({ each: true, message: 'Cada estudiante debe ser una cadena' })
-    @IsNotEmpty({ each: true, message: 'Cada estudiante no puede estar vacío' })
     missingStudents: string[]
 
     @ApiProperty({ type: String, description: 'Comentarios de la asesoría' })

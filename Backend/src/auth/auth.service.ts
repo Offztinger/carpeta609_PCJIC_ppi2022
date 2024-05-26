@@ -3,10 +3,13 @@ import { JwtService } from '@nestjs/jwt';
 import { Payload } from './dtos';
 import { PrismaService } from 'src/core/database/prisma/prisma.service';
 import { validatePassword } from 'src/utils/bycript.utils';
-
+import { PermissionsStrategy } from './strategies/permissions.strategy';
 @Injectable()
 export class AuthService {
-  constructor(private readonly jwtService: JwtService, private readonly prisma: PrismaService) { }
+  permissionsStrategy: PermissionsStrategy;
+  constructor(private readonly jwtService: JwtService, private readonly prisma: PrismaService, permissionsStrategy: PermissionsStrategy) {
+    this.permissionsStrategy = permissionsStrategy;
+  }
 
   async validateUser(email: string, password: string) {
     const user = await this.prisma.user.findUnique({ where: { email } });
@@ -24,8 +27,13 @@ export class AuthService {
   }
 
   async login(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } })
     return {
-      access_token: await this.generateJwt({ id: userId }),
+      email: user?.email,
+      firstName: user?.name,
+      lastName: user?.lastName,
+      accessToken: await this.generateJwt({ id: userId }),
+      permissions: await this.permissionsStrategy.getPermissions(userId),
     };
   }
 
