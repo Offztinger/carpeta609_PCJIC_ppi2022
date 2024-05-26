@@ -1,29 +1,33 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { saveState } from '../../utils/localStorage';
 import axios from 'axios';
+import useToastHandler from '../../hooks/toastHandler'; // Asegúrate de tener la ruta correcta
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
+
 	async (credentials, { rejectWithValue }) => {
 		try {
-			const response = await axios.post(
-				'http://localhost:4000/auth/login',
-				credentials,
-			);
+			const { toastError } = useToastHandler();
+			const response = await axios
+				.post('http://localhost:4000/auth/login', credentials)
+				.catch(error => {
+					toastError(error.response.data.message);
+				});
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
 		}
 	},
 );
-    
+
 export const loginWithGoogle = createAsyncThunk(
 	'auth/loginWithGoogle',
-	async (tokenId, { rejectWithValue }) => {
+	async (_, { rejectWithValue }) => {
 		try {
-			const response = await axios.post('http://localhost:4000/auth/google', {
-				token: tokenId,
-			});
+			const response = await axios.get(
+				'http://localhost:4000/auth/google/redirect',
+			);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);

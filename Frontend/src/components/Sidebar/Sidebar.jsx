@@ -1,14 +1,18 @@
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './Sidebar.css';
-import { useEffect } from 'react';
+import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faUser } from '@fortawesome/free-solid-svg-icons';
+import { logout } from '../../redux/slices/auth.slice';
 
 export default function Sidebar() {
 	const { user } = useSelector(state => state.auth);
-
-	useEffect(() => {
-		console.log('user', user);
-	}, [user]);
+	const dispatch = useDispatch();
+	const [open, setOpen] = useState(false);
+	const onClickUser = () => {
+		setOpen(!open);
+	};
 
 	return (
 		<div
@@ -25,7 +29,7 @@ export default function Sidebar() {
 				/>
 			</a>
 			<hr />
-			<ul className='sidebar-content'>
+			<ul className='sidebar-content h-[85%]'>
 				<li className='nav-item'>
 					<NavLink
 						to='/estudiantes'
@@ -64,52 +68,29 @@ export default function Sidebar() {
 				</li>
 			</ul>
 			<hr />
-			<div className='dropdown'>
-				<a
-					to='/'
-					className='d-flex align-items-center text-white text-decoration-none dropdown-toggle'
-					id='dropdownUser1'
-					data-bs-toggle='dropdown'
-					aria-expanded='false'
-				>
-					<img
-						src='https://github.com/mdo.png'
-						alt=''
-						width='32'
-						height='32'
-						className='rounded-circle me-2'
-					/>
-					{/* <strong>{user ? user.email.split('@')[0] : 'user'}</strong> */}
-					{/* <button onClick={() => dispatch(logout())}>Aqui!</button> */}
-				</a>
-				<ul
-					className='dropdown-menu dropdown-menu-dark text-small shadow'
-					aria-labelledby='dropdownUser1'
-				>
-					<li>
-						<a className='dropdown-item' to='/'>
-							New project...
-						</a>
-					</li>
-					<li>
-						<a className='dropdown-item' to='/'>
-							Settings
-						</a>
-					</li>
-					<li>
-						<a className='dropdown-item' to='/'>
-							Profile
-						</a>
-					</li>
-					<li>
-						<hr className='dropdown-divider' />
-					</li>
-					<li>
-						<a className='dropdown-item' to='/'>
-							Sign out
-						</a>
-					</li>
-				</ul>
+			<div className='flex justify-around items-center h-[10%] p-2'>
+				<div className='flex items-center bg-[#808080] rounded-3xl h-[45px] w-[45px]'>
+					<FontAwesomeIcon className='w-full h-[30px]' icon={faUser} />
+				</div>
+				<div className='relative'>
+					<div className='absolute right-5'>
+						<button
+							onClick={() => {
+								dispatch(logout());
+							}}
+							className={`w-auto rounded-xl p-2 bg-[#196844] ${open ? 'block' : 'hidden'}`}
+						>
+							Logout
+						</button>
+					</div>
+					<button onClick={onClickUser}>
+						<FontAwesomeIcon icon={faChevronDown} />
+					</button>
+				</div>
+				<div className='flex flex-col'>
+					<p className='text-base font-bold'>{user.email.split('@')[0]}</p>
+					<p className='text-sm italic'>{user.permissions[0].role}</p>
+				</div>
 			</div>
 		</div>
 	);
