@@ -11,22 +11,31 @@ import { UserContext } from '../../../context/UserContext/UserContext';
 
 function UserTable({ deleteFunction }) {
 	const [deleteIDEs, setDeleteIDEs] = useState();
-	const [show, setShow] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
-	const { users, setSelectedID, exportToExcel, selectedId } =
-		useContext(UserContext);
+
+	const {
+		users,
+		setSelectedID,
+		exportToExcel,
+		selectedId,
+		formulario,
+		handleChange,
+		multipleFunction,
+	} = useContext(UserContext);
 	const location = useLocation();
 
-	let moduleName = location.pathname.split('/').pop(); // Obtener el nombre del módulo desde la ruta
-	if (moduleName != 'estudiantes') {
-		moduleName = moduleName.slice(0, -2); // Remover los dos últimos caracteres si terminan en 'es'
+	let moduleName = location.pathname.split('/').pop();
+	if (moduleName === 'student') {
+		moduleName = 'estudiante';
 	} else {
-		moduleName = moduleName.slice(0, -1);
+		moduleName = 'profesor';
 	}
 
 	useEffect(() => {
 		setDeleteIDEs(selectedId);
-	}, [setSelectedID]);
+	}, [selectedId]);
 
 	const chunkArray = (array, size) => {
 		const result = [];
@@ -39,15 +48,12 @@ function UserTable({ deleteFunction }) {
 	const secciones = chunkArray(users, 10);
 
 	const handleSectionClick = index => {
-		const totalSections = secciones.length - 1;
-		if (currentSection < totalSections) {
-			setCurrentSection(index);
-		}
+		setCurrentSection(index);
 	};
 
 	return (
 		<div className='contenedorEstudiantes'>
-			<Modal show={show} onHide={() => setShow(false)}>
+			<Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>Eliminar registro</Modal.Title>
 				</Modal.Header>
@@ -56,7 +62,7 @@ function UserTable({ deleteFunction }) {
 					<Button
 						variant='secondary'
 						className='btn btn-dark'
-						onClick={() => setShow(false)}
+						onClick={() => setShowDeleteModal(false)}
 					>
 						¡No!
 					</Button>
@@ -64,7 +70,7 @@ function UserTable({ deleteFunction }) {
 						variant='primary'
 						className='btn btn-warning'
 						onClick={() => {
-							setShow(false);
+							setShowDeleteModal(false);
 							deleteFunction(deleteIDEs);
 						}}
 					>
@@ -72,6 +78,78 @@ function UserTable({ deleteFunction }) {
 					</Button>
 				</Modal.Footer>
 			</Modal>
+
+			<Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
+				<Modal.Header closeButton>
+					<Modal.Title>Crear {moduleName}</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<div className="form-group">
+						<label>Documento</label>
+						<input
+							type="number"
+							name="documentNumber"
+							className="form-control"
+							value={formulario.documentNumber}
+							onChange={handleChange}
+						/>
+						<small className="form-text text-muted">
+							Recuerde colocar el documento de identidad sin errores.
+						</small>
+					</div>
+					<div className="form-group">
+						<label>Nombre</label>
+						<input
+							type="text"
+							name="name"
+							className="form-control"
+							value={formulario.name}
+							onChange={handleChange}
+						/>
+					</div>
+					<div className="form-group">
+						<label>Apellido</label>
+						<input
+							type="text"
+							name="lastName"
+							className="form-control"
+							value={formulario.lastName}
+							onChange={handleChange}
+						/>
+					</div>
+					
+					<div className="form-group">
+						<label>Correo Institucional</label>
+						<input
+							type="email"
+							name="email"
+							className="form-control"
+							value={formulario.email}
+							onChange={handleChange}
+						/>
+					</div>
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant='secondary'
+						className='btn btn-dark'
+						onClick={() => setShowCreateModal(false)}
+					>
+						Cancelar
+					</Button>
+					<Button
+						variant='primary'
+						className='btn btn-success'
+						onClick={() => {
+							multipleFunction(moduleName);
+							setShowCreateModal(false);
+						}}
+					>
+						Crear
+					</Button>
+				</Modal.Footer>
+			</Modal>
+
 			<div className='usersList'>
 				{secciones[currentSection] && (
 					<div key={currentSection} className='seccion'>
@@ -95,12 +173,11 @@ function UserTable({ deleteFunction }) {
 										<td>{user.name}</td>
 										<td>{user.lastName}</td>
 										<td>{user.email}</td>
-
 										<td className='botonesaccion'>
 											<button
 												type='button'
 												className='btn btn-success'
-												onClick={() => setSelectedID(user.documento)}
+												onClick={() => setSelectedID(user.documentNumber)}
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
@@ -108,8 +185,8 @@ function UserTable({ deleteFunction }) {
 												type='button'
 												className='btn btn-danger'
 												onClick={() => {
-													setShow(true);
-													setSelectedID(user.documento);
+													setShowDeleteModal(true);
+													setSelectedID(user.documentNumber);
 												}}
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
@@ -146,7 +223,9 @@ function UserTable({ deleteFunction }) {
 						</span>
 					</div>
 					<a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
-						<button className='crearModulo'>Crear {moduleName}</button>
+						<button className='crearModulo' onClick={() => setShowCreateModal(true)}>
+							Crear {moduleName}
+						</button>
 					</a>
 					<button className='exportarExcel' onClick={exportToExcel}>
 						<img src={download} alt='' style={{ height: '7vh' }} />
