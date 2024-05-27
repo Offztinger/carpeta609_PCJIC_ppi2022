@@ -7,7 +7,7 @@ const UserProvider = ({ children }) => {
 	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
 		useAxiosHandler();
 	const [users, setUsers] = useState([]);
-	const [selectedID, setSelectedID] = useState('');
+	const [selectedId, setSelectedId] = useState('');
 	const [formulario, setFormulario] = useState({
 		documentNumber: 0,
 		name: '',
@@ -17,6 +17,10 @@ const UserProvider = ({ children }) => {
 		idRole: '',
 	});
 	const [formError, setFormError] = useState(true);
+
+	useEffect(() => {
+		console.log('selectedId', selectedId);
+	}, [selectedId]);
 
 	const postUser = async (moduleName, formulario) => {
 		const data = {
@@ -42,17 +46,12 @@ const UserProvider = ({ children }) => {
 		}
 	};
 
-	const deleteUser = (moduleName, id) => {
+	const deleteUser = async (moduleName, id) => {
 		if (id) {
-			DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
+			await DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
+			getUsers(moduleName);
 		}
 	};
-
-	useEffect(() => {
-		if (selectedID) {
-			DELETERequest('http://127.0.0.1:4000/student', selectedID);
-		}
-	}, [selectedID, DELETERequest]);
 
 	const handleChange = e => {
 		const { name, value } = e.target;
@@ -62,19 +61,22 @@ const UserProvider = ({ children }) => {
 		});
 	};
 
-	const multipleFunction = moduleName => {
+	const handleRequestFunction = moduleName => {
 		if (
 			formulario.documentNumber !== 0 &&
 			formulario.name !== '' &&
 			formulario.lastName !== '' &&
-			formulario.email !== ''
+			formulario.email !== '' &&
+			formulario.email.includes('@elpoli.edu.co')
 		) {
-			if (formulario.email.includes('@elpoli.edu.co')) {
-				setFormError(false);
+			setFormError(false);
+			if (selectedId) {
+				putUser(moduleName, formulario);
+			} else if (!selectedId) {
 				postUser(moduleName, formulario);
-			} else {
-				alert('El correo institucional debe ser de la universidad');
 			}
+		} else if (!formulario.email.includes('@elpoli.edu.co')) {
+			alert('El correo debe ser institucional');
 		} else {
 			alert('Valide los datos en el formulario');
 		}
@@ -120,11 +122,11 @@ const UserProvider = ({ children }) => {
 				putUser,
 				deleteUser,
 				users,
-				selectedID,
-				setSelectedID,
+				selectedId,
+				setSelectedId,
 				formulario,
 				handleChange,
-				multipleFunction,
+				handleRequestFunction,
 				exportToExcel,
 				setFormulario,
 			}}

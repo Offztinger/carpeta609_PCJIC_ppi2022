@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../../context/UserContext/UserContext';
 
-function UserTable({ deleteFunction }) {
+function UserTable({ deleteFunction, updateId }) {
 	const [deleteIDEs, setDeleteIDEs] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
@@ -17,13 +17,12 @@ function UserTable({ deleteFunction }) {
 
 	const {
 		users,
-		setSelectedID,
 		exportToExcel,
 		selectedId,
 		setFormulario,
 		formulario,
 		handleChange,
-		multipleFunction,
+		handleRequestFunction,
 	} = useContext(UserContext);
 	const location = useLocation();
 
@@ -33,19 +32,26 @@ function UserTable({ deleteFunction }) {
 		setDeleteIDEs(selectedId);
 	}, [selectedId]);
 
-	useEffect(() => {
+	const validateRole = () => {
 		if (moduleName === 'student') {
-			setFormulario({
-				...formulario,
-				idRole: '3284495c-136e-4215-b8cc-30e6d9ca52b0',
-			});
+			return '3284495c-136e-4215-b8cc-30e6d9ca52b0';
 		} else if (moduleName === 'professor') {
-			setFormulario({
-				...formulario,
-				idRole: '1164b212-c28e-4f5c-a886-36795031cbf3',
-			});
+			return '1164b212-c28e-4f5c-a886-36795031cbf3';
 		}
-	}, []);
+	};
+
+	const mountEditInfo = user => {
+		updateId(user.id);
+		setShowCreateModal(true);
+		setFormulario({
+			documentNumber: user.documentNumber,
+			name: user.name,
+			lastName: user.lastName,
+			email: user.email,
+			password: user.password,
+			idRole: user.idRole,
+		});
+	};
 
 	const chunkArray = (array, size) => {
 		const result = [];
@@ -92,7 +98,8 @@ function UserTable({ deleteFunction }) {
 			<Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						Crear {moduleName == 'student' ? 'estudiante' : 'profesor'}
+						{selectedId ? 'Editar' : 'Crear'}{' '}
+						{moduleName == 'student' ? 'estudiante' : 'profesor'}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
@@ -153,11 +160,11 @@ function UserTable({ deleteFunction }) {
 						variant='primary'
 						className='btn btn-success'
 						onClick={() => {
-							multipleFunction(moduleName);
+							handleRequestFunction(moduleName);
 							setShowCreateModal(false);
 						}}
 					>
-						Crear
+						{selectedId ? 'Editar' : 'Crear'}
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -189,7 +196,9 @@ function UserTable({ deleteFunction }) {
 											<button
 												type='button'
 												className='btn btn-success'
-												onClick={() => setSelectedID(user.documentNumber)}
+												onClick={() => {
+													mountEditInfo(user);
+												}}
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
@@ -198,7 +207,7 @@ function UserTable({ deleteFunction }) {
 												className='btn btn-danger'
 												onClick={() => {
 													setShowDeleteModal(true);
-													setSelectedID(user.documentNumber);
+													setDeleteIDEs(user.id);
 												}}
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
@@ -237,7 +246,18 @@ function UserTable({ deleteFunction }) {
 					<a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
 						<button
 							className='crearModulo'
-							onClick={() => setShowCreateModal(true)}
+							onClick={() => {
+								setFormulario({
+									documentNumber: 0,
+									name: '',
+									lastName: '',
+									email: '',
+									password: '',
+									idRole: validateRole(),
+								});
+								updateId('');
+								setShowCreateModal(true);
+							}}
 						>
 							Crear {moduleName == 'student' ? 'estudiante' : 'profesor'}
 						</button>

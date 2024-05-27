@@ -3,19 +3,22 @@ import { UserContext } from '../../context/UserContext/UserContext';
 import UserTable from '../../components/shared/UserTable/UserTable';
 
 const ProfessorContainer = () => {
-	const { getUsers, deleteUser, selectedID } = useContext(UserContext);
+	const { getUsers, deleteUser, setSelectedId } = useContext(UserContext);
 
 	useEffect(() => {
 		getUsers('professor');
 	}, []);
 
-	const deleteProfessor = idToDelete => {
-		selectedID && deleteUser('professor', idToDelete);
+	const deleteProfessor = async idToDelete => {
+		idToDelete && (await deleteUser('professor', idToDelete));
 	};
 
+	const updateId = id => {
+		setSelectedId(id);
+	};
 	return (
 		<main>
-			<UserTable deleteFunction={deleteProfessor} />
+			<UserTable deleteFunction={deleteProfessor} updateId={updateId} />
 		</main>
 	);
 };

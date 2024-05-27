@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class UserDTO {
     id: string;
@@ -15,6 +15,7 @@ export class UserDTO {
 
     @ApiProperty({ type: String, description: 'Contraseña' })
     @IsString({ message: 'La contraseña debe ser un string' })
+    @IsOptional()
     password: string;
 
     @ApiProperty({ type: String, description: 'Nombre' })

@@ -32,8 +32,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 
     const permissions = await this.permissionsStrategy.getPermissions(user.id);
 
-    console.log('permissions', permissions)
-
     return { id: payload.id, role: user.idRole, permissions: permissions };
   }
 }
