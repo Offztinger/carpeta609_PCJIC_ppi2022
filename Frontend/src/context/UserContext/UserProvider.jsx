@@ -9,6 +9,7 @@ const UserProvider = ({ children }) => {
 	const [users, setUsers] = useState([]);
 	const [selectedId, setSelectedId] = useState('');
 	const [formulario, setFormulario] = useState({
+		id: '',
 		documentNumber: 0,
 		name: '',
 		lastName: '',

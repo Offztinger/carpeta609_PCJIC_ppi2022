@@ -44,6 +44,7 @@ function UserTable({ deleteFunction, updateId }) {
 		updateId(user.id);
 		setShowCreateModal(true);
 		setFormulario({
+			id: user.id,
 			documentNumber: user.documentNumber,
 			name: user.name,
 			lastName: user.lastName,
@@ -248,6 +249,7 @@ function UserTable({ deleteFunction, updateId }) {
 							className='crearModulo'
 							onClick={() => {
 								setFormulario({
+									id: '',
 									documentNumber: 0,
 									name: '',
 									lastName: '',
