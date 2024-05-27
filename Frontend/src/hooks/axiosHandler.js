@@ -3,17 +3,16 @@ import axios from 'axios';
 
 const useAxiosHandler = () => {
 	const { toastSuccess, toastError } = useToastHandler();
+
 	const POSTRequest = async (data, url) => {
 		try {
 			const response = await axios.post(
-				`${url}`,
-				{
-					data,
-				},
+				url,
+				data, // Enviamos el data directamente como objeto
 				{
 					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-						Authorization: 'Bearer ' + localStorage.getItem('token') || '',
+						'Content-Type': 'application/json', // Cambiamos el Content-Type
+						Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 					},
 				},
 			);
@@ -30,10 +29,10 @@ const useAxiosHandler = () => {
 
 	const GETRequest = async (url, setState) => {
 		await axios
-			.get(`${url}`, {
+			.get(url, {
 				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					Authorization: 'Bearer ' + localStorage.getItem('token') || '',
+					'Content-Type': 'application/json', // También cambiamos el Content-Type aquí si es necesario
+					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 				},
 			})
 			.then(res => {
@@ -50,13 +49,11 @@ const useAxiosHandler = () => {
 		try {
 			const response = await axios.put(
 				`${url}/${data.id}`,
-				{
-					data,
-				},
+				data, // Enviamos el data directamente como objeto
 				{
 					headers: {
-						'Content-Type': 'application/x-www-form-urlencoded',
-						Authorization: 'Bearer ' + localStorage.getItem('token') || '',
+						'Content-Type': 'application/json', // Cambiamos el Content-Type
+						Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 					},
 				},
 			);
@@ -77,8 +74,8 @@ const useAxiosHandler = () => {
 		try {
 			const response = await axios.delete(`${url}/${id}`, {
 				headers: {
-					'Content-Type': 'application/x-www-form-urlencoded',
-					Authorization: 'Bearer ' + localStorage.getItem('token') || '',
+					'Content-Type': 'application/json', // Cambiamos el Content-Type si es necesario
+					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 				},
 			});
 
