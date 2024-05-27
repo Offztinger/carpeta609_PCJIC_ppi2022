@@ -20,22 +20,32 @@ function UserTable({ deleteFunction }) {
 		setSelectedID,
 		exportToExcel,
 		selectedId,
+		setFormulario,
 		formulario,
 		handleChange,
 		multipleFunction,
 	} = useContext(UserContext);
 	const location = useLocation();
 
-	let moduleName = location.pathname.split('/').pop();
-	if (moduleName === 'student') {
-		moduleName = 'estudiante';
-	} else {
-		moduleName = 'profesor';
-	}
+	let moduleName = location.pathname.split('/')[1];
 
 	useEffect(() => {
 		setDeleteIDEs(selectedId);
 	}, [selectedId]);
+
+	useEffect(() => {
+		if (moduleName === 'student') {
+			setFormulario({
+				...formulario,
+				idRole: '3284495c-136e-4215-b8cc-30e6d9ca52b0',
+			});
+		} else if (moduleName === 'professor') {
+			setFormulario({
+				...formulario,
+				idRole: '1164b212-c28e-4f5c-a886-36795031cbf3',
+			});
+		}
+	}, []);
 
 	const chunkArray = (array, size) => {
 		const result = [];
@@ -81,49 +91,51 @@ function UserTable({ deleteFunction }) {
 
 			<Modal show={showCreateModal} onHide={() => setShowCreateModal(false)}>
 				<Modal.Header closeButton>
-					<Modal.Title>Crear {moduleName}</Modal.Title>
+					<Modal.Title>
+						Crear {moduleName == 'student' ? 'estudiante' : 'profesor'}
+					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className="form-group">
+					<div className='form-group'>
 						<label>Documento</label>
 						<input
-							type="number"
-							name="documentNumber"
-							className="form-control"
+							type='number'
+							name='documentNumber'
+							className='form-control'
 							value={formulario.documentNumber}
 							onChange={handleChange}
 						/>
-						<small className="form-text text-muted">
+						<small className='form-text text-muted'>
 							Recuerde colocar el documento de identidad sin errores.
 						</small>
 					</div>
-					<div className="form-group">
+					<div className='form-group'>
 						<label>Nombre</label>
 						<input
-							type="text"
-							name="name"
-							className="form-control"
+							type='text'
+							name='name'
+							className='form-control'
 							value={formulario.name}
 							onChange={handleChange}
 						/>
 					</div>
-					<div className="form-group">
+					<div className='form-group'>
 						<label>Apellido</label>
 						<input
-							type="text"
-							name="lastName"
-							className="form-control"
+							type='text'
+							name='lastName'
+							className='form-control'
 							value={formulario.lastName}
 							onChange={handleChange}
 						/>
 					</div>
-					
-					<div className="form-group">
+
+					<div className='form-group'>
 						<label>Correo Institucional</label>
 						<input
-							type="email"
-							name="email"
-							className="form-control"
+							type='email'
+							name='email'
+							className='form-control'
 							value={formulario.email}
 							onChange={handleChange}
 						/>
@@ -223,8 +235,11 @@ function UserTable({ deleteFunction }) {
 						</span>
 					</div>
 					<a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
-						<button className='crearModulo' onClick={() => setShowCreateModal(true)}>
-							Crear {moduleName}
+						<button
+							className='crearModulo'
+							onClick={() => setShowCreateModal(true)}
+						>
+							Crear {moduleName == 'student' ? 'estudiante' : 'profesor'}
 						</button>
 					</a>
 					<button className='exportarExcel' onClick={exportToExcel}>

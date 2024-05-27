@@ -5,8 +5,8 @@ const useAxiosHandler = () => {
 	const { toastSuccess, toastError } = useToastHandler();
 
 	const POSTRequest = async (data, url) => {
-		try {
-			const response = await axios.post(
+		await axios
+			.post(
 				url,
 				data, // Enviamos el data directamente como objeto
 				{
@@ -15,16 +15,16 @@ const useAxiosHandler = () => {
 						Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 					},
 				},
-			);
-
-			if (response.status === 200) {
-				toastSuccess('Se ha creado el registro exitosamente');
-				return `Result: ${response.status}`;
-			}
-		} catch (error) {
-			console.error(error);
-			toastError(error.response.data.message);
-		}
+			)
+			.then(res => {
+				if (res.status === 201) {
+					toastSuccess('Se ha creado el registro exitosamente');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				toastError(error.response.data.message);
+			});
 	};
 
 	const GETRequest = async (url, setState) => {
