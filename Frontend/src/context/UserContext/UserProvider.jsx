@@ -41,9 +41,10 @@ const UserProvider = ({ children }) => {
 		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setUsers);
 	};
 
-	const putUser = (moduleName, formulario) => {
+	const putUser = async (moduleName, formulario) => {
 		if (formulario) {
-			PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+			await PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+			getUsers(moduleName);
 		}
 	};
 
@@ -62,7 +63,7 @@ const UserProvider = ({ children }) => {
 		});
 	};
 
-	const handleRequestFunction = moduleName => {
+	const handleRequestFunction = async moduleName => {
 		if (
 			formulario.documentNumber !== 0 &&
 			formulario.name !== '' &&
@@ -72,9 +73,9 @@ const UserProvider = ({ children }) => {
 		) {
 			setFormError(false);
 			if (selectedId) {
-				putUser(moduleName, formulario);
+				await putUser(moduleName, formulario);
 			} else if (!selectedId) {
-				postUser(moduleName, formulario);
+				await postUser(moduleName, formulario);
 			}
 		} else if (!formulario.email.includes('@elpoli.edu.co')) {
 			alert('El correo debe ser institucional');
