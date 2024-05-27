@@ -75,40 +75,7 @@ const App = () => {
 		<Router>
 			<main>
 				<ToastContainer autoClose={5000} />
-
-				<div className='header'>
-					<div className='logos-header'>
-						{/* {isLogged ? ( */}
-						<button id='notification-btn' onClick={openPopUp}>
-							<img src={correo} className='correo-logo' />
-						</button>
-						{/* ) : null} */}
-						<div id='notification-popup'>
-							<div className='popup-content'>
-								<div className='popup-header'>
-									<h3>Notificaciones</h3>
-									<button id='close-btn'>
-										<i className='fa fa-times' aria-hidden='true'></i>
-									</button>
-								</div>
-								<ul className='notifications-list'>
-									{cronogramaActual.map((actividades, index) => {
-										return (
-											<li className='d-flex justify-content-start' key={index}>
-												<a href='#'>
-													<strong>Actividad: </strong>
-													{actividades.titulo} <strong>Hora: </strong>
-													{actividades.hora_inicio}
-												</a>
-											</li>
-										);
-									})}
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div className='d-flex' style={{ height: '90vh' }}>
+				<div className='d-flex'>
 					{!user && (
 						<section
 							className='w-100 justify-content-center'
@@ -118,17 +85,54 @@ const App = () => {
 						</section>
 					)}
 					{user && (
-						<section style={{ display: 'flex', overflow: 'hidden' }}>
-							<Sidebar user={user} />
-							<div className='contenedorPrincipal' style={{ height: '90vh' }}>
-								<Routes>
-									<Route path='/' element={<Dashboard />} />
-									<Route path='/student' element={<StudentPage />} />
+						<section style={{ display: 'flex flex-col', overflow: 'hidden' }}>
+							<div className='header'>
+								<div className='logos-header'>
+									{/* {isLogged ? ( */}
+									<button id='notification-btn' onClick={openPopUp}>
+										<img src={correo} className='correo-logo' />
+									</button>
+									{/* ) : null} */}
+									<div id='notification-popup'>
+										<div className='popup-content'>
+											<div className='popup-header'>
+												<h3>Notificaciones</h3>
+												<button id='close-btn'>
+													<i className='fa fa-times' aria-hidden='true'></i>
+												</button>
+											</div>
+											<ul className='notifications-list'>
+												{cronogramaActual.map((actividades, index) => {
+													return (
+														<li
+															className='d-flex justify-content-start'
+															key={index}
+														>
+															<a href='#'>
+																<strong>Actividad: </strong>
+																{actividades.titulo} <strong>Hora: </strong>
+																{actividades.hora_inicio}
+															</a>
+														</li>
+													);
+												})}
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div className='flex'>
+								<Sidebar user={user} />
+								<div className='contenedorPrincipal' style={{ height: '90vh' }}>
+									<Routes>
+										<Route path='/' element={<Dashboard />} />
+										<Route path='/student' element={<StudentPage />} />
 
-									<Route path='/professor' element={<ProfessorPage />} />
+										<Route path='/professor' element={<ProfessorPage />} />
 
-									<Route path='/schedule' element={<SchedulePage />} />
-								</Routes>
+										<Route path='/schedule' element={<SchedulePage />} />
+									</Routes>
+								</div>
 							</div>
 						</section>
 					)}

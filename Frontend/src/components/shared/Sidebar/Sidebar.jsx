@@ -17,7 +17,7 @@ export default function Sidebar() {
 	return (
 		<div
 			className='d-flex flex-column flex-shrink-0 p-3 text-white'
-			style={{ width: '280px', height: '100%', backgroundColor: '#013a06' }}
+			style={{ width: '280px', backgroundColor: '#013a06' }}
 		>
 			<a
 				href='/'
