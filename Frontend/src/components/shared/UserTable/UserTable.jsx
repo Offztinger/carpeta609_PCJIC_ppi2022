@@ -8,12 +8,14 @@ import download from '../../../icons/downloadfile.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../../context/UserContext/UserContext';
+import usePaginatorHandler from '../../../hooks/paginatorHandler';
 
 function UserTable({ deleteFunction, updateId }) {
 	const [deleteIDEs, setDeleteIDEs] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
+	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 
 	const {
 		users,
@@ -54,19 +56,7 @@ function UserTable({ deleteFunction, updateId }) {
 		});
 	};
 
-	const chunkArray = (array, size) => {
-		const result = [];
-		for (let i = 0; i < array.length; i += size) {
-			result.push(array.slice(i, i + size));
-		}
-		return result;
-	};
-
-	const secciones = chunkArray(users, 10);
-
-	const handleSectionClick = index => {
-		setCurrentSection(index);
-	};
+	const secciones = chunkArray(users, 3);
 
 	return (
 		<div className='contenedorEstudiantes'>
@@ -146,7 +136,7 @@ function UserTable({ deleteFunction, updateId }) {
 							value={formulario.password}
 							onChange={handleChange}
 						/>
-					</div>	
+					</div>
 					<div className='form-group'>
 						<label>Correo Institucional</label>
 						<input
@@ -182,7 +172,6 @@ function UserTable({ deleteFunction, updateId }) {
 			<div className='usersList'>
 				{secciones[currentSection] && (
 					<div key={currentSection} className='seccion'>
-						<h3>Sección {currentSection + 1}</h3>
 						<table className='table'>
 							<thead>
 								<tr>
@@ -232,7 +221,11 @@ function UserTable({ deleteFunction, updateId }) {
 				<div className='complementosTablas'>
 					<div className='sections'>
 						<span
-							onClick={() => handleSectionClick(currentSection - 1)}
+							onClick={() => {
+								if (currentSection > 0) {
+									handleSectionClick(currentSection - 1, setCurrentSection);
+								}
+							}}
 							disabled={currentSection === 0}
 						>
 							←
@@ -240,14 +233,18 @@ function UserTable({ deleteFunction, updateId }) {
 						{secciones.map((_, index) => (
 							<span
 								key={index}
-								onClick={() => handleSectionClick(index)}
+								onClick={() => handleSectionClick(index, setCurrentSection)}
 								className={currentSection === index ? 'active' : ''}
 							>
 								{index + 1}
 							</span>
 						))}
 						<span
-							onClick={() => handleSectionClick(currentSection + 1)}
+							onClick={() => {
+								if (currentSection + 1 <= secciones.length - 1) {
+									handleSectionClick(currentSection + 1, setCurrentSection);
+								}
+							}}
 							disabled={currentSection === secciones.length - 1}
 						>
 							→
