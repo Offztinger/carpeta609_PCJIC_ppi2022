@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,34 +12,22 @@ import ProfessorPage from './pages/ProfessorPage/ProfessorPage';
 import SchedulePage from './pages/SchedulePage/SchedulePage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import Dashboard from './components/Dashboard/Dashboard';
+import { ScheduleContext } from './context/ScheduleContext/ScheduleContext';
+import MeetingPage from './pages/MeetingPage/MeetingPage';
 
 const App = () => {
+	const { schedule, getSchedule } = useContext(ScheduleContext);
 	const { user } = useSelector(state => state.auth);
+	const cronogramaActual = [];
+
+	const cronogramaActual1 = schedule.filter(element => {
+		return element;
+	});
 
 	useEffect(() => {
+		getSchedule('schedule');
 		console.log('user', user);
 	}, [user]);
-
-	const todayDate = new Date();
-	const year = todayDate.getFullYear();
-	let month = todayDate.getMonth() + 1;
-	let day = todayDate.getDate();
-
-	if (day < 10) {
-		day = '0' + day;
-	}
-	if (month < 10) {
-		month = '0' + month;
-	}
-
-	const today = `${year}-${month}-${day}`;
-	const [estudiantes, setEstudiantes] = useState([]);
-	const [putIDEs, setPutIDEs] = useState();
-	const [cronograma, setCronograma] = useState([]);
-
-	const cronogramaActual = cronograma.filter(
-		actividad => actividad.fecha === today,
-	);
 
 	const [popUpOpen, setPopUpOpen] = useState(false);
 	const [isFirstInteraction, setIsFirstInteraction] = useState(true);
@@ -120,6 +108,7 @@ const App = () => {
 										<Route path='/student' element={<StudentPage />} />
 										<Route path='/professor' element={<ProfessorPage />} />
 										<Route path='/schedule' element={<SchedulePage />} />
+										<Route path='/meeting' element={<MeetingPage />} />
 									</Routes>
 								</div>
 							</div>
@@ -133,8 +122,7 @@ const App = () => {
 
 export default App;
 
-
-	/* <Routes>
+/* <Routes>
 <Route path='/' element={<Dashboard />} />
 <Route
 	path='/readEstudiantes'

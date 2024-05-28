@@ -19,6 +19,10 @@ const ScheduleProvider = ({ children }) => {
 		}
 	};
 
+	useEffect(() => {
+		console.log(schedule);
+	}, [schedule]);
+
 	const getSchedule = moduleName => {
 		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setSchedule);
 	};
@@ -74,6 +78,7 @@ const ScheduleProvider = ({ children }) => {
 				showLogbook,
 				setFolder,
 				folder,
+				getSchedule,
 			}}
 		>
 			{children}
