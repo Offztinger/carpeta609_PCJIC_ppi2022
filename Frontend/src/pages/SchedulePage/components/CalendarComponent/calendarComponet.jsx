@@ -77,7 +77,7 @@ export default function CalendarComponent({ cronograma }) {
 				marginLeft: '150px',
 				height: '700px',
 				width: '70vw',
-				marginTop: '12px',
+				marginTop: '30px',
 			}}
 		>
 			<Link to='/'>
