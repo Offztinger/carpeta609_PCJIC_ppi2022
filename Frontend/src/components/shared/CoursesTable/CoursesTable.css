@@ -17,6 +17,7 @@
 }
 
 .coursesList {
+    margin-left: 120px;
     padding: 2%;
     opacity: 100%;
     transition: all 0.4s ease;
@@ -25,13 +26,13 @@
 
 th, td{
     list-style: none;
-    border: none; 
-    text-align: center;
+    text-align: left;
 }
 
 th{
     width: 27%;
 }
+
 
 .botonesaccion button {
     justify-content: center;
