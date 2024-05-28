@@ -5,7 +5,11 @@ import Modal from 'react-bootstrap/Modal';
 import { TeamContext } from '../../../context/TeamContext/TeamContext';
 import usePaginatorHandler from '../../../hooks/paginatorHandler';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+	faTrashCan,
+	faPenToSquare,
+	faNewspaper,
+} from '@fortawesome/free-solid-svg-icons';
 
 export default function TeamTable({ updateId }) {
 	const { teams, getTeams, selectedId } = useContext(TeamContext);
@@ -14,6 +18,7 @@ export default function TeamTable({ updateId }) {
 	const [currentSection, setCurrentSection] = useState(0);
 	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
 		getTeams();
@@ -98,6 +103,15 @@ export default function TeamTable({ updateId }) {
 											</button>
 											<button
 												type='button'
+												className='btn btn-primary'
+												onClick={() => {
+													console.log('Aqui va el id del equipo', team.id);
+												}}
+											>
+												<FontAwesomeIcon icon={faNewspaper} />
+											</button>
+											<button
+												type='button'
 												className='btn btn-danger'
 												onClick={() => {
 													setShowDeleteModal(true);
@@ -147,12 +161,10 @@ export default function TeamTable({ updateId }) {
 							onClick={() => {
 								setFormulario({
 									id: '',
-									documentNumber: 0,
-									name: '',
-									lastName: '',
-									email: '',
-									password: '',
-									idRole: validateRole(),
+									folderNumber: '',
+									teamName: '',
+									idCourse: '',
+									idUser: '',
 								});
 								updateId('');
 								setShowCreateModal(true);
