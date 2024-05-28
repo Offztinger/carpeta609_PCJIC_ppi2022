@@ -235,7 +235,11 @@ function CoursesTable({ deleteFunction, updateId }) {
 				<div className='complementosTablas'>
 					<div className='sections'>
 						<span
-							onClick={() => handleSectionClick(currentSection - 1)}
+							onClick={() => {
+								if (currentSection > 0) {
+									handleSectionClick(currentSection - 1, setCurrentSection);
+								}
+							}}
 							disabled={currentSection === 0}
 						>
 							←
@@ -244,8 +248,8 @@ function CoursesTable({ deleteFunction, updateId }) {
 							<span
 								key={index}
 								onClick={() => {
-									if (currentSection > 0) {
-										handleSectionClick(currentSection - 1, setCurrentSection);
+									if (currentSection + 1 <= secciones.length - 1) {
+										handleSectionClick(currentSection + 1, setCurrentSection);
 									}
 								}}
 								className={currentSection === index ? 'active' : ''}
