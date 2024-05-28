@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import CoursesProvider from '../../context/CoursesContext/CoursesProvider';
 import CoursesContainer from './CoursesContainer';
 
