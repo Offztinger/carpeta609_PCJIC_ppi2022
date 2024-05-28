@@ -1,12 +1,10 @@
 /* eslint-disable react/prop-types */
 
-import { useState } from 'react';
+import { useState, useEffect	 } from 'react';
 import { ScheduleContext } from './ScheduleContext';
 import useAxiosHandler from '../../hooks/axiosHandler';
-import { useNavigate } from 'react-router-dom';
 
 const ScheduleProvider = ({ children }) => {
-	const navigate = useNavigate();
 	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
 		useAxiosHandler();
 	const [logbook, setLogbook] = useState(undefined);
@@ -38,7 +36,6 @@ const ScheduleProvider = ({ children }) => {
 	useEffect(() => {
 		if (logbook != undefined) {
 			localStorage.setItem('logbook', JSON.stringify(logbook));
-			navigate(`/logbook/${logbook.id}`);
 		}
 	}, [logbook]);
 
