@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, getDay, startOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Link } from 'react-router-dom';
-import { ScheduleContext } from '../../../../context/ScheduleContext/ScheduleContext';
-import useAxiosHandler from '../../../../hooks/axiosHandler';
+import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
+import useAxiosHandler from '../../../hooks/axiosHandler';
+import { useNavigate } from 'react-router-dom';
 
 const locales = {
 	es: es,
@@ -42,8 +43,8 @@ const messages = {
 };
 
 export default function CalendarComponent({ cronograma }) {
-	const { setFolder } = useContext(ScheduleContext);
-	const [logbook, setLogbook] = useState([]);
+	const navigate = useNavigate();
+	const [logbook, setLogbook] = useState(undefined);
 	const { GETRequest } = useAxiosHandler();
 	const events = cronograma.map(actividad => {
 		const scheduleDate = new Date(actividad.scheduleDate);
@@ -62,13 +63,17 @@ export default function CalendarComponent({ cronograma }) {
 		};
 	});
 
-	const idLogbook = async id => {
-		const logbook = await GETRequest(
-			`http://127.0.0.1:4000/logbook/${id}`,
-			setLogbook,
-		);
+	useEffect(() => {
+		if (logbook != undefined) {
+			localStorage.setItem('logbook', JSON.stringify(logbook));
+			navigate(`/logbook/${logbook.id}`);
+		}
+	}, [logbook]);
 
-		return;
+	const idLogbook = async id => {
+		await GETRequest(`http://127.0.0.1:4000/logbook/${id}`, setLogbook);
+
+		return logbook;
 	};
 
 	return (
@@ -92,8 +97,8 @@ export default function CalendarComponent({ cronograma }) {
 				defaultView='month'
 				culture='es'
 				style={{ width: '100%', height: '100%' }}
-				onSelectEvent={e => {
-					idLogbook(e.folder);
+				onSelectEvent={async e => {
+					await idLogbook(e.folder);
 				}}
 			/>
 		</div>
