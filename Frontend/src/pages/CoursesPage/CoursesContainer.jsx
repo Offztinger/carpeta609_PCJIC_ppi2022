@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { CoursesContext } from '../../context/CoursesContext/CoursesContext';
-import CoursesTable from '../../components/shared/CoursesTable/CoursesTable';
+import CoursesTable from './components/CoursesTable';
 
 const CoursesContainer = () => {
     const { getCourses, deleteCourses, setSelectedId } = useContext(CoursesContext);
