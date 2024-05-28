@@ -8,7 +8,7 @@
 th, td{
     list-style: none;
     border: none; 
-    text-align: center;
+    text-align: left;
 }
 .botonesaccion button {
     justify-content: center;
