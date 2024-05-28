@@ -239,16 +239,7 @@ function UserTable({ deleteFunction, updateId }) {
 								{index + 1}
 							</span>
 						))}
-						<span
-							onClick={() => {
-								if (currentSection + 1 <= secciones.length - 1) {
-									handleSectionClick(currentSection + 1, setCurrentSection);
-								}
-							}}
-							disabled={currentSection === secciones.length - 1}
-						>
-							→
-						</span>
+						<span disabled={currentSection === secciones.length - 1}>→</span>
 					</div>
 					<a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
 						<button
