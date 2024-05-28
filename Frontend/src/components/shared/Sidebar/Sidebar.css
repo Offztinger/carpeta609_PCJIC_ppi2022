@@ -1,10 +1,36 @@
-ul, li{
+@keyframes slideIn {
+	0% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+ul, li {
     list-style: none;
     border: none;
 }
-.sidebar-content{
+
+.sidebar-content {
     font-size: 2vh;
 }
-li{
+
+li {
     margin-top: 8%;
+}
+
+.nav-link {
+    padding: 2% 5% 2% 5%;
+    display: flex;
+    align-items: center;
+    height: 50px;
+    transition: padding-left 0.3s ease;
+}
+
+.nav-link.active {
+    padding-left: 10%;
+    animation: slideIn 0.3s forwards;
 }

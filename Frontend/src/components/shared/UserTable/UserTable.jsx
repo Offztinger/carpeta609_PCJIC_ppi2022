@@ -137,7 +137,16 @@ function UserTable({ deleteFunction, updateId }) {
 							onChange={handleChange}
 						/>
 					</div>
-
+					<div className='form-group'>
+						<label>Contraseña (opcional)</label>
+						<input
+							type='password'
+							name='password'
+							className='form-control'
+							value={formulario.password}
+							onChange={handleChange}
+						/>
+					</div>	
 					<div className='form-group'>
 						<label>Correo Institucional</label>
 						<input

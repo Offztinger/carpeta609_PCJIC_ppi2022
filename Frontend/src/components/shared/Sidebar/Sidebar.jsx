@@ -34,11 +34,8 @@ export default function Sidebar() {
 					<NavLink
 						to='/student'
 						className='nav-link text-white'
-						aria-current='page'
+						activeClassName='active'
 					>
-						<svg className='bi me-2' width='16' height='16'>
-							<use href='#home'></use>
-						</svg>
 						Estudiantes
 					</NavLink>
 				</li>
@@ -46,11 +43,8 @@ export default function Sidebar() {
 					<NavLink
 						to='/professor'
 						className='nav-link text-white'
-						aria-current='page'
+						activeClassName='active'
 					>
-						<svg className='bi me-2' width='16' height='16'>
-							<use href='#home'></use>
-						</svg>
 						Profesores
 					</NavLink>
 				</li>
@@ -58,11 +52,8 @@ export default function Sidebar() {
 					<NavLink
 						to='/schedule'
 						className='nav-link text-white'
-						aria-current='page'
+						activeClassName='active'
 					>
-						<svg className='bi me-2' width='16' height='16'>
-							<use href='#home'></use>
-						</svg>
 						Calendario
 					</NavLink>
 				</li>

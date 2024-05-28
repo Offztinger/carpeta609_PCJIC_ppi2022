@@ -1,12 +1,12 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './styles/styles.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
+import './styles/styles.css';
 import correo from './icons/envelope.png';
 import Sidebar from './components/shared/Sidebar/Sidebar';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import StudentPage from './pages/StudentPage/StudentPage';
 import ProfessorPage from './pages/ProfessorPage/ProfessorPage';
 import SchedulePage from './pages/SchedulePage/SchedulePage';
@@ -20,23 +20,19 @@ const App = () => {
 		console.log('user', user);
 	}, [user]);
 
-	function zero() {
-		if (day < 10) {
-			day = '0' + day;
-		}
-		if (month < 10) {
-			month = '0' + month;
-		}
-	}
-
 	const todayDate = new Date();
 	const year = todayDate.getFullYear();
 	let month = todayDate.getMonth() + 1;
 	let day = todayDate.getDate();
-	zero();
+
+	if (day < 10) {
+		day = '0' + day;
+	}
+	if (month < 10) {
+		month = '0' + month;
+	}
+
 	const today = `${year}-${month}-${day}`;
-	const notificationPopup = document.getElementById('notification-popup');
-	const closeBtn = document.getElementById('close-btn');
 	const [estudiantes, setEstudiantes] = useState([]);
 	const [putIDEs, setPutIDEs] = useState();
 	const [cronograma, setCronograma] = useState([]);
@@ -45,30 +41,27 @@ const App = () => {
 		actividad => actividad.fecha === today,
 	);
 
-	// const fetchApi = async () => {
-	// 	const response = await fetch('http://localhost:8080/estudiante', {
-	// 		method: 'GET',
-	// 	});
-	// 	const responseJSON = await response.json();
-	// 	setEstudiantes(responseJSON);
-	// 	const response2 = await fetch('http://localhost:8080/cronograma', {
-	// 		method: 'GET',
-	// 	});
-	// 	const responseJSON2 = await response2.json();
-	// 	setCronograma(responseJSON2);
-	// };
+	const [popUpOpen, setPopUpOpen] = useState(false);
+	const [isFirstInteraction, setIsFirstInteraction] = useState(true);
 
-	// useEffect(() => {
-	// 	fetchApi();
-	// }, []);
-
-	let popUpOpen = false;
 	const openPopUp = () => {
 		const popUp = document.getElementById('notification-popup');
-		popUpOpen
-			? (popUp.style.display = 'none')
-			: (popUp.style.display = 'block');
-		popUpOpen = !popUpOpen;
+		if (popUpOpen) {
+			popUp.classList.remove('active');
+			popUp.classList.add('inactive');
+			setTimeout(() => {
+				popUp.style.display = 'none';
+			}, 300); // Ajusta este tiempo al mismo que la duración de tu animación
+		} else {
+			if (isFirstInteraction) {
+				popUp.classList.remove('initial');
+				setIsFirstInteraction(false);
+			}
+			popUp.style.display = 'block';
+			popUp.classList.remove('inactive');
+			popUp.classList.add('active');
+		}
+		setPopUpOpen(!popUpOpen);
 	};
 
 	return (
@@ -88,16 +81,14 @@ const App = () => {
 						<section style={{ display: 'flex flex-col', overflow: 'hidden' }}>
 							<div className='header'>
 								<div className='logos-header'>
-									{/* {isLogged ? ( */}
 									<button id='notification-btn' onClick={openPopUp}>
 										<img src={correo} className='correo-logo' />
 									</button>
-									{/* ) : null} */}
-									<div id='notification-popup'>
+									<div id='notification-popup' className='initial'>
 										<div className='popup-content'>
 											<div className='popup-header'>
 												<h3>Notificaciones</h3>
-												<button id='close-btn'>
+												<button id='close-btn' onClick={openPopUp}>
 													<i className='fa fa-times' aria-hidden='true'></i>
 												</button>
 											</div>
@@ -127,9 +118,7 @@ const App = () => {
 									<Routes>
 										<Route path='/' element={<Dashboard />} />
 										<Route path='/student' element={<StudentPage />} />
-
 										<Route path='/professor' element={<ProfessorPage />} />
-
 										<Route path='/schedule' element={<SchedulePage />} />
 									</Routes>
 								</div>
@@ -144,7 +133,7 @@ const App = () => {
 
 export default App;
 
-{
+
 	/* <Routes>
 <Route path='/' element={<Dashboard />} />
 <Route
@@ -184,4 +173,3 @@ export default App;
 	element={<CalendarComponent cronograma={cronograma} />}
 />
 </Routes> */
-}

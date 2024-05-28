@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes slideIn {
+	0% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes slideOut {
+	0% {
+		opacity: 1;
+		transform: translateX(0);
+	}
+	100% {
+		opacity: 0;
+		transform: translateX(-100%);
+	}
+}
+
+
 .form-group {
 	margin-top: 16px;
 }
@@ -42,19 +65,33 @@ button {
 	border: 0;
 }
 #notification-popup {
-	display: none; /* Ocultar la ventana emergente por defecto */
-	position: absolute;
-	top: 50px;
-	right: 10px;
-	width: 300px;
-	background-color: #f1f1f1;
-	border: 1px solid #ddd;
-	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-	z-index: 1;
+    position: absolute;
+    top: 15px;
+    right: 140px;
+    width: 300px;
+    background-color: #f1f1f1 !important;
+    border: 1px solid #ddd;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+#notification-popup.initial {
+    display: none;
+    opacity: 1;
+    transform: translateX(0);
+    transition: none;
 }
 
 #notification-popup.active {
-	display: block; /* Mostrar la ventana emergente cuando tiene la clase 'active' */
+    display: block;
+    animation: slideIn 0.3s forwards;
+}
+
+#notification-popup.inactive {
+    animation: slideOut 0.3s forwards;
 }
 
 .popup-content {
