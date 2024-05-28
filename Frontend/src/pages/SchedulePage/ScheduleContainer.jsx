@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { ScheduleContext } from '../../context/ScheduleContext/ScheduleContext';
-import CalendarComponent from './components/CalendarComponent/calendarComponet';
+import CalendarComponent from './components/calendarComponet';
 
 const ScheduleContainer = () => {
 	const { schedule } = useContext(ScheduleContext);
