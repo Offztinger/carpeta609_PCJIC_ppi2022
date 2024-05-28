@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/core/database/prisma/prisma.service";
-import { TeamDTO, TeamMembersDTO } from "src/dto/TeamDTO";
+import { TeamDTO } from "src/dto/TeamDTO";
 
 
 @Injectable()
@@ -8,13 +8,60 @@ export class TeamsService {
   constructor(private prisma: PrismaService) { }
 
   async createTeam(data: TeamDTO) {
-    return this.prisma.teamPPI.create({
-      data,
-    });
+    try {
+      // Crea el team y espera la respuesta
+      const team = await this.prisma.teamPPI.create({
+        data,
+      });
+
+      // Crea el logbook y espera la respuesta
+      const logbook = await this.prisma.logbook.create({
+        data: {
+          projectName: team.teamName,
+          folderNumberId: team.id,
+          description: "",
+          detailedScope: "",
+          firstMeetingScope: "",
+          secondMeetingScope: "",
+        },
+      });
+
+      // Devuelve una respuesta que incluya información tanto del team como del logbook
+      return { team, logbook };
+    } catch (error) {
+      // Maneja cualquier error que pueda ocurrir durante la creación del team o del logbook
+      throw new Error('Failed to create team and logbook: ' + error.message);
+    }
   }
 
   async findAllTeams() {
     return (await this.prisma.teamPPI.findMany())
+  }
+
+  async findAllTeamsFront() {
+    const teams = await this.prisma.teamPPI.findMany();
+
+    // `Promise.all` se utiliza para asegurar que todas las promesas se resuelvan antes de continuar
+    const teamsWithDetails = await Promise.all(
+      teams.map(async team => {
+        // Realiza las consultas de forma concurrente
+        const user = await this.prisma.user.findUnique({
+          where: { id: team.idUser }
+        });
+        const course = await this.prisma.course.findUnique({
+          where: { id: team.idCourse }
+        });
+
+        // Retorna un nuevo objeto combinando el equipo con sus detalles de usuario y curso
+        return {
+          ...team,
+          idUser: `${user?.name} ${user?.lastName}`,
+          idCourse: course?.courseName
+        };
+      })
+    );
+
+    return teamsWithDetails;
   }
 
   async findTeamById(folderNumberId: string) {
@@ -36,12 +83,8 @@ export class TeamsService {
     });
   }
 
-  async addStudentToTeam(members: TeamMembersDTO[]) {
-    for (const member of members) {
-      await this.prisma.teamMembers.create({
-        data: member,
-      });
-    }
-    return members;
-  }
+
+
+
+
 }

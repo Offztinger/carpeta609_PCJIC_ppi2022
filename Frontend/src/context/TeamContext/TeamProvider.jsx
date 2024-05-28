@@ -7,11 +7,18 @@ const TeamProvider = ({ children }) => {
 	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
 		useAxiosHandler();
 	const [teams, setTeams] = useState(undefined);
+	const [teamMembers, setTeamMembers] = useState([]);
 	const [selectedId, setSelectedId] = useState('');
+	const [showTeamMembers, setShowTeamMembers] = useState(false);
+	const [folderId, setFolderId] = useState(undefined);
 
 	const url = 'http://127.0.0.1:4000/teams';
 	const getTeams = async () => {
 		await GETRequest(`${url}/front`, setTeams);
+	};
+
+	const getTeamMembers = async id => {
+		await GETRequest(`http://127.0.0.1:4000/teamMember/${id}`, setTeamMembers);
 	};
 
 	const postTeams = async team => {
@@ -39,6 +46,13 @@ const TeamProvider = ({ children }) => {
 				deleteTeams,
 				setSelectedId,
 				selectedId,
+				setShowTeamMembers,
+				showTeamMembers,
+				setTeamMembers,
+				teamMembers,
+				folderId,
+				setFolderId,
+				getTeamMembers,
 			}}
 		>
 			{children}

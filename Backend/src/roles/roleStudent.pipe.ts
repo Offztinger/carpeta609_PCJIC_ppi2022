@@ -15,7 +15,7 @@ export class RoleStudentPipe implements PipeTransform {
         const userRole = user?.idRole == '3284495c-136e-4215-b8cc-30e6d9ca52b0'
 
         if (!userRole) {
-            throw new BadRequestException(`El usuario al que quieres relacionar no existe`);
+            throw new BadRequestException(`El usuario al que quieres relacionar no existe ${value.idUser} o no es un estudiante`);
         }
 
         return value;

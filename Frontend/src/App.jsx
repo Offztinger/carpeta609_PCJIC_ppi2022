@@ -114,6 +114,7 @@ const App = () => {
 										<Route path='/meeting' element={<MeetingPage />} />
 										<Route path='/course' element={<CoursesPage />} />
 										<Route path='/teams' element={<TeamPage />} />
+										<Route path='/teams/:id' element={<TeamPage />} />
 										<Route path='/logbook/:id' element={<LogbookPage />} />
 									</Routes>
 								</div>

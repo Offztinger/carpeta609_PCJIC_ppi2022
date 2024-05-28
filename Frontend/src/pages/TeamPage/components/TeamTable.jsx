@@ -9,6 +9,7 @@ import {
 	faTrashCan,
 	faPenToSquare,
 	faNewspaper,
+	faUsers,
 } from '@fortawesome/free-solid-svg-icons';
 import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +18,8 @@ export default function TeamTable({ updateId }) {
 	const navigate = useNavigate();
 
 	const { setIdLogbook, logbook } = useContext(ScheduleContext);
-	const { teams, selectedId } = useContext(TeamContext);
+	const { teams, selectedId, setShowTeamMembers, setFolderId } =
+		useContext(TeamContext);
 	const [deleteIDEs, setDeleteIDEs] = useState();
 	const [show, setShow] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
@@ -112,6 +114,17 @@ export default function TeamTable({ updateId }) {
 													}}
 												>
 													<FontAwesomeIcon icon={faPenToSquare} />
+												</button>
+												<button
+													type='button'
+													className='btn btn-primary'
+													onClick={() => {
+														setFolderId(team.id);
+														navigate(`/teams/${team.id}`);
+														setShowTeamMembers(true);
+													}}
+												>
+													<FontAwesomeIcon icon={faUsers} />
 												</button>
 												<button
 													type='button'

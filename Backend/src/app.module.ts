@@ -16,10 +16,10 @@ import { MeetingModule } from './meeting/meeting.module';
 import { SectorModule } from './sector/sector.module';
 import { SectorCourseModule } from './sectorCourse/sectorCourse.module';
 import { SectorScoreModule } from './sectorScore/sectorScore.module';
-
+import { TeamMemberModule } from './teamMember/teamMember.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(configRoot()), DatabaseModule, StudentModule, TeamsModule, ProfessorModule, ScheduleModule, AuthModule, LogbookModule, LogbookDetailModule, CourseModule, CourseUserModule, MeetingModule, SectorModule, SectorCourseModule, SectorScoreModule],
+  imports: [ConfigModule.forRoot(configRoot()), DatabaseModule, StudentModule, TeamsModule, ProfessorModule, ScheduleModule, AuthModule, LogbookModule, LogbookDetailModule, CourseModule, CourseUserModule, MeetingModule, SectorModule, SectorCourseModule, SectorScoreModule, TeamMemberModule],
   providers: [PrismaService],
 })
 export class AppModule { }

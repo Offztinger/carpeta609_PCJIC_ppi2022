@@ -77,7 +77,6 @@ model Course {
   courseDescription String         @map("course_description")
   courseLevel       Int            @map("course_level")
   isAlternative     Boolean        @map("is_alternative")
-  teamMembers       TeamMembers[]
   teamPPI           TeamPPI[]
   CourseUser        CourseUser[]
   SectorCourse      SectorCourse[]
@@ -116,10 +115,8 @@ model TeamPPI {
 model TeamMembers {
   id             String  @id @default(uuid()) @map("id_team_member")
   folderNumberId String  @map("folder_number")
-  idCourse       String  @map("id_course")
   idUser         String  @map("id_user")
   User           User    @relation(fields: [idUser], references: [id])
-  Course         Course  @relation(fields: [idCourse], references: [id])
   TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
 
   @@map("team_members")

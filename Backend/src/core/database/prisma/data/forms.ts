@@ -51,7 +51,7 @@ const formsSeed = [
         "idForm": "7c36dfaf-8bcb-44bd-ad89-d01a936d654a",
         "formName": "Miembros Equipo",
         "formDescription": "Endpoints para miembros equipos",
-        "route": "/teams/team-members"
+        "route": "/teamMember"
     },
     {
         "idForm": "89656a39-825a-455f-b3a6-935a1298067e",
