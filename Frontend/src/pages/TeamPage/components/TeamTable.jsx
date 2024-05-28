@@ -10,9 +10,14 @@ import {
 	faPenToSquare,
 	faNewspaper,
 } from '@fortawesome/free-solid-svg-icons';
+import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
+import { useNavigate } from 'react-router-dom';
 
 export default function TeamTable({ updateId }) {
-	const { teams, getTeams, selectedId } = useContext(TeamContext);
+	const navigate = useNavigate();
+
+	const { setIdLogbook, logbook } = useContext(ScheduleContext);
+	const { teams, selectedId } = useContext(TeamContext);
 	const [deleteIDEs, setDeleteIDEs] = useState();
 	const [show, setShow] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
@@ -21,8 +26,10 @@ export default function TeamTable({ updateId }) {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
-		getTeams();
-	}, []);
+		if (logbook != undefined) {
+			navigate(`/logbook/${logbook.id}`);
+		}
+	}, [logbook]);
 
 	useEffect(() => {
 		setDeleteIDEs(selectedId);
@@ -75,8 +82,12 @@ export default function TeamTable({ updateId }) {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th className='numerocarpetastyle' scope='col'>Número carpeta</th>
-									<th className='nombreequipostyle' scope='col'>Nombre equipo</th>
+									<th className='numerocarpetastyle' scope='col'>
+										Número carpeta
+									</th>
+									<th className='nombreequipostyle' scope='col'>
+										Nombre equipo
+									</th>
 									<th scope='col'>Nombre del curso</th>
 									<th scope='col'>Nombre del docente</th>
 									<th className='accionesteams' scope='col'>
@@ -85,44 +96,46 @@ export default function TeamTable({ updateId }) {
 								</tr>
 							</thead>
 							<tbody>
-								{secciones[currentSection].map((team, idx) => (
-									<tr key={idx}>
-										<td>{team.folderNumber}</td>
-										<td>{team.teamName}</td>
-										<td>{team.idCourse}</td>
-										<td>{team.idUser}</td>
-										<td className='botonesaccion'>
-											<button
-												type='button'
-												className='btn btn-success'
-												onClick={() => {
-													mountEditInfo(team);
-												}}
-											>
-												<FontAwesomeIcon icon={faPenToSquare} />
-											</button>
-											<button
-												type='button'
-												className='btn btn-primary'
-												onClick={() => {
-													console.log('Aqui va el id del equipo', team.id);
-												}}
-											>
-												<FontAwesomeIcon icon={faNewspaper} />
-											</button>
-											<button
-												type='button'
-												className='btn btn-danger'
-												onClick={() => {
-													setShowDeleteModal(true);
-													setDeleteIDEs(team.id);
-												}}
-											>
-												<FontAwesomeIcon icon={faTrashCan} />
-											</button>
-										</td>
-									</tr>
-								))}
+								{secciones[currentSection].map((team, idx) => {
+									return (
+										<tr key={idx}>
+											<td>{team.folderNumber}</td>
+											<td>{team.teamName}</td>
+											<td>{team.idCourse}</td>
+											<td>{team.idUser}</td>
+											<td className='botonesaccion'>
+												<button
+													type='button'
+													className='btn btn-success'
+													onClick={() => {
+														mountEditInfo(team);
+													}}
+												>
+													<FontAwesomeIcon icon={faPenToSquare} />
+												</button>
+												<button
+													type='button'
+													className='btn btn-primary'
+													onClick={() => {
+														setIdLogbook(team.id);
+													}}
+												>
+													<FontAwesomeIcon icon={faNewspaper} />
+												</button>
+												<button
+													type='button'
+													className='btn btn-danger'
+													onClick={() => {
+														setShowDeleteModal(true);
+														setDeleteIDEs(team.id);
+													}}
+												>
+													<FontAwesomeIcon icon={faTrashCan} />
+												</button>
+											</td>
+										</tr>
+									);
+								})}
 							</tbody>
 						</table>
 					</div>
@@ -130,9 +143,11 @@ export default function TeamTable({ updateId }) {
 				<div className='complementosTablas'>
 					<div className='sections'>
 						<span
-							onClick={() =>
-								handleSectionClick(currentSection - 1, setCurrentSection)
-							}
+							onClick={() => {
+								if (currentSection > 0) {
+									handleSectionClick(currentSection - 1, setCurrentSection);
+								}
+							}}
 							disabled={currentSection === 0}
 						>
 							←
@@ -147,9 +162,11 @@ export default function TeamTable({ updateId }) {
 							</span>
 						))}
 						<span
-							onClick={() =>
-								handleSectionClick(currentSection + 1, setCurrentSection)
-							}
+							onClick={() => {
+								if (currentSection + 1 <= secciones.length - 1) {
+									handleSectionClick(currentSection + 1, setCurrentSection);
+								}
+							}}
 							disabled={currentSection === secciones.length - 1}
 						>
 							→

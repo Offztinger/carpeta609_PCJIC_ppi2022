@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import { useState, useEffect	 } from 'react';
+import { useState, useEffect } from 'react';
 import { ScheduleContext } from './ScheduleContext';
 import useAxiosHandler from '../../hooks/axiosHandler';
 
@@ -34,6 +34,10 @@ const ScheduleProvider = ({ children }) => {
 	};
 
 	useEffect(() => {
+		setLogbook(undefined);
+	}, []);
+
+	useEffect(() => {
 		if (logbook != undefined) {
 			localStorage.setItem('logbook', JSON.stringify(logbook));
 		}
@@ -41,7 +45,6 @@ const ScheduleProvider = ({ children }) => {
 
 	const setIdLogbook = async id => {
 		await GETRequest(`http://127.0.0.1:4000/logbook/${id}`, setLogbook);
-
 		return logbook;
 	};
 
@@ -54,6 +57,8 @@ const ScheduleProvider = ({ children }) => {
 				postSchedule,
 				deleteSchedule,
 				setIdLogbook,
+				setLogbook,
+				logbook,
 			}}
 		>
 			{children}

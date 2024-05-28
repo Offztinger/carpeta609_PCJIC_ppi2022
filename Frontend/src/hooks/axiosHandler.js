@@ -27,7 +27,7 @@ const useAxiosHandler = () => {
 			});
 	};
 
-	const GETRequest = async (url, setState) => {
+	const GETRequest = async (url, setState = undefined) => {
 		await axios
 			.get(url, {
 				headers: {
@@ -36,8 +36,8 @@ const useAxiosHandler = () => {
 				},
 			})
 			.then(res => {
-				res.data && setState(res.data);
-				return `Result: ${res.status}`;
+				setState && res.data && setState(res.data);
+				return res.data;
 			})
 			.catch(error => {
 				toastError(error.response.data.message);
