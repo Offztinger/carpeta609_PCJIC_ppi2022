@@ -50,6 +50,15 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
+						to='/course'
+						className='nav-link text-white'
+						activeClassName='active'
+					>
+						Cursos
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
 						to='/schedule'
 						className='nav-link text-white'
 						activeClassName='active'
@@ -64,7 +73,7 @@ export default function Sidebar() {
 					<FontAwesomeIcon className='w-full h-[30px]' icon={faUser} />
 				</div>
 				<div className='relative'>
-					<div className='absolute right-5'>
+					<div className='absolute left-7'>
 						<button
 							onClick={() => {
 								dispatch(logout());

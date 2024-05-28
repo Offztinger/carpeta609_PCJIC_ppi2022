@@ -16,7 +16,7 @@
     animation: biggerIn 0.3s forwards;
 }
 
-.usersList {
+.coursesList {
     padding: 2%;
     opacity: 100%;
     transition: all 0.4s ease;
@@ -29,8 +29,8 @@ th, td{
     text-align: center;
 }
 
-.thusers{
-    width: 20% !important;
+th{
+    width: 27%;
 }
 
 .botonesaccion button {
@@ -81,7 +81,7 @@ th, td{
     grid-column: 3;
     margin-left: 2.5vw;
 }
-.contenedorEstudiantes{
+.contenedorCursos{
     text-align: center;
 }
 

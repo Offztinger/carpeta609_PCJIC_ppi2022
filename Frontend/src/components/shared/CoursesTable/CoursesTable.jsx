@@ -3,27 +3,27 @@ import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import './UserTable.css';
+import './CoursesTable.css';
 import download from '../../../icons/downloadfile.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { UserContext } from '../../../context/UserContext/UserContext';
+import { CoursesContext } from '../../../context/CoursesContext/CoursesContext'; // Importa el contexto de cursos
 
-function UserTable({ deleteFunction, updateId }) {
+function CoursesTable({ deleteFunction, updateId }) { // Cambia el nombre del componente a CoursesTable
     const [deleteIDEs, setDeleteIDEs] = useState();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
     const [currentSection, setCurrentSection] = useState(0);
 
     const {
-        users,
+        courses, // Cambia users por courses
         exportToExcel,
         selectedId,
         setFormulario,
         formulario,
         handleChange,
         handleRequestFunction,
-    } = useContext(UserContext);
+    } = useContext(CoursesContext); // Cambia UserContext por CoursesContext
     const location = useLocation();
 
     let moduleName = location.pathname.split('/')[1];
@@ -33,27 +33,23 @@ function UserTable({ deleteFunction, updateId }) {
     }, [selectedId]);
 
     const validateRole = () => {
-        if (moduleName === 'student') {
-            return '3284495c-136e-4215-b8cc-30e6d9ca52b0';
-        } else if (moduleName === 'professor') {
-            return '1164b212-c28e-4f5c-a886-36795031cbf3';
-        }
+        // Puedes adaptar esta lógica según las necesidades de tu aplicación
     };
 
-    const mountEditInfo = user => {
-        updateId(user.id);
+    // Función para montar la información de edición
+    const mountEditInfo = course => {
+        updateId(course.id);
         setShowCreateModal(true);
         setFormulario({
-            id: user.id,
-            documentNumber: user.documentNumber,
-            name: user.name,
-            lastName: user.lastName,
-            email: user.email,
-            password: user.password,
-            idRole: user.idRole,
+            id: course.id,
+            courseName: course.courseName, // Cambia user.name por course.courseName
+            courseDescription: course.courseDescription, // Cambia user.lastName por course.courseDescription
+            idProfessor: course.idProfessor, // Cambia user.email por course.idProfessor
+            courseLevel: course.courseLevel, // Ajusta según la estructura de tu objeto de curso
         });
     };
 
+    // Función para dividir el array de cursos en secciones
     const chunkArray = (array, size) => {
         const result = [];
         for (let i = 0; i < array.length; i += size) {
@@ -62,14 +58,15 @@ function UserTable({ deleteFunction, updateId }) {
         return result;
     };
 
-    const secciones = chunkArray(users, 10);
+    const secciones = chunkArray(courses, 10); // Cambia users por courses
 
+    // Función para manejar el cambio de sección
     const handleSectionClick = index => {
         setCurrentSection(index);
     };
 
     return (
-        <div className='contenedorEstudiantes'>
+        <div className='contenedorCursos'>
             <Modal
                 show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}
@@ -190,16 +187,15 @@ function UserTable({ deleteFunction, updateId }) {
                 </Modal.Footer>
             </Modal>
 
-            <div className='usersList'>
+            <div className='coursesList'>
                 {secciones[currentSection] && (
                     <div key={currentSection} className='seccion'>
                         <table className='table'>
                             <thead>
                                 <tr>
-                                    <th className='thusers' scope='col'>Documento</th>
-                                    <th className='thusers' scope='col'>Nombre</th>
-                                    <th className='thusers' scope='col'>Apellido</th>
-                                    <th className='thusers' scope='col'>Email</th>
+                                    <th scope='col'>Nombre del curso</th>
+                                    <th scope='col'>Descripción del curso</th>
+                                    <th scope='col'>Nivel del curso</th>
                                     <th className='acciones' scope='col'>
                                         Acciones
                                     </th>
@@ -208,10 +204,9 @@ function UserTable({ deleteFunction, updateId }) {
                             <tbody>
                                 {secciones[currentSection].map((user, idx) => (
                                     <tr key={idx}>
-                                        <td>{user.documentNumber}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.lastName}</td>
-                                        <td>{user.email}</td>
+                                        <td>{user.courseName}</td>
+                                        <td>{user.courseDescription}</td>
+                                        <td>{user.courseLevel}</td>
                                         <td className='botonesaccion'>
                                             <button
                                                 type='button'
@@ -292,4 +287,4 @@ function UserTable({ deleteFunction, updateId }) {
     );
 }
 
-export default UserTable;
+export default CoursesTable;

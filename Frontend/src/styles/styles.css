@@ -159,7 +159,6 @@ button {
 }
 
 .active {
-	background-color: #196844 !important;
 	border-radius: 5px;
 	text-shadow: 0px 0px 10px rgb(236, 236, 236);
 }
