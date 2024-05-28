@@ -1,12 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, getDay, startOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Link } from 'react-router-dom';
-import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
-import useAxiosHandler from '../../../hooks/axiosHandler';
-import { useNavigate } from 'react-router-dom';
 
 const locales = {
 	es: es,
@@ -43,9 +40,6 @@ const messages = {
 };
 
 export default function CalendarComponent({ cronograma }) {
-	const navigate = useNavigate();
-	const [logbook, setLogbook] = useState(undefined);
-	const { GETRequest } = useAxiosHandler();
 	const events = cronograma.map(actividad => {
 		const scheduleDate = new Date(actividad.scheduleDate);
 		const hours = actividad.scheduleHour.split(':')[0];
@@ -63,26 +57,13 @@ export default function CalendarComponent({ cronograma }) {
 		};
 	});
 
-	useEffect(() => {
-		if (logbook != undefined) {
-			localStorage.setItem('logbook', JSON.stringify(logbook));
-			navigate(`/logbook/${logbook.id}`);
-		}
-	}, [logbook]);
-
-	const idLogbook = async id => {
-		await GETRequest(`http://127.0.0.1:4000/logbook/${id}`, setLogbook);
-
-		return logbook;
-	};
-
 	return (
 		<div
 			style={{
 				marginLeft: '150px',
 				height: '700px',
 				width: '70vw',
-				marginTop: '30px',
+				marginTop: '12px',
 			}}
 		>
 			<Link to='/'>
@@ -98,7 +79,7 @@ export default function CalendarComponent({ cronograma }) {
 				culture='es'
 				style={{ width: '100%', height: '100%' }}
 				onSelectEvent={async e => {
-					await idLogbook(e.folder);
+					await setIdLogbook(e.folder);
 				}}
 			/>
 		</div>

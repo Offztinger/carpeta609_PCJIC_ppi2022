@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { ScheduleContext } from './ScheduleContext';
 import useAxiosHandler from '../../hooks/axiosHandler';
+import { useNavigate } from 'react-router-dom';
 
 const ScheduleProvider = ({ children }) => {
+	const navigate = useNavigate();
 	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
 		useAxiosHandler();
-
+	const [logbook, setLogbook] = useState(undefined);
 	const [schedule, setSchedule] = useState([]);
 	const url = 'http://127.0.0.1:4000/schedule';
 
@@ -33,6 +35,19 @@ const ScheduleProvider = ({ children }) => {
 		}
 	};
 
+	useEffect(() => {
+		if (logbook != undefined) {
+			localStorage.setItem('logbook', JSON.stringify(logbook));
+			navigate(`/logbook/${logbook.id}`);
+		}
+	}, [logbook]);
+
+	const setIdLogbook = async id => {
+		await GETRequest(`http://127.0.0.1:4000/logbook/${id}`, setLogbook);
+
+		return logbook;
+	};
+
 	return (
 		<ScheduleContext.Provider
 			value={{
@@ -41,6 +56,7 @@ const ScheduleProvider = ({ children }) => {
 				putSchedule,
 				postSchedule,
 				deleteSchedule,
+				setIdLogbook,
 			}}
 		>
 			{children}
