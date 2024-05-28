@@ -1,27 +1,45 @@
 @keyframes biggerIn {
     0% {
         opacity: 0;
-        transform: scale(0.5);
-        background-color: white !important;
+        transform: scale(0);
     }
     100% {
         opacity: 1;
         transform: scale(1);
-        background-color: white !important;
     }
 }
 
-.modal-content.active {
+@keyframes biggerOut {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0);
+    }
+}
+
+.modal-content {
+    opacity: 0;
+    transform: scale(0);
     background-color: white !important;
-    animation: biggerIn 0.3s forwards;
+    transition: opacity 1.2s, transform 1.2s;
+}
+
+.modal-content.active {
+    animation: biggerIn 0.4s forwards !important;
+}
+
+.modal-content.inactive {
+    animation: biggerOut 0.3s forwards !important;
 }
 
 .usersList {
-    margin-right: 40px;
+    margin-right: 130px;
     margin-left: 100px;
     padding: 2%;
     opacity: 100%;
-    transition: all 0.4s ease;
     border-radius: 1%;
 }
 
@@ -31,6 +49,10 @@ th, td{
 
 .thusers{
     width: 5% !important;
+}
+
+.themail{
+    width: 2% !important;
 }
 
 tr:nth-child(odd) { /* filas pares */

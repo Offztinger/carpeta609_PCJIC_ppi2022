@@ -69,18 +69,31 @@ function UserTable({ deleteFunction, updateId }) {
 		setCurrentSection(index);
 	};
 
+	const showModal = setter => {
+		setter(true);
+		requestAnimationFrame(() => {
+			document.querySelector('.modal-content').classList.add('active');
+		});
+	};
+
+	const hideModal = setter => {
+		const modalContent = document.querySelector('.modal-content');
+		modalContent.classList.remove('active');
+		modalContent.classList.add('inactive');
+		setTimeout(() => {
+			setter(false);
+			modalContent.classList.remove('inactive');
+		}, 200); // Timeout should match animation duration
+	};
+
 	return (
 		<div className='contenedorEstudiantes'>
 			<Modal
 				show={showDeleteModal}
-				onHide={() => setShowDeleteModal(false)}
-				dialogClassName={showDeleteModal ? 'active' : ''}
-				onEntered={() =>
-					document.querySelector('.modal-content').classList.add('active')
-				}
-				onExit={() =>
-					document.querySelector('.modal-content').classList.remove('active')
-				}
+				onHide={() => hideModal(setShowDeleteModal)}
+				dialogClassName=''
+				onEntered={() => showModal(setShowDeleteModal)}
+				onExit={() => hideModal(setShowDeleteModal)}
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>Eliminar registro</Modal.Title>
@@ -90,7 +103,7 @@ function UserTable({ deleteFunction, updateId }) {
 					<Button
 						variant='secondary'
 						className='btn btn-dark'
-						onClick={() => setShowDeleteModal(false)}
+						onClick={() => hideModal(setShowDeleteModal)}
 					>
 						¡No!
 					</Button>
@@ -98,7 +111,7 @@ function UserTable({ deleteFunction, updateId }) {
 						variant='primary'
 						className='btn btn-warning'
 						onClick={() => {
-							setShowDeleteModal(false);
+							hideModal(setShowDeleteModal);
 							deleteFunction(deleteIDEs);
 						}}
 					>
@@ -109,14 +122,10 @@ function UserTable({ deleteFunction, updateId }) {
 
 			<Modal
 				show={showCreateModal}
-				onHide={() => setShowCreateModal(false)}
-				dialogClassName={showCreateModal ? 'active' : ''}
-				onEntered={() =>
-					document.querySelector('.modal-content').classList.add('active')
-				}
-				onExit={() =>
-					document.querySelector('.modal-content').classList.remove('active')
-				}
+				onHide={() => hideModal(setShowCreateModal)}
+				dialogClassName=''
+				onEntered={() => showModal(setShowCreateModal)}
+				onExit={() => hideModal(setShowCreateModal)}
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>
@@ -183,7 +192,7 @@ function UserTable({ deleteFunction, updateId }) {
 					<Button
 						variant='secondary'
 						className='btn btn-dark'
-						onClick={() => setShowCreateModal(false)}
+						onClick={() => hideModal(setShowCreateModal)}
 					>
 						Cancelar
 					</Button>
@@ -192,7 +201,7 @@ function UserTable({ deleteFunction, updateId }) {
 						className='btn btn-success'
 						onClick={() => {
 							handleRequestFunction(moduleName);
-							setShowCreateModal(false);
+							hideModal(setShowCreateModal);
 						}}
 					>
 						{selectedId ? 'Editar' : 'Crear'}
@@ -215,7 +224,7 @@ function UserTable({ deleteFunction, updateId }) {
 									<th className='thusers' scope='col'>
 										Apellido
 									</th>
-									<th className='thusers' scope='col'>
+									<th className='themail' scope='col'>
 										Email
 									</th>
 									<th className='acciones' scope='col'>

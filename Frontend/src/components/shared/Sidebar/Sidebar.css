@@ -33,5 +33,5 @@ li {
 .nav-link.active {
     background-color: #196844 !important;
     padding-left: 10%;
-    animation: slideIn 0.3s forwards;
+    animation: slideIn 0.6s forwards;
 }
