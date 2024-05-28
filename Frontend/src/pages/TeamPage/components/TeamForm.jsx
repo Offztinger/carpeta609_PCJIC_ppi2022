@@ -2,14 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { studentFormatter } from "./studentFormatter";
 
-function CrearEquipos() {
+export default function TeamForm() {
   const [formulario, setFormulario] = useState({
     documento: "",
   });
   const [equipos, setEquipos] = useState([]);
-  const [estudiantesEquipo, setEstudiantesEquipo] = useState([]);
-  const [estudiante, setEstudiante] = useState([]);
+  const [studentsEquipo, setstudentsEquipo] = useState([]);
+  const [student, setstudent] = useState([]);
   const [docentes, setDocentes] = useState([]);
+  
   function handleChange(e) {
     const inputValue = e.target.value;
     setFormulario({
@@ -17,20 +18,21 @@ function CrearEquipos() {
       [e.target.name]: inputValue,
     });
   }
-  const buscarEstudiante = async (documento) => {
+
+  const buscarstudent = async (documento) => {
     const response = await fetch(
-      `http://localhost:8080/estudiante/${documento}`,
+      `http://localhost:4000/student/${documento}`,
       {
         method: "GET",
       }
     );
     const responseJSON = await response.json();
-    setEstudiante(responseJSON);
-    // setEstudiantesEquipo([...estudiantesEquipo, responseJSON]);
+    setstudent(responseJSON);
+    // setstudentsEquipo([...studentsEquipo, responseJSON]);
   };
 
   const getDocente = async () => {
-    const response = await fetch(`http://localhost:8080/docente`, {
+    const response = await fetch(`http://localhost:4000/docente`, {
       method: "GET",
     });
     const responseJSON = await response.json();
@@ -38,53 +40,53 @@ function CrearEquipos() {
   };
 
   const getEquipos = async () => {
-    const response = await fetch(`http://localhost:8080/equipo`, {
+    const response = await fetch(`http://localhost:4000/equipo`, {
       method: "GET",
     });
     const responseJSON = await response.json();
     setEquipos(responseJSON);
   };
 
-  const crearEquipo = async (estudiantesEquipo) => {
-    if (estudiantesEquipo.length >= 1) {
-      const response = await fetch(`http://localhost:8080/equipo`, {
+  const crearEquipo = async (studentsEquipo) => {
+    if (studentsEquipo.length >= 1) {
+      const response = await fetch(`http://localhost:4000/equipo`, {
         method: "POST",
-        body: JSON.stringify(estudiantesEquipo),
+        body: JSON.stringify(studentsEquipo),
         headers: {
           "Content-Type": "application/json",
         },
       });
       if (response.status == 201) {
         alert("Equipo creado exitosamente");
-        setEstudiantesEquipo([]);
+        setstudentsEquipo([]);
       }
     } else {
-      alert("Debe haber al menos 2 estudiantes en el equipo");
+      alert("Debe haber al menos 2 students en el equipo");
     }
   };
 
   useEffect(() => {
-    if (estudiante.documento != null) {
-      // Verificar si el estudiante ya está en el equipo
-      const estudianteRepetido = estudiantesEquipo.find(
-        (est) => est.documento === estudiante.documento
+    if (student.documento != null) {
+      // Verificar si el student ya está en el equipo
+      const studentRepetido = studentsEquipo.find(
+        (est) => est.documento === student.documento
       );
 
-      const estudianteExistente = equipos.filter(
-        (equipo) => equipo.documento == estudiante.documento
+      const studentExistente = equipos.filter(
+        (equipo) => equipo.documento == student.documento
       );
 
-      if (estudianteRepetido != undefined) {
-        alert("Este estudiante ya está en el equipo");
+      if (studentRepetido != undefined) {
+        alert("Este student ya está en el equipo");
         return;
       }
 
-      if (estudianteExistente.length > 0) {
-        alert("Este estudiante ya está en otro equipo");
+      if (studentExistente.length > 0) {
+        alert("Este student ya está en otro equipo");
         return;
       }
       const docente_encargado = docentes.filter(
-        (docente) => docente.modulo_sol === estudiante.modulo_sol
+        (docente) => docente.modulo_sol === student.modulo_sol
       )[0].nombre_completo;
       let numero_equipo = 0;
       if (equipos.length === 0) {
@@ -92,41 +94,41 @@ function CrearEquipos() {
       } else {
         numero_equipo = parseInt(equipos[equipos.length - 1].numero_equipo) + 1;
       }
-      if (estudiantesEquipo.length === 0) {
+      if (studentsEquipo.length === 0) {
         const newStudent = studentFormatter(
-          estudiante,
+          student,
           numero_equipo,
           docente_encargado
         );
-        setEstudiantesEquipo([newStudent]);
+        setstudentsEquipo([newStudent]);
       } else {
         // Verificar la compatibilidad del módulo_sol
-        if (estudiantesEquipo.length < 3) {
-          if (estudiante.modulo_sol === estudiantesEquipo[0].modulo_sol) {
+        if (studentsEquipo.length < 3) {
+          if (student.modulo_sol === studentsEquipo[0].modulo_sol) {
             const newStudent = studentFormatter(
-              estudiante,
+              student,
               numero_equipo,
               docente_encargado
             );
-            setEstudiantesEquipo([...estudiantesEquipo, newStudent]);
+            setstudentsEquipo([...studentsEquipo, newStudent]);
           } else {
-            alert("Los estudiantes deben pertenecer al mismo módulo sol");
+            alert("Los students deben pertenecer al mismo módulo sol");
           }
         } else {
-          alert("No se pueden agregar más de 3 estudiantes por equipo");
+          alert("No se pueden agregar más de 3 students por equipo");
         }
       }
     }
-  }, [estudiante]);
+  }, [student]);
 
   useEffect(() => {
     getDocente();
     getEquipos();
-    const estudiantesEquipo = JSON.parse(
-      localStorage.getItem("estudiantesEquipo")
+    const studentsEquipo = JSON.parse(
+      localStorage.getItem("studentsEquipo")
     );
-    if (estudiantesEquipo) {
-      setEstudiantesEquipo(estudiantesEquipo);
+    if (studentsEquipo) {
+      setstudentsEquipo(studentsEquipo);
     }
   }, []);
 
@@ -155,7 +157,7 @@ function CrearEquipos() {
           />
           <button
             onClick={() => {
-              buscarEstudiante(formulario.documento);
+              buscarstudent(formulario.documento);
             }}
           >
             <svg
@@ -181,7 +183,7 @@ function CrearEquipos() {
           </tr>
         </thead>
         <tbody>
-          {estudiantesEquipo.map((equipo, index) => {
+          {studentsEquipo.map((equipo, index) => {
             return (
               <tr key={index}>
                 <td>{equipo.documento}</td>
@@ -197,7 +199,7 @@ function CrearEquipos() {
       <div className="d-flex justify-content-end">
         <button
           onClick={() => {
-            crearEquipo(estudiantesEquipo);
+            crearEquipo(studentsEquipo);
           }}
           className="btn btn-success"
         >
@@ -207,5 +209,3 @@ function CrearEquipos() {
     </div>
   );
 }
-
-export default CrearEquipos;

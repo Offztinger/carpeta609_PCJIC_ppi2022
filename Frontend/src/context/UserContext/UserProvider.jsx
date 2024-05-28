@@ -18,10 +18,7 @@ const UserProvider = ({ children }) => {
 		idRole: '',
 	});
 	const [formError, setFormError] = useState(true);
-
-	useEffect(() => {
-		console.log('selectedId', selectedId);
-	}, [selectedId]);
+	const url = 'http://127.0.0.1:4000/';
 
 	const postUser = async (moduleName, formulario) => {
 		const data = {
@@ -32,25 +29,25 @@ const UserProvider = ({ children }) => {
 				: `Cc.${formulario.documentNumber}`,
 		};
 		if (data) {
-			await POSTRequest(data, `http://127.0.0.1:4000/${moduleName}`);
+			await POSTRequest(data, `${url + moduleName}`);
 			getUsers(moduleName);
 		}
 	};
 
 	const getUsers = moduleName => {
-		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setUsers);
+		GETRequest(`${url + moduleName}`, setUsers);
 	};
 
 	const putUser = async (moduleName, formulario) => {
 		if (formulario) {
-			await PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+			await PUTRequest(formulario, `${url + moduleName}`);
 			getUsers(moduleName);
 		}
 	};
 
 	const deleteUser = async (moduleName, id) => {
 		if (id) {
-			await DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
+			await DELETERequest(`${url + moduleName}`, id);
 			getUsers(moduleName);
 		}
 	};

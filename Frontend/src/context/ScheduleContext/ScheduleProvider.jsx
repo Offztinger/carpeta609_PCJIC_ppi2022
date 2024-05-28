@@ -12,73 +12,49 @@ const ScheduleProvider = ({ children }) => {
 	const [showLogbook, setShowLogbook] = useState(false);
 	const [idTeam, setIdTeam] = useState('');
 	const [folder, setFolder] = useState('');
-	const [team, setTeam] = useState('');
-	const postSchedule = (moduleName, formulario) => {
-		if (formulario) {
-			POSTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
-		}
-	};
+	const [team, setTeam] = useState({});
+	const url = 'http://127.0.0.1:4000/schedule';
 
 	useEffect(() => {
 		console.log(schedule);
 	}, [schedule]);
 
-	const getSchedule = moduleName => {
-		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setSchedule);
-	};
-
-	const putSchedule = (moduleName, formulario) => {
+	const postSchedule = formulario => {
 		if (formulario) {
-			PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+			POSTRequest(formulario, url);
 		}
 	};
 
-	const deleteSchedule = (moduleName, id) => {
+	const getSchedule = () => {
+		GETRequest(url, setSchedule);
+	};
+
+	const putSchedule = formulario => {
+		if (formulario) {
+			PUTRequest(formulario, url);
+		}
+	};
+
+	const deleteSchedule = id => {
 		if (id) {
-			DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
+			DELETERequest(url, id);
 		}
 	};
-
-	useEffect(() => {
-		getSchedule('schedule');
-	}, []);
-
-	useEffect(() => {
-		folder && GETRequest(`http://127.0.0.1:4000/teams/605`, setTeam);
-	}, [folder]);
-
-	useEffect(() => {
-		if (team) {
-			setI;
-		}
-	}, [team]);
-
-	function createDateTime(scheduleDate, scheduleHour) {
-		const [hourString, minutePeriod] = scheduleHour.split(':');
-		const period = minutePeriod.slice(-2).toUpperCase();
-		const minute = minutePeriod.slice(0, -2);
-		let hour = parseInt(hourString, 10);
-
-		if (period === 'PM' && hour !== 12) {
-			hour += 12;
-		} else if (period === 'AM' && hour === 12) {
-			hour = 0;
-		}
-
-		const dateTimeString = `${scheduleDate}T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00`;
-		return new Date(dateTimeString);
-	}
 
 	return (
 		<ScheduleContext.Provider
 			value={{
 				schedule,
-				createDateTime,
 				setShowLogbook,
 				showLogbook,
 				setFolder,
 				folder,
 				getSchedule,
+				putSchedule,
+				postSchedule,
+				deleteSchedule,
+				setIdTeam,
+				idTeam,
 			}}
 		>
 			{children}

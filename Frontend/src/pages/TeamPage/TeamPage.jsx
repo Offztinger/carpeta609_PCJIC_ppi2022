@@ -1,9 +1,14 @@
-import React from 'react'
+import React from 'react';
+import TeamProvider from '../../context/TeamContext/TeamProvider';
+import TeamContainer from './TeamContainer';
+import './components/styles.css';
 
 const TeamPage = () => {
-  return (
-    <div>TeamPage</div>
-  )
-}
+	return (
+		<TeamProvider>
+			<TeamContainer />
+		</TeamProvider>
+	);
+};
 
-export default TeamPage
+export default TeamPage;

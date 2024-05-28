@@ -66,6 +66,15 @@ export default function Sidebar() {
 						Calendario
 					</NavLink>
 				</li>
+				<li className='nav-item'>
+					<NavLink
+						to='/teams'
+						className='nav-link text-white'
+						activeClassName='active'
+					>
+						Equipos
+					</NavLink>
+				</li>
 			</ul>
 			<hr />
 			<div className='flex justify-around items-center h-[10%] p-2'>
