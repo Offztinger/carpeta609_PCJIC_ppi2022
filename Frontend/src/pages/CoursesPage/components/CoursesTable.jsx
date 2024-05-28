@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { CoursesContext } from '../../../context/CoursesContext/CoursesContext'; // Importa el contexto de cursos
 import usePaginatorHandler from '../../../hooks/paginatorHandler'; // Importa el hook de paginación
+import { Tooltip } from 'react-tooltip';
 
 function CoursesTable({ deleteFunction, updateId }) {
 	// Cambia el nombre del componente a CoursesTable
@@ -191,9 +192,15 @@ function CoursesTable({ deleteFunction, updateId }) {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th className='nombrecursolista'scope='col'>Nombre del curso</th>
-									<th className='descripcioncursolista' scope='col'>Descripción del curso</th>
-									<th className='nivelcursolista' scope='col'>Nivel del curso</th>
+									<th className='nombrecursolista' scope='col'>
+										Nombre del curso
+									</th>
+									<th className='descripcioncursolista' scope='col'>
+										Descripción del curso
+									</th>
+									<th className='nivelcursolista' scope='col'>
+										Nivel del curso
+									</th>
 									<th className='acciones' scope='col'>
 										Acciones
 									</th>
@@ -207,6 +214,9 @@ function CoursesTable({ deleteFunction, updateId }) {
 										<td className='nivelcursolista'>{user.courseLevel}</td>
 										<td className='botonesaccion'>
 											<button
+												data-tooltip-id='editcourse'
+												data-tooltip-content='Editar curso'
+												data-tooltip-place='top'
 												type='button'
 												className='btn btn-success'
 												onClick={() => {
@@ -215,7 +225,11 @@ function CoursesTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
+											<Tooltip id='editcourse' />
 											<button
+												data-tooltip-id='deletecourse'
+												data-tooltip-content='Eliminar curso'
+												data-tooltip-place='top'
 												type='button'
 												className='btn btn-danger'
 												onClick={() => {
@@ -225,6 +239,7 @@ function CoursesTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
+											<Tooltip id='deletecourse' />
 										</td>
 									</tr>
 								))}

@@ -8,6 +8,7 @@ import download from '../../../icons/downloadfile.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../../context/UserContext/UserContext';
+import { Tooltip } from 'react-tooltip';
 
 function UserTable({ deleteFunction, updateId }) {
 	const [deleteIDEs, setDeleteIDEs] = useState();
@@ -231,6 +232,9 @@ function UserTable({ deleteFunction, updateId }) {
 										<td>{user.email}</td>
 										<td className='botonesaccion'>
 											<button
+												data-tooltip-id='edituser'
+												data-tooltip-content='Editar usuario'
+												data-tooltip-place='top'
 												type='button'
 												className='btn btn-success'
 												onClick={() => {
@@ -239,7 +243,11 @@ function UserTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
+											<Tooltip id='edituser' />
 											<button
+												data-tooltip-id='deleteuser'
+												data-tooltip-content='Eliminar usuario'
+												data-tooltip-place='top'
 												type='button'
 												className='btn btn-danger'
 												onClick={() => {
@@ -249,6 +257,7 @@ function UserTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
+											<Tooltip id='deleteuser' />
 										</td>
 									</tr>
 								))}

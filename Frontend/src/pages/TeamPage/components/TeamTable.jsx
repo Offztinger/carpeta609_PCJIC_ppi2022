@@ -1,5 +1,4 @@
-import React from 'react';
-import { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { TeamContext } from '../../../context/TeamContext/TeamContext';
@@ -13,6 +12,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
 import { useNavigate } from 'react-router-dom';
+import { Tooltip } from 'react-tooltip';
 
 export default function TeamTable({ updateId }) {
 	const navigate = useNavigate();
@@ -106,7 +106,10 @@ export default function TeamTable({ updateId }) {
 											<td>{team.idCourse}</td>
 											<td>{team.idUser}</td>
 											<td className='botonesaccion'>
-												<button
+												<button													
+													data-tooltip-id="editteam"
+													data-tooltip-content="Editar equipo"
+												    data-tooltip-place="top"
 													type='button'
 													className='btn btn-success'
 													onClick={() => {
@@ -115,7 +118,11 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faPenToSquare} />
 												</button>
+												<Tooltip id="editteam" />
 												<button
+													data-tooltip-id="teammembers"
+													data-tooltip-content="Ver miembros del equipo"
+												    data-tooltip-place="top"
 													type='button'
 													className='btn btn-primary'
 													onClick={() => {
@@ -126,7 +133,11 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faUsers} />
 												</button>
+												<Tooltip id="teammembers" />
 												<button
+													data-tooltip-id="bitacora"
+												 	data-tooltip-content="Ver bitacora"
+													data-tooltip-place="top"
 													type='button'
 													className='btn btn-primary'
 													onClick={() => {
@@ -135,9 +146,14 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faNewspaper} />
 												</button>
+												<Tooltip id="bitacora" />
 												<button
+													data-tooltip-id="delete"
+												 	data-tooltip-content="Eliminar equipo"
+													data-tooltip-place="top"
 													type='button'
 													className='btn btn-danger'
+													data-tip='Eliminar'
 													onClick={() => {
 														setShowDeleteModal(true);
 														setDeleteIDEs(team.id);
@@ -145,6 +161,7 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faTrashCan} />
 												</button>
+												<Tooltip id="delete" />
 											</td>
 										</tr>
 									);
