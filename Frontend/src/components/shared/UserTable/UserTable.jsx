@@ -56,7 +56,7 @@ function UserTable({ deleteFunction, updateId }) {
 		});
 	};
 
-	const secciones = chunkArray(users, 3);
+	const secciones = chunkArray(users, 10);
 
 	return (
 		<div className='contenedorEstudiantes'>
@@ -175,10 +175,10 @@ function UserTable({ deleteFunction, updateId }) {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th scope='col'>Documento</th>
-									<th scope='col'>Nombre</th>
-									<th scope='col'>Apellido</th>
-									<th scope='col'>Email</th>
+									<th className='thusers' scope='col'>Documento</th>
+									<th className='thusers' scope='col'>Nombre</th>
+									<th className='thusers' scope='col'>Apellido</th>
+									<th className='thusers' scope='col'>Email</th>
 									<th className='acciones' scope='col'>
 										Acciones
 									</th>

@@ -59,20 +59,20 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
-						to='/schedule'
-						className='nav-link text-white'
-						activeClassName='active'
-					>
-						Calendario
-					</NavLink>
-				</li>
-				<li className='nav-item'>
-					<NavLink
 						to='/teams'
 						className='nav-link text-white'
 						activeClassName='active'
 					>
 						Equipos
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
+						to='/schedule'
+						className='nav-link text-white'
+						activeClassName='active'
+					>
+						Calendario
 					</NavLink>
 				</li>
 			</ul>

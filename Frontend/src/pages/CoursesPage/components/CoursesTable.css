@@ -17,7 +17,8 @@
 }
 
 .coursesList {
-    margin-left: 120px;
+    margin-right: 40px;
+    margin-left: 40px;
     padding: 2%;
     opacity: 100%;
     transition: all 0.4s ease;
@@ -25,7 +26,6 @@
 }
 
 th, td{
-    list-style: none;
     text-align: left;
 }
 
@@ -33,6 +33,27 @@ th{
     width: 27%;
 }
 
+.nivelcursolista{
+    width: 8% !important;
+    text-align: center !important;
+}
+
+.acciones{
+    width: 7% !important;
+    text-align: center;
+}
+
+.botonesaccion{
+    text-align: center !important;
+}
+
+.descripcioncursolista{
+    width: 15% !important;
+}
+
+.nombrecursolista{
+    width: 20% !important;
+}
 
 .botonesaccion button {
     justify-content: center;

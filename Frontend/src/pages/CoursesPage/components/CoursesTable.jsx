@@ -191,9 +191,9 @@ function CoursesTable({ deleteFunction, updateId }) {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th scope='col'>Nombre del curso</th>
-									<th scope='col'>Descripción del curso</th>
-									<th scope='col'>Nivel del curso</th>
+									<th className='nombrecursolista'scope='col'>Nombre del curso</th>
+									<th className='descripcioncursolista' scope='col'>Descripción del curso</th>
+									<th className='nivelcursolista' scope='col'>Nivel del curso</th>
 									<th className='acciones' scope='col'>
 										Acciones
 									</th>
@@ -204,7 +204,7 @@ function CoursesTable({ deleteFunction, updateId }) {
 									<tr key={idx}>
 										<td>{user.courseName}</td>
 										<td>{user.courseDescription}</td>
-										<td>{user.courseLevel}</td>
+										<td className='nivelcursolista'>{user.courseLevel}</td>
 										<td className='botonesaccion'>
 											<button
 												type='button'

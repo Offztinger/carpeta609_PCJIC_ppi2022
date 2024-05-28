@@ -75,11 +75,11 @@ export default function TeamTable({ updateId }) {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th scope='col'>Número carpeta</th>
-									<th scope='col'>Nombre equipo</th>
+									<th className='numerocarpetastyle' scope='col'>Número carpeta</th>
+									<th className='nombreequipostyle' scope='col'>Nombre equipo</th>
 									<th scope='col'>Nombre del curso</th>
 									<th scope='col'>Nombre del docente</th>
-									<th className='acciones' scope='col'>
+									<th className='accionesteams' scope='col'>
 										Acciones
 									</th>
 								</tr>

@@ -17,7 +17,8 @@
 }
 
 .usersList {
-    margin-left: 120px;
+    margin-right: 40px;
+    margin-left: 100px;
     padding: 2%;
     opacity: 100%;
     transition: all 0.4s ease;
@@ -25,13 +26,20 @@
 }
 
 th, td{
-    list-style: none;
     text-align: left;
 }
 
 .thusers{
-    width: 20% !important;
+    width: 5% !important;
 }
+
+tr:nth-child(odd) { /* filas pares */
+    background-color: #f5f5f5;
+    }
+
+tr:nth-child(even) { /* filas impares */
+    background-color: #e5e5e5;
+    }
 
 .botonesaccion button {
     justify-content: center;
