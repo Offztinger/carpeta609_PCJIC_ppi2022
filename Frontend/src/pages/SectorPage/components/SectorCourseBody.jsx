@@ -1,5 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { SectorContext } from '../../../context/SectorContext/SectorContext';
+import downarrow from '../../../icons/downarrow.svg';
 
 const SectorCourseBody = () => {
 	const { formularioCourse, handleChange, getMethod, setFormularioCourse } =
@@ -17,18 +18,18 @@ const SectorCourseBody = () => {
 			sectorObjectiveCourse: '',
 		});
 	}, []);
-	
+
 	return (
 		<form>
 			<div className='form-group'>
-				<label>Seleccionar Sector</label>
+				<label>Seleccionar cuadrante</label>
 				<select
 					name='idSector'
 					className='form-control'
 					value={formularioCourse.idSector}
 					onChange={e => handleChange(e, 'sectorCourse')}
 				>
-					<option value=''>Seleccione un sector</option>
+					<option value=''>Seleccione un cuadrante</option>
 					{sectors.map(sector => (
 						<option key={sector.id} value={sector.id}>
 							{sector.sectorName}
@@ -38,7 +39,7 @@ const SectorCourseBody = () => {
 			</div>
 
 			<div className='form-group'>
-				<label>Seleccionar Curso</label>
+				<label>Seleccionar curso </label>
 				<select
 					name='idCourse'
 					className='form-control'

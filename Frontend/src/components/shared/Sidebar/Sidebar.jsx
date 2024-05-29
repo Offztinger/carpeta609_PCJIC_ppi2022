@@ -91,14 +91,14 @@ export default function Sidebar() {
 					<FontAwesomeIcon className='w-full h-[30px]' icon={faUser} />
 				</div>
 				<div className='relative'>
-					<div className='absolute left-7'>
+					<div className='logoutbutton'>
 						<button
 							onClick={() => {
 								dispatch(logout());
 							}}
-							className={`w-auto rounded-xl p-2 bg-[#196844] ${open ? 'block' : 'hidden'}`}
+							className={`w-auto rounded-xl p-3 bg-[#196844] ${open ? 'block' : 'hidden'}`}
 						>
-							Logout
+							Cerrar sesión
 						</button>
 					</div>
 					<button onClick={onClickUser}>
