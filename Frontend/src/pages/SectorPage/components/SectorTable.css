@@ -35,7 +35,7 @@
     animation: biggerOut 0.3s forwards !important;
 }
 
-.coursesList {
+.sectorList {
     margin-right: 40px;
     margin-left: 40px;
     padding: 2%;
@@ -50,11 +50,6 @@ th, td{
 
 th{
     width: 27%;
-}
-
-.nivelcursolista{
-    width: 8% !important;
-    text-align: center !important;
 }
 
 .acciones{
@@ -118,10 +113,6 @@ th{
     grid-gap: 1vh 23.8vw;
 }
 
-.exportarExcel {
-    grid-column: 3;
-    margin-left: 2.5vw;
-}
 .contenedorCursos{
     text-align: center;
 }

@@ -17,6 +17,7 @@ import MeetingPage from './pages/MeetingPage/MeetingPage';
 import CoursesPage from './pages/CoursesPage/CoursesPage';
 import TeamPage from './pages/TeamPage/TeamPage';
 import LogbookPage from './pages/LogbookPage/LogbookPage';
+import SectorPage from './pages/SectorPage/SectorPage';
 
 const App = () => {
 	const { schedule, getSchedule } = useContext(ScheduleContext);
@@ -116,6 +117,7 @@ const App = () => {
 										<Route path='/teams' element={<TeamPage />} />
 										<Route path='/teams/:id' element={<TeamPage />} />
 										<Route path='/logbook/:id' element={<LogbookPage />} />
+										<Route path='/sector' element={<SectorPage />} />
 									</Routes>
 								</div>
 							</div>

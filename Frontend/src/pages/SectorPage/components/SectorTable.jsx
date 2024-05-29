@@ -1,52 +1,47 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import './CoursesTable.css';
-import download from '../../../icons/downloadfile.svg';
+import './SectorTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
-import { CoursesContext } from '../../../context/CoursesContext/CoursesContext'; // Importa el contexto de cursos
+import { SectorContext } from '../../../context/SectorContext/SectorContext'; // Importa el contexto de cursos
 import usePaginatorHandler from '../../../hooks/paginatorHandler'; // Importa el hook de paginación
 import { Tooltip } from 'react-tooltip';
 
-function CoursesTable({ deleteFunction, updateId }) {
-	const [deleteIDEs, setDeleteIDEs] = useState();
-	const [showDeleteModal, setShowDeleteModal] = useState(false);
-	const [showCreateModal, setShowCreateModal] = useState(false);
-	const [currentSection, setCurrentSection] = useState(0);
-	const { handleSectionClick, chunkArray } = usePaginatorHandler();
+function SectorTable({ deleteFunction, updateId }) {
+    const [deleteID, setDeleteID] = useState();
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [currentSection, setCurrentSection] = useState(0);
+    const { handleSectionClick, chunkArray } = usePaginatorHandler();
 
-	const {
-		courses,
-		exportToExcel,
-		selectedId,
-		setFormulario,
-		formulario,
-		handleChange,
-		handleRequestFunction,
-	} = useContext(CoursesContext);
+    const {
+        sectors,
+        selectedId,
+        setFormulario,
+        formulario,
+        handleChange,
+        handleRequestFunction,
+    } = useContext(SectorContext);
 
-	useEffect(() => {
-		setDeleteIDEs(selectedId);
-	}, [selectedId]);
+    useEffect(() => {
+        setDeleteID(selectedId);
+    }, [selectedId]);
 
-	const mountEditInfo = course => {
-		updateId(course.id);
-		setShowCreateModal(true);
-		setFormulario({
-			id: course.id,
-			courseName: course.courseName,
-			courseDescription: course.courseDescription,
-			idProfessor: course.idProfessor,
-			courseLevel: course.courseLevel,
-		});
-	};
+    const mountEditInfo = sector => {
+        updateId(sector.id);
+        setShowCreateModal(true);
+        setFormulario({
+            id: sector.id,
+            sectorName: sector.sectorName,
+            sectorObjective: sector.sectorObjective,
+        });
+    };
 
-	const secciones = chunkArray(courses, 10);
+    const secciones = chunkArray(sectors, 10);
 
-	const showModal = setter => {
+    const showModal = setter => {
 		setter(true);
 		requestAnimationFrame(() => {
 			document.querySelector('.modal-content').classList.add('active');
@@ -62,10 +57,10 @@ function CoursesTable({ deleteFunction, updateId }) {
 			modalContent.classList.remove('inactive');
 		}, 200); // Timeout should match animation duration
 	};
-
-	return (
-		<div className='contenedorCursos'>
-			<Modal
+    
+    return (
+        <div className='sectorList'>
+            <Modal
 				show={showDeleteModal}
 				onHide={() => hideModal(setShowDeleteModal)}
 				dialogClassName=''
@@ -107,50 +102,30 @@ function CoursesTable({ deleteFunction, updateId }) {
 				<Modal.Header closeButton>
 					<Modal.Title>
 						{selectedId ? 'Editar' : 'Crear'}{' '}
-						{'curso'}
+						{'cuadrante'}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<div className='form-group'>
-						<label>Nombre del curso</label>
+						<label>Nombre del cuadrante</label>
 						<input
 							type='text'
-							name='courseName'
+							name='sectorName'
 							className='form-control'
-							value={formulario.courseName}
+							value={formulario.sectorName}
 							onChange={handleChange}
 						/>
 						<small className='form-text text-muted'>
-							Recuerde colocar el nombre del curso sin errores.
+							Recuerde colocar el nombre del cuadrante sin errores.
 						</small>
 					</div>
 					<div className='form-group'>
-						<label>Descripción del curso</label>
+						<label>Objetivo del cuadrante</label>
 						<input
 							type='text'
-							name='courseDescription'
+							name='sectorObjective'
 							className='form-control'
-							value={formulario.courseDescription}
-							onChange={handleChange}
-						/>
-					</div>
-					<div className='form-group'>
-						<label>ID del profesor (opcional)</label>
-						<input
-							type='text'
-							name='idProfessor'
-							className='form-control'
-							value={formulario.idProfessor}
-							onChange={handleChange}
-						/>
-					</div>
-					<div className='form-group'>
-						<label>Nivel del curso (opcional)</label>
-						<input
-							type='text'
-							name='courseLevel'
-							className='form-control'
-							value={formulario.courseLevel}
+							value={formulario.sectorObjective}
 							onChange={handleChange}
 						/>
 					</div>
@@ -167,7 +142,7 @@ function CoursesTable({ deleteFunction, updateId }) {
 						variant='primary'
 						className='btn btn-success'
 						onClick={() => {
-							handleRequestFunction(courses);
+							handleRequestFunction(sectors);
 							hideModal(setShowCreateModal);
 						}}
 					>
@@ -176,20 +151,17 @@ function CoursesTable({ deleteFunction, updateId }) {
 				</Modal.Footer>
 			</Modal>
 
-			<div className='coursesList'>
+            <div className='sectorList'>
 				{secciones[currentSection] && (
 					<div key={currentSection} className='seccion'>
 						<table className='table'>
 							<thead>
 								<tr>
 									<th className='nombrecursolista' scope='col'>
-										Nombre del curso
+										Nombre del cuadrante
 									</th>
 									<th className='descripcioncursolista' scope='col'>
-										Descripción del curso
-									</th>
-									<th className='nivelcursolista' scope='col'>
-										Nivel del curso
+										Objetivo del cuadrante
 									</th>
 									<th className='acciones' scope='col'>
 										Acciones
@@ -199,13 +171,12 @@ function CoursesTable({ deleteFunction, updateId }) {
 							<tbody>
 								{secciones[currentSection].map((user, idx) => (
 									<tr key={idx}>
-										<td>{user.courseName}</td>
-										<td>{user.courseDescription}</td>
-										<td className='nivelcursolista'>{user.courseLevel}</td>
+										<td>{user.sectorName}</td>
+										<td>{user.sectorObjective}</td>
 										<td className='botonesaccion'>
 											<button
-												data-tooltip-id='editcourse'
-												data-tooltip-content='Editar curso'
+												data-tooltip-id='editsector'
+												data-tooltip-content='Editar cuadrante'
 												data-tooltip-place='top'
 												type='button'
 												className='btn btn-success'
@@ -215,10 +186,10 @@ function CoursesTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
-											<Tooltip id='editcourse' />
+											<Tooltip id='editsector' />
 											<button
-												data-tooltip-id='deletecourse'
-												data-tooltip-content='Eliminar curso'
+												data-tooltip-id='deletesector'
+												data-tooltip-content='Eliminar cuadrante'
 												data-tooltip-place='top'
 												type='button'
 												className='btn btn-danger'
@@ -229,7 +200,7 @@ function CoursesTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
-											<Tooltip id='deletecourse' />
+											<Tooltip id='deletesector' />
 										</td>
 									</tr>
 								))}
@@ -278,26 +249,21 @@ function CoursesTable({ deleteFunction, updateId }) {
 							className='crearModulo'
 							onClick={() => {
 								setFormulario({
-									id: '',
-									courseName: '',
-									courseDescription: '',
-									idProfessor: '',
-									courseLevel: '',
+                                    id: '',
+                                    sectorName: '',
+                                    sectorObjective: '',
 								});
 								updateId('');
 								setShowCreateModal(true);
 							}}
 						>
-							Crear {'curso'}
+							Crear cuadrante
 						</button>
 					</a>
-					<button className='exportarExcel' onClick={exportToExcel}>
-						<img src={download} alt='' style={{ height: '7vh' }} />
-					</button>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default CoursesTable;
+export default SectorTable;

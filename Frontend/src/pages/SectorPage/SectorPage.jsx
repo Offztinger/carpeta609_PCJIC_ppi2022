@@ -1,12 +1,12 @@
 import React from 'react';
-import UserProvider from '../../context/UserContext/UserProvider';
 import SectorContainer from './SectorContainer';
+import SectorProvider from '../../context/SectorContext/SectorProvider';
 
 const SectorPage = () => {
 	return (
-		<UserProvider>
+		<SectorProvider>
 			<SectorContainer />
-		</UserProvider>
+		</SectorProvider>
 	);
 };
 

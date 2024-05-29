@@ -50,6 +50,15 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
+						to='/teams'
+						className='nav-link text-white'
+						activeClassName='active'
+					>
+						Equipos
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
 						to='/course'
 						className='nav-link text-white'
 						activeClassName='active'
@@ -59,11 +68,11 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
-						to='/teams'
+						to='/sector'
 						className='nav-link text-white'
 						activeClassName='active'
 					>
-						Equipos
+						Cuadrantes
 					</NavLink>
 				</li>
 				<li className='nav-item'>
