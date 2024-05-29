@@ -173,7 +173,7 @@ function UserTable({ deleteFunction, updateId }) {
 							type='password'
 							name='password'
 							className='form-control'
-							value={formulario.password}
+							value={''}
 							onChange={handleChange}
 						/>
 					</div>
