@@ -27,19 +27,19 @@ export class SectorCourseService {
                 },
             });
 
-            if (sectorCourses.length === 0) {
-                throw new Error(`No sector courses found with idCourse ${idCourse}`);
+            // Transformar los resultados para incluir solo las propiedades deseadas
+            if (sectorCourses.length > 0) {
+                const transformedResults = sectorCourses.map(sectorCourse => ({
+                    id: sectorCourse.id,
+                    sectorName: sectorCourse.Sector.sectorName,
+                    courseName: sectorCourse.Course.courseName,
+                    sectorObjectiveCourse: sectorCourse.sectorObjectiveCourse,
+                }));
+
+                return transformedResults;
             }
 
-            // Transformar los resultados para incluir solo las propiedades deseadas
-            const transformedResults = sectorCourses.map(sectorCourse => ({
-                id: sectorCourse.id,
-                sectorName: sectorCourse.Sector.sectorName,
-                courseName: sectorCourse.Course.courseName,
-                sectorObjectiveCourse: sectorCourse.sectorObjectiveCourse,
-            }));
-
-            return transformedResults;
+            return sectorCourses;
         } catch (error) {
             console.error(`Failed to find sector courses by idCourse: ${error.message}`);
             throw error;
