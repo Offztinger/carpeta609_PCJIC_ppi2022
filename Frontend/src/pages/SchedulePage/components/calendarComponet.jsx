@@ -64,12 +64,6 @@ export default function CalendarComponent({ cronograma }) {
 
 	const { setIdLogbook, logbook } = useContext(ScheduleContext);
 
-	useEffect(() => {
-		if (logbook != undefined) {
-			navigate(`/logbook/${logbook.id}`);
-		}
-	}, [logbook]);
-
 	return (
 		<div
 			style={{
@@ -93,6 +87,7 @@ export default function CalendarComponent({ cronograma }) {
 				style={{ width: '100%', height: '100%' }}
 				onSelectEvent={async e => {
 					await setIdLogbook(e.folder);
+					navigate(`/logbook/${e.folder}`);
 				}}
 			/>
 		</div>

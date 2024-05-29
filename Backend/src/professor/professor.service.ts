@@ -53,7 +53,7 @@ export class ProfessorService {
       where: { id },
       data: {
         ...data,
-        password: hashPassword(data.password),
+        password: data.password ? hashPassword(data.password) : undefined,
       },
     });
   }

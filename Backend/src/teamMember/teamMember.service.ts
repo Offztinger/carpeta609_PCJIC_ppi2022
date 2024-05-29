@@ -25,10 +25,14 @@ export class TeamMemberService {
           where: { id: member.idUser },
         });
 
+        if (!student) {
+          throw new Error(`User not found for idUser ${member.idUser}`);
+        }
+
         // Desestructura el objeto y omite la propiedad idUser
         const { idUser, ...rest } = member;
 
-        return { ...rest, student };  // Retorna el objeto sin la propiedad idUser
+        return { ...rest, student };  // Retorna el objeto sin la propiedad idUser, incluyendo los detalles del estudiante
       })
     );
 
