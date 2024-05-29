@@ -8,7 +8,7 @@ export class SectorPipe implements PipeTransform {
     async transform(value: any) {
         const sector = await this.prisma.sector.findFirst({
             where: {
-                idSector: value.idSector,
+                id: value.id,
             },
         });
 

@@ -13,11 +13,6 @@ export class CourseDTO {
     @IsString({ message: 'La descripción del curso debe ser un string' })
     courseDescription: string
 
-    @ApiProperty({ type: String, description: 'Id del profesor' })
-    @IsNotEmpty({ message: 'El id del profesor no puede estar vacío' })
-    @IsString({ message: 'El id del profesor debe ser un string' })
-    idProfessor: string
-
     @ApiProperty({ type: Number, description: 'Nivel del curso' })
     @IsNotEmpty({ message: 'El nivel del curso no puede estar vacío' })
     @IsNumber({}, { message: 'El nivel del curso debe ser un número' })
@@ -31,7 +26,7 @@ export class CourseDTO {
 
 
 export class CourseUserDTO {
-    idCourseUser: string
+    id: string
 
     @ApiProperty({ type: String, description: 'Id del usuario' })
     @IsNotEmpty({ message: 'El idUser no puede estar vacío' })

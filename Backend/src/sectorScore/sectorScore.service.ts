@@ -17,22 +17,22 @@ export class SectorScoreService {
         return (await this.prisma.sectorScore.findMany())
     }
 
-    async findSectorScoreById(idSectorScore: string) {
+    async findSectorScoreById(id: string) {
         return await this.prisma.sectorScore.findUnique({
-            where: { idSectorScore },
+            where: { id },
         });
     }
 
-    async updateSectorScore(idSectorScore: string, data: SectorScoreDTO) {
+    async updateSectorScore(id: string, data: SectorScoreDTO) {
         return this.prisma.sectorScore.update({
-            where: { idSectorScore },
+            where: { id },
             data,
         });
     }
 
-    async deleteSectorScore(idSectorScore: string) {
+    async deleteSectorScore(id: string) {
         return this.prisma.sectorScore.delete({
-            where: { idSectorScore },
+            where: { id },
         });
     }
 

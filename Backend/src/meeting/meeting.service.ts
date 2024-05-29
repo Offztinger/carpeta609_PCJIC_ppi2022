@@ -17,22 +17,22 @@ export class MeetingService {
         return (await this.prisma.meeting.findMany())
     }
 
-    async findMeetingById(idMeeting: string) {
+    async findMeetingById(id: string) {
         return await this.prisma.meeting.findUnique({
-            where: { idMeeting },
+            where: { id },
         });
     }
 
-    async updateMeeting(idMeeting: string, data: MeetingDTO) {
+    async updateMeeting(id: string, data: MeetingDTO) {
         return this.prisma.meeting.update({
-            where: { idMeeting },
+            where: { id },
             data,
         });
     }
 
-    async deleteMeeting(idMeeting: string) {
+    async deleteMeeting(id: string) {
         return this.prisma.meeting.delete({
-            where: { idMeeting },
+            where: { id },
         });
     }
 

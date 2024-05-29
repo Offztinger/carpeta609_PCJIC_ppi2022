@@ -17,22 +17,51 @@ export class SectorCourseService {
         return (await this.prisma.sectorCourse.findMany())
     }
 
-    async findSectorCourseById(idSectorCourse: string) {
-        return await this.prisma.sectorCourse.findUnique({
-            where: { idSectorCourse },
+    async findSectorCoursesByIdCourse(idCourse: string) {
+        try {
+            const sectorCourses = await this.prisma.sectorCourse.findMany({
+                where: { idCourse },
+                include: {
+                    Sector: true,
+                    Course: true,
+                },
+            });
+
+            if (sectorCourses.length === 0) {
+                throw new Error(`No sector courses found with idCourse ${idCourse}`);
+            }
+
+            // Transformar los resultados para incluir solo las propiedades deseadas
+            const transformedResults = sectorCourses.map(sectorCourse => ({
+                id: sectorCourse.id,
+                sectorName: sectorCourse.Sector.sectorName,
+                courseName: sectorCourse.Course.courseName,
+                sectorObjectiveCourse: sectorCourse.sectorObjectiveCourse,
+            }));
+
+            return transformedResults;
+        } catch (error) {
+            console.error(`Failed to find sector courses by idCourse: ${error.message}`);
+            throw error;
+        }
+    }
+
+    async findSectorCourseById(id: string) {
+        return this.prisma.sectorCourse.findUnique({
+            where: { id },
         });
     }
 
-    async updateSectorCourse(idSectorCourse: string, data: SectorCourseDTO) {
+    async updateSectorCourse(id: string, data: SectorCourseDTO) {
         return this.prisma.sectorCourse.update({
-            where: { idSectorCourse },
+            where: { id },
             data,
         });
     }
 
-    async deleteSectorCourse(idSectorCourse: string) {
+    async deleteSectorCourse(id: string) {
         return this.prisma.sectorCourse.delete({
-            where: { idSectorCourse },
+            where: { id },
         });
     }
 

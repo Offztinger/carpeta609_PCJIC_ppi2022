@@ -202,7 +202,7 @@ export default function TeamTable({ updateId }) {
 							→
 						</span>
 					</div>
-					<a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
+					<a >
 						<button
 							className='crearModulo'
 							onClick={() => {

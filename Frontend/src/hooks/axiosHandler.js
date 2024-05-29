@@ -46,8 +46,8 @@ const useAxiosHandler = () => {
 	};
 
 	const PUTRequest = async (data, url) => {
-		try {
-			const response = await axios.put(
+		await axios
+			.put(
 				`${url}/${data.id}`,
 				data, // Enviamos el data directamente como objeto
 				{
@@ -56,39 +56,35 @@ const useAxiosHandler = () => {
 						Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 					},
 				},
-			);
-
-			if (response.status === 200) {
-				toastSuccess('Se ha alterado el registro exitosamente');
-				return `Result: ${response.status}`;
-			} else {
-				console.error(`Error en la petición: ${response.status}`);
-				toastError(`Error en alterar el registro: ${response.status}`);
-			}
-		} catch (error) {
-			console.error(error);
-		}
+			)
+			.then(res => {
+				if (res.status === 200) {
+					toastSuccess('Se ha actualizado el registro exitosamente');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				toastError(error.response.data.message);
+			});
 	};
 
 	const DELETERequest = async (url, id) => {
-		try {
-			const response = await axios.delete(`${url}/${id}`, {
+		await axios
+			.delete(`${url}/${id}`, {
 				headers: {
 					'Content-Type': 'application/json', // Cambiamos el Content-Type si es necesario
 					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
 				},
+			})
+			.then(res => {
+				if (res.status === 200) {
+					toastSuccess('Se ha eliminado el registro exitosamente');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				toastError(error.response.data.message);
 			});
-
-			if (response.status === 200) {
-				toastSuccess('Se ha eliminado el registro exitosamente');
-				return `Result: ${response.status}`;
-			} else {
-				console.error(`Error en la petición: ${response.status}`);
-				toastError(`Error en eliminar el registro: ${response.status}`);
-			}
-		} catch (error) {
-			console.error(error);
-		}
 	};
 
 	return { GETRequest, POSTRequest, PUTRequest, DELETERequest };

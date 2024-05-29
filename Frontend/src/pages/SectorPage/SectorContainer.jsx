@@ -3,25 +3,26 @@ import { SectorContext } from '../../context/SectorContext/SectorContext'; // As
 import SectorTable from './components/SectorTable'; // Asegúrate de tener este componente creado
 
 const SectorContainer = () => {
-    const { getSectors, deleteSector, setSelectedId } = useContext(SectorContext);
+	const { getMethod, deleteSector, setSelectedId, setSectors } =
+		useContext(SectorContext);
 
-    useEffect(() => {
-        getSectors('sector');
-    }, []);
+	useEffect(() => {
+		getMethod('sector', setSectors);
+	}, []);
 
-    const deleteSectorItem = async idToDelete => {
-        idToDelete && (await deleteSector('sector', idToDelete));
-    };
+	const onDelete = async idToDelete => {
+		idToDelete && (await deleteSector('sector', idToDelete));
+	};
 
-    const updateId = id => {
-        setSelectedId(id);
-    };
+	const updateId = id => {
+		setSelectedId(id);
+	};
 
-    return (
-        <main>
-            <SectorTable deleteFunction={deleteSectorItem} updateId={updateId} />
-        </main>
-    );
+	return (
+		<main>
+			<SectorTable deleteFunction={onDelete} updateId={updateId} />
+		</main>
+	);
 };
 
 export default SectorContainer;

@@ -17,22 +17,22 @@ export class CourseUserService {
         return (await this.prisma.courseUser.findMany())
     }
 
-    async findCourseUserById(idCourseUser: string) {
+    async findCourseUserById(id: string) {
         return await this.prisma.courseUser.findUnique({
-            where: { idCourseUser },
+            where: { id },
         });
     }
 
-    async updateCourseUser(idCourseUser: string, data: CourseUserDTO) {
+    async updateCourseUser(id: string, data: CourseUserDTO) {
         return this.prisma.courseUser.update({
-            where: { idCourseUser },
+            where: { id },
             data,
         });
     }
 
-    async deleteCourseUser(idCourseUser: string) {
+    async deleteCourseUser(id: string) {
         return this.prisma.courseUser.delete({
-            where: { idCourseUser },
+            where: { id },
         });
     }
 

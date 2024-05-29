@@ -1,7 +1,7 @@
 import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class SectorDTO {
-    idSector: string;
+    id: string;
     @ApiProperty({ type: String, description: 'Nombre del sector' })
     @IsNotEmpty({ message: 'El nombre del sector no puede estar vacío' })
     @IsString({ message: 'El nombre del sector debe ser un string' })
@@ -13,7 +13,7 @@ export class SectorDTO {
 }
 
 export class SectorCourseDTO {
-    idSectorCourse: string;
+    id: string;
     @ApiProperty({ type: String, description: 'Id del sector' })
     @IsNotEmpty({ message: 'El id del sector no puede estar vacío' })
     @IsString({ message: 'El id del sector debe ser un string' })

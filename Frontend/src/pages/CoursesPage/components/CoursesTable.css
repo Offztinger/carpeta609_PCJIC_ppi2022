@@ -1,140 +1,147 @@
 @keyframes biggerIn {
-    0% {
-        opacity: 0;
-        transform: scale(0);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
+	0% {
+		opacity: 0;
+		transform: scale(0);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
 }
 
 @keyframes biggerOut {
-    0% {
-        opacity: 1;
-        transform: scale(1);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0);
-    }
+	0% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	100% {
+		opacity: 0;
+		transform: scale(0);
+	}
 }
 
 .modal-content {
-    opacity: 0;
-    transform: scale(0);
-    background-color: white !important;
-    transition: opacity 1.2s, transform 1.2s;
+	opacity: 0;
+	transform: scale(0);
+	background-color: white !important;
+	transition:
+		opacity 1.2s,
+		transform 1.2s;
 }
 
 .modal-content.active {
-    animation: biggerIn 0.4s forwards !important;
+	animation: biggerIn 0.4s forwards !important;
 }
 
 .modal-content.inactive {
-    animation: biggerOut 0.3s forwards !important;
+	animation: biggerOut 0.3s forwards !important;
 }
 
 .coursesList {
-    margin-right: 40px;
-    margin-left: 40px;
-    padding: 2%;
-    opacity: 100%;
-    transition: all 0.4s ease;
-    border-radius: 1%;
+	margin-right: 40px;
+	margin-left: 40px;
+	padding: 2%;
+	opacity: 100%;
+	transition: all 0.4s ease;
+	border-radius: 1%;
 }
 
-th, td{
-    text-align: left;
+th,
+td {
+	text-align: left;
 }
 
-th{
-    width: 27%;
+th {
+	width: 27%;
 }
 
-.nivelcursolista{
-    width: 8% !important;
-    text-align: center !important;
+.nivelcursolista {
+	width: 8% !important;
+	text-align: center !important;
 }
 
-.acciones{
-    width: 7% !important;
-    text-align: center;
+.acciones {
+	width: 7% !important;
+	text-align: center;
 }
 
-.botonesaccion{
-    text-align: center !important;
+.botonesaccion {
+	text-align: center !important;
 }
 
-.descripcioncursolista{
-    width: 15% !important;
+.descripcioncursolista {
+	width: 15% !important;
 }
 
-.nombrecursolista{
-    width: 20% !important;
+.nombrecursolista {
+	width: 20% !important;
+}
+
+.tipomodulo {
+	width: 5% !important;
 }
 
 .botonesaccion button {
-    justify-content: center;
-    margin-left: 0.3vw;
+	justify-content: center;
+	margin-left: 0.3vw;
 }
 
 .seccion h3 {
-    text-align: center;
+	text-align: center;
 }
 
 .sections {
-    margin-left: 15%;
-    color: white;
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    background-color: #196844;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin-left: 15%;
+	color: white;
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+	background-color: #196844;
+	padding: 10px;
+	border-radius: 5px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .sections span {
-    flex: 1;
-    text-align: center;
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 10px;
-    cursor: pointer;
-    background-color: transparent !important;
+	flex: 1;
+	text-align: center;
+	font-size: 1.2em;
+	font-weight: bold;
+	padding: 10px;
+	cursor: pointer;
+	background-color: transparent !important;
 }
 
 .sections span:hover {
-    text-shadow: 0px 0px 5px rgb(236, 236, 236);
+	text-shadow: 0px 0px 5px rgb(236, 236, 236);
 }
 
 .complementosTablas {
-    position: fixed;
-    top: 86%;
-    left: 20%;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-gap: 1vh 23.8vw;
+	position: fixed;
+	top: 86%;
+	left: 20%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 1vh 23.8vw;
 }
 
 .exportarExcel {
-    grid-column: 3;
-    margin-left: 2.5vw;
+	grid-column: 3;
+	margin-left: 2.5vw;
 }
-.contenedorCursos{
-    text-align: center;
-}
-
-.crearModulo{
-    color: white;
-    background-color: #196844;
-    height: 8vh;
-    width: 9vw;
-    border-radius: 5px;
-    font-size: 1.2em;
+.contenedorCursos {
+	text-align: center;
 }
 
-.crearModulo:hover{
-    background-color: #1f925e;
+.crearModulo {
+	color: white;
+	background-color: #196844;
+	height: 8vh;
+	width: 9vw;
+	border-radius: 5px;
+	font-size: 1.2em;
+}
+
+.crearModulo:hover {
+	background-color: #1f925e;
 }

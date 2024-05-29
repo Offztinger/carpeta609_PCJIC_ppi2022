@@ -8,40 +8,44 @@ import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { SectorContext } from '../../../context/SectorContext/SectorContext'; // Importa el contexto de cursos
 import usePaginatorHandler from '../../../hooks/paginatorHandler'; // Importa el hook de paginación
 import { Tooltip } from 'react-tooltip';
+import SectorBody from './SectorBody';
+import SectorCourseBody from './SectorCourseBody';
 
 function SectorTable({ deleteFunction, updateId }) {
-    const [deleteID, setDeleteID] = useState();
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
-    const [showCreateModal, setShowCreateModal] = useState(false);
-    const [currentSection, setCurrentSection] = useState(0);
-    const { handleSectionClick, chunkArray } = usePaginatorHandler();
+	const [deleteId, setDeleteId] = useState();
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [currentSection, setCurrentSection] = useState(0);
+	const [isSectorCourse, setIsSectorCourse] = useState(false);
+	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 
-    const {
-        sectors,
-        selectedId,
-        setFormulario,
-        formulario,
-        handleChange,
-        handleRequestFunction,
-    } = useContext(SectorContext);
+	const {
+		sectors,
+		selectedId,
+		setFormulario,
+		formulario,
+		handleChange,
+		handleRequestFunction,
+		formularioCourse,
+	} = useContext(SectorContext);
 
-    useEffect(() => {
-        setDeleteID(selectedId);
-    }, [selectedId]);
+	useEffect(() => {
+		setDeleteId(selectedId);
+	}, [selectedId]);
 
-    const mountEditInfo = sector => {
-        updateId(sector.id);
-        setShowCreateModal(true);
-        setFormulario({
-            id: sector.id,
-            sectorName: sector.sectorName,
-            sectorObjective: sector.sectorObjective,
-        });
-    };
+	const mountEditInfo = sector => {
+		updateId(sector.id);
+		setShowCreateModal(true);
+		setFormulario({
+			id: sector.id,
+			sectorName: sector.sectorName,
+			sectorObjective: sector.sectorObjective,
+		});
+	};
 
-    const secciones = chunkArray(sectors, 10);
+	const secciones = chunkArray(sectors, 10);
 
-    const showModal = setter => {
+	const showModal = setter => {
 		setter(true);
 		requestAnimationFrame(() => {
 			document.querySelector('.modal-content').classList.add('active');
@@ -57,10 +61,10 @@ function SectorTable({ deleteFunction, updateId }) {
 			modalContent.classList.remove('inactive');
 		}, 200); // Timeout should match animation duration
 	};
-    
-    return (
-        <div className='sectorList'>
-            <Modal
+
+	return (
+		<div className='sectorList'>
+			<Modal
 				show={showDeleteModal}
 				onHide={() => hideModal(setShowDeleteModal)}
 				dialogClassName=''
@@ -84,7 +88,7 @@ function SectorTable({ deleteFunction, updateId }) {
 						className='btn btn-warning'
 						onClick={() => {
 							hideModal(setShowDeleteModal);
-							deleteFunction(deleteIDEs);
+							deleteFunction(deleteId);
 						}}
 					>
 						Sí, deseo eliminarlo
@@ -101,34 +105,11 @@ function SectorTable({ deleteFunction, updateId }) {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						{selectedId ? 'Editar' : 'Crear'}{' '}
-						{'cuadrante'}
+						{selectedId ? 'Editar' : 'Crear'} {'cuadrante'}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className='form-group'>
-						<label>Nombre del cuadrante</label>
-						<input
-							type='text'
-							name='sectorName'
-							className='form-control'
-							value={formulario.sectorName}
-							onChange={handleChange}
-						/>
-						<small className='form-text text-muted'>
-							Recuerde colocar el nombre del cuadrante sin errores.
-						</small>
-					</div>
-					<div className='form-group'>
-						<label>Objetivo del cuadrante</label>
-						<input
-							type='text'
-							name='sectorObjective'
-							className='form-control'
-							value={formulario.sectorObjective}
-							onChange={handleChange}
-						/>
-					</div>
+					{isSectorCourse ? <SectorCourseBody /> : <SectorBody />}
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
@@ -142,7 +123,10 @@ function SectorTable({ deleteFunction, updateId }) {
 						variant='primary'
 						className='btn btn-success'
 						onClick={() => {
-							handleRequestFunction(sectors);
+							const moduleName = isSectorCourse ? 'sectorCourse' : 'sector';
+							console.log('moduleName', moduleName);
+							const form = isSectorCourse ? formularioCourse : formulario;
+							handleRequestFunction(moduleName, form);
 							hideModal(setShowCreateModal);
 						}}
 					>
@@ -151,7 +135,7 @@ function SectorTable({ deleteFunction, updateId }) {
 				</Modal.Footer>
 			</Modal>
 
-            <div className='sectorList'>
+			<div className='sectorList'>
 				{secciones[currentSection] && (
 					<div key={currentSection} className='seccion'>
 						<table className='table'>
@@ -169,10 +153,10 @@ function SectorTable({ deleteFunction, updateId }) {
 								</tr>
 							</thead>
 							<tbody>
-								{secciones[currentSection].map((user, idx) => (
+								{secciones[currentSection].map((sector, idx) => (
 									<tr key={idx}>
-										<td>{user.sectorName}</td>
-										<td>{user.sectorObjective}</td>
+										<td>{sector.sectorName}</td>
+										<td>{sector.sectorObjective}</td>
 										<td className='botonesaccion'>
 											<button
 												data-tooltip-id='editsector'
@@ -181,7 +165,8 @@ function SectorTable({ deleteFunction, updateId }) {
 												type='button'
 												className='btn btn-success'
 												onClick={() => {
-													mountEditInfo(user);
+													mountEditInfo(sector);
+													setShowCreateModal(true);
 												}}
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
@@ -194,8 +179,8 @@ function SectorTable({ deleteFunction, updateId }) {
 												type='button'
 												className='btn btn-danger'
 												onClick={() => {
+													updateId(sector.id);
 													setShowDeleteModal(true);
-													setDeleteIDEs(user.id);
 												}}
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
@@ -244,20 +229,38 @@ function SectorTable({ deleteFunction, updateId }) {
 							→
 						</span>
 					</div>
-					<a data-tooltip-id='my-tooltip' data-tooltip-content='Hello world!'>
+					<a>
 						<button
 							className='crearModulo'
 							onClick={() => {
 								setFormulario({
-                                    id: '',
-                                    sectorName: '',
-                                    sectorObjective: '',
+									id: '',
+									sectorName: '',
+									sectorObjective: '',
 								});
 								updateId('');
 								setShowCreateModal(true);
+								setIsSectorCourse(false);
 							}}
 						>
 							Crear cuadrante
+						</button>
+					</a>
+					<a>
+						<button
+							className='crearModulo'
+							onClick={() => {
+								setFormulario({
+									id: '',
+									sectorName: '',
+									sectorObjective: '',
+								});
+								updateId('');
+								setShowCreateModal(true);
+								setIsSectorCourse(true);
+							}}
+						>
+							Cuadrante Curso
 						</button>
 					</a>
 				</div>

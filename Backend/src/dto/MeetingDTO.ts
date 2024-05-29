@@ -2,7 +2,7 @@ import { IsString, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class MeetingDTO {
 
-    idMeeting: string
+    id: string
 
     @ApiProperty({ type: String, description: 'Fecha de la socialización' })
     @IsNotEmpty({ message: 'La fecha de la socialización no puede estar vacía' })

@@ -3,22 +3,24 @@ import { CoursesContext } from '../../context/CoursesContext/CoursesContext';
 import CoursesTable from './components/CoursesTable';
 
 const CoursesContainer = () => {
-    const { getCourses, deleteCourses, setSelectedId } = useContext(CoursesContext);
+	const { getCourses, deleteCourse, setSelectedId } =
+		useContext(CoursesContext);
 
 	useEffect(() => {
 		getCourses('course');
 	}, []);
 
-	const deleteCourse = async idToDelete => {
+	const onDelete = async idToDelete => {
 		idToDelete && (await deleteCourse('course', idToDelete));
 	};
 
 	const updateId = id => {
 		setSelectedId(id);
 	};
+
 	return (
 		<main>
-			<CoursesTable deleteFunction={deleteCourse} updateId={updateId} />
+			<CoursesTable deleteFunction={onDelete} updateId={updateId} />
 		</main>
 	);
 };

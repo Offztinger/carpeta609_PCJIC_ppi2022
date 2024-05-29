@@ -1,55 +1,47 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import './CoursesTable.css';
-import download from '../../../icons/downloadfile.svg';
+import '../../SectorPage/components/SectorTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-	faTrashCan,
-	faPenToSquare,
-	faTable,
-} from '@fortawesome/free-solid-svg-icons';
-import { CoursesContext } from '../../../context/CoursesContext/CoursesContext'; // Importa el contexto de cursos
+import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { SectorContext } from '../../../context/SectorContext/SectorContext'; // Importa el contexto de cursos
 import usePaginatorHandler from '../../../hooks/paginatorHandler'; // Importa el hook de paginación
 import { Tooltip } from 'react-tooltip';
+import SectorCourseBody from '../../SectorPage/components/SectorCourseBody'; // Importa el componente SectorCourseBody
 
-function CoursesTable({ deleteFunction, updateId }) {
-	const navigate = useNavigate();
+function SectorCourseTable({ deleteFunction, updateId }) {
 	const [deleteId, setDeleteId] = useState();
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
+	const [isSectorCourse, setIsSectorCourse] = useState(false);
 	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 
 	const {
-		courses,
-		exportToExcel,
+		sectorCourses,
 		selectedId,
-		setFormulario,
-		formulario,
-		handleChange,
+		setFormularioCourse,
 		handleRequestFunction,
-	} = useContext(CoursesContext);
+		formularioCourse,
+		getMethod,
+	} = useContext(SectorContext);
 
 	useEffect(() => {
 		setDeleteId(selectedId);
 	}, [selectedId]);
 
-	const mountEditInfo = course => {
-		updateId(course.id);
+	useEffect(() => {
+		console.log('formularioCourse', formularioCourse);
+	}, [formularioCourse]);
+
+	const mountEditInfo = sectorCourse => {
+		getMethod(`sectorCourse/${sectorCourse.id}`, setFormularioCourse);
+		updateId(sectorCourse.id);
 		setShowCreateModal(true);
-		setFormulario({
-			id: course.id,
-			courseName: course.courseName,
-			courseDescription: course.courseDescription,
-			courseLevel: course.courseLevel,
-			isAlternative: course.isAlternative,
-		});
 	};
 
-	const secciones = chunkArray(courses, 10);
+	const secciones = chunkArray(sectorCourses, 10);
 
 	const showModal = setter => {
 		setter(true);
@@ -69,7 +61,7 @@ function CoursesTable({ deleteFunction, updateId }) {
 	};
 
 	return (
-		<div className='contenedorCursos'>
+		<div className='sectorCourseList'>
 			<Modal
 				show={showDeleteModal}
 				onHide={() => hideModal(setShowDeleteModal)}
@@ -111,43 +103,11 @@ function CoursesTable({ deleteFunction, updateId }) {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						{selectedId ? 'Editar' : 'Crear'} {'curso'}
+						{selectedId ? 'Editar' : 'Crear'} {'cuadrante'}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className='form-group'>
-						<label>Nombre del curso</label>
-						<input
-							type='text'
-							name='courseName'
-							className='form-control'
-							value={formulario.courseName}
-							onChange={handleChange}
-						/>
-						<small className='form-text text-muted'>
-							Recuerde colocar el nombre del curso sin errores.
-						</small>
-					</div>
-					<div className='form-group'>
-						<label>Descripción del curso</label>
-						<input
-							type='text'
-							name='courseDescription'
-							className='form-control'
-							value={formulario.courseDescription}
-							onChange={handleChange}
-						/>
-					</div>
-					<div className='form-group'>
-						<label>Nivel del curso (opcional)</label>
-						<input
-							type='text'
-							name='courseLevel'
-							className='form-control'
-							value={formulario.courseLevel}
-							onChange={handleChange}
-						/>
-					</div>
+					<SectorCourseBody />
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
@@ -161,7 +121,7 @@ function CoursesTable({ deleteFunction, updateId }) {
 						variant='primary'
 						className='btn btn-success'
 						onClick={() => {
-							handleRequestFunction();
+							handleRequestFunction('sectorCourse', formularioCourse);
 							hideModal(setShowCreateModal);
 						}}
 					>
@@ -170,23 +130,17 @@ function CoursesTable({ deleteFunction, updateId }) {
 				</Modal.Footer>
 			</Modal>
 
-			<div className='coursesList'>
+			<div className='sectorCourseList'>
 				{secciones[currentSection] && (
 					<div key={currentSection} className='seccion'>
 						<table className='table'>
 							<thead>
 								<tr>
 									<th className='nombrecursolista' scope='col'>
-										Nombre del curso
+										Nombre del cuadrante
 									</th>
 									<th className='descripcioncursolista' scope='col'>
-										Descripción del curso
-									</th>
-									<th className='nivelcursolista' scope='col'>
-										Nivel del curso
-									</th>
-									<th className='tipomodulo' scope='col'>
-										Tipo modulo
+										Objetivo del cuadrante
 									</th>
 									<th className='acciones' scope='col'>
 										Acciones
@@ -194,57 +148,40 @@ function CoursesTable({ deleteFunction, updateId }) {
 								</tr>
 							</thead>
 							<tbody>
-								{secciones[currentSection].map((course, idx) => (
+								{secciones[currentSection].map((sectorCourse, idx) => (
 									<tr key={idx}>
-										<td>{course.courseName}</td>
-										<td>{course.courseDescription}</td>
-										<td className='nivelcursolista'>{course.courseLevel}</td>
-										<td className='tipomodulo'>
-											{course.isAlternative ? 'Alternativo' : ' Principal'}
-										</td>
+										<td>{sectorCourse.sectorName}</td>
+										<td>{sectorCourse.courseName}</td>
+										<td>{sectorCourse.sectorObjectiveCourse}</td>
 										<td className='botonesaccion'>
 											<button
-												data-tooltip-id='editcourse'
-												data-tooltip-content='Editar curso'
+												data-tooltip-id='editsectorCourse'
+												data-tooltip-content='Editar cuadrante'
 												data-tooltip-place='top'
 												type='button'
 												className='btn btn-success'
 												onClick={() => {
-													mountEditInfo(course);
-													updateId(course.id);
+													mountEditInfo(sectorCourse);
+													setShowCreateModal(true);
 												}}
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
-											<Tooltip id='editcourse' />
-
+											<Tooltip id='editsectorCourse' />
 											<button
-												data-tooltip-id='sectorCourse'
-												data-tooltip-content='Ver cuadrantes del curso'
-												data-tooltip-place='top'
-												type='button'
-												className='btn btn-primary'
-												onClick={() => {
-													navigate(`/sectorCourse/${course.id}`);
-												}}
-											>
-												<FontAwesomeIcon icon={faTable} />
-											</button>
-											<Tooltip id='sectorCourse' />
-											<button
-												data-tooltip-id='deletecourse'
-												data-tooltip-content='Eliminar curso'
+												data-tooltip-id='deletesectorCourse'
+												data-tooltip-content='Eliminar cuadrante'
 												data-tooltip-place='top'
 												type='button'
 												className='btn btn-danger'
 												onClick={() => {
+													updateId(sectorCourse.id);
 													setShowDeleteModal(true);
-													updateId(course.id);
 												}}
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
-											<Tooltip id='deletecourse' />
+											<Tooltip id='deletesectorCourse' />
 										</td>
 									</tr>
 								))}
@@ -292,27 +229,40 @@ function CoursesTable({ deleteFunction, updateId }) {
 						<button
 							className='crearModulo'
 							onClick={() => {
-								setFormulario({
+								setFormularioCourse({
 									id: '',
-									courseName: '',
-									courseDescription: '',
-									idProfessor: '',
-									courseLevel: '',
+									sectorCourseName: '',
+									sectorCourseObjective: '',
 								});
 								updateId('');
 								setShowCreateModal(true);
+								setIsSectorCourse(false);
 							}}
 						>
-							Crear {'curso'}
+							Crear cuadrante
 						</button>
 					</a>
-					<button className='exportarExcel' onClick={exportToExcel}>
-						<img src={download} alt='' style={{ height: '7vh' }} />
-					</button>
+					<a>
+						<button
+							className='crearModulo'
+							onClick={() => {
+								setFormularioCourse({
+									id: '',
+									sectorCourseName: '',
+									sectorCourseObjective: '',
+								});
+								updateId('');
+								setShowCreateModal(true);
+								setIsSectorCourse(true);
+							}}
+						>
+							Cuadrante Curso
+						</button>
+					</a>
 				</div>
 			</div>
 		</div>
 	);
 }
 
-export default CoursesTable;
+export default SectorCourseTable;

@@ -24,9 +24,14 @@ export class SectorCourseController {
         return this.sectorCourseService.findAllSectorCourses();
     }
 
-    @Get(':idSectorCourse')
-    findSectorCourseById(@Param('idSectorCourse') idSectorCourse: string) {
-        return this.sectorCourseService.findSectorCourseById(idSectorCourse);
+    @Get('course/:idCourse')
+    findSectorCourseByIdCourse(@Param('idCourse') idCourse: string) {
+        return this.sectorCourseService.findSectorCoursesByIdCourse(idCourse);
+    }
+
+    @Get(':id')
+    findSectorCourseById(@Param('id') id: string) {
+        return this.sectorCourseService.findSectorCourseById(id);
     }
 
     @Put(':idSectorCourse')
