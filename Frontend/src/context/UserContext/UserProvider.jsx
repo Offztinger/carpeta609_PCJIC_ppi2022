@@ -39,8 +39,14 @@ const UserProvider = ({ children }) => {
 	};
 
 	const putUser = async (moduleName, formulario) => {
-		if (formulario) {
-			await PUTRequest(formulario, `${url + moduleName}`);
+		const data = {
+			...formulario,
+			documentNumber: parseInt(formulario.documentNumber),
+			password: formulario.password ? formulario.password : undefined,
+		};
+
+		if (data) {
+			await PUTRequest(data, `${url + moduleName}`);
 			getUsers(moduleName);
 		}
 	};

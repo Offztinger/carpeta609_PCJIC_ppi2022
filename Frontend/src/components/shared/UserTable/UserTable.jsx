@@ -15,7 +15,7 @@ function UserTable({ deleteFunction, updateId }) {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
-
+	
 	const {
 		users,
 		exportToExcel,
