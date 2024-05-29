@@ -46,6 +46,7 @@ const useAxiosHandler = () => {
 	};
 
 	const PUTRequest = async (data, url) => {
+		let body;
 		await axios
 			.put(
 				`${url}/${data.id}`,
@@ -58,6 +59,7 @@ const useAxiosHandler = () => {
 				},
 			)
 			.then(res => {
+				body = res.data;
 				if (res.status === 200) {
 					toastSuccess('Se ha actualizado el registro exitosamente');
 				}
@@ -66,6 +68,7 @@ const useAxiosHandler = () => {
 				console.error(error);
 				toastError(error.response.data.message);
 			});
+		return body;
 	};
 
 	const DELETERequest = async (url, id) => {

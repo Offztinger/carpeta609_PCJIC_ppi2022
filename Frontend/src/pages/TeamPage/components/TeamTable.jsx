@@ -28,12 +28,6 @@ export default function TeamTable({ updateId }) {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
-		if (logbook != undefined) {
-			navigate(`/logbook/${logbook.id}`);
-		}
-	}, [logbook]);
-
-	useEffect(() => {
 		setDeleteIDEs(selectedId);
 	}, [selectedId]);
 
@@ -106,10 +100,10 @@ export default function TeamTable({ updateId }) {
 											<td>{team.idCourse}</td>
 											<td>{team.idUser}</td>
 											<td className='botonesaccion'>
-												<button													
-													data-tooltip-id="editteam"
-													data-tooltip-content="Editar equipo"
-												    data-tooltip-place="top"
+												<button
+													data-tooltip-id='editteam'
+													data-tooltip-content='Editar equipo'
+													data-tooltip-place='top'
 													type='button'
 													className='btn btn-success'
 													onClick={() => {
@@ -118,11 +112,11 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faPenToSquare} />
 												</button>
-												<Tooltip id="editteam" />
+												<Tooltip id='editteam' />
 												<button
-													data-tooltip-id="teammembers"
-													data-tooltip-content="Ver miembros del equipo"
-												    data-tooltip-place="top"
+													data-tooltip-id='teammembers'
+													data-tooltip-content='Ver miembros del equipo'
+													data-tooltip-place='top'
 													type='button'
 													className='btn btn-primary'
 													onClick={() => {
@@ -133,24 +127,24 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faUsers} />
 												</button>
-												<Tooltip id="teammembers" />
+												<Tooltip id='teammembers' />
 												<button
-													data-tooltip-id="bitacora"
-												 	data-tooltip-content="Ver bitacora"
-													data-tooltip-place="top"
+													data-tooltip-id='bitacora'
+													data-tooltip-content='Ver bitacora'
+													data-tooltip-place='top'
 													type='button'
 													className='btn btn-primary'
 													onClick={() => {
-														setIdLogbook(team.id);
+														navigate(`/logbook/${team.id}`);
 													}}
 												>
 													<FontAwesomeIcon icon={faNewspaper} />
 												</button>
-												<Tooltip id="bitacora" />
+												<Tooltip id='bitacora' />
 												<button
-													data-tooltip-id="delete"
-												 	data-tooltip-content="Eliminar equipo"
-													data-tooltip-place="top"
+													data-tooltip-id='delete'
+													data-tooltip-content='Eliminar equipo'
+													data-tooltip-place='top'
 													type='button'
 													className='btn btn-danger'
 													data-tip='Eliminar'
@@ -161,7 +155,7 @@ export default function TeamTable({ updateId }) {
 												>
 													<FontAwesomeIcon icon={faTrashCan} />
 												</button>
-												<Tooltip id="delete" />
+												<Tooltip id='delete' />
 											</td>
 										</tr>
 									);
@@ -202,7 +196,7 @@ export default function TeamTable({ updateId }) {
 							→
 						</span>
 					</div>
-					<a >
+					<a>
 						<button
 							className='crearModulo'
 							onClick={() => {
