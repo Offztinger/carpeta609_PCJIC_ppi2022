@@ -19,28 +19,28 @@ const CoursesProvider = ({ children }) => {
         console.log('selectedId', selectedId);
     }, [selectedId]);
 
-    const postCourse = async (moduleName, formulario) => {
+    const postCourse = async (formulario) => {
         if (formulario) {
-            await POSTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
-            getCourses(moduleName);
+            await POSTRequest(formulario, `http://127.0.0.1:4000/course`);
+            getCourses(courses);
         }
     };
 
-    const getCourses = moduleName => {
-        GETRequest(`http://127.0.0.1:4000/${moduleName}`, setCourses);
+    const getCourses = courses => {
+        GETRequest(`http://127.0.0.1:4000/course`, setCourses);
     };
 
-    const putCourse = async (moduleName, formulario) => {
+    const putCourse = async (courses, formulario) => {
         if (formulario) {
-            await PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
-            getCourses(moduleName);
+            await PUTRequest(formulario, `http://127.0.0.1:4000/course`, id);
+            getCourses(courses);
         }
     };
 
-    const deleteCourse = async (moduleName, id) => {
+    const deleteCourse = async (courses, id) => {
         if (id) {
-            await DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
-            getCourses(moduleName);
+            await DELETERequest(`http://127.0.0.1:4000/course`, id);
+            getCourses(courses);
         }
     };
 
@@ -52,7 +52,7 @@ const CoursesProvider = ({ children }) => {
         });
     };
 
-    const handleRequestFunction = async moduleName => {
+    const handleRequestFunction = async course => {
         if (
             formulario.courseName !== '' &&
             formulario.courseDescription !== '' &&
@@ -61,16 +61,16 @@ const CoursesProvider = ({ children }) => {
         ) {
             setFormError(false);
             if (selectedId) {
-                await putCourse(moduleName, formulario);
+                await putCourse(course, formulario);
             } else if (!selectedId) {
-                await postCourse(moduleName, formulario);
+                await postCourse(course, formulario);
             }
         } else {
             alert('Valide los datos en el formulario');
         }
     };
 
-    const exportToExcel = moduleName => {
+    const exportToExcel = course => {
         const wb = XLSX.utils.book_new();
         let row = [
             [
