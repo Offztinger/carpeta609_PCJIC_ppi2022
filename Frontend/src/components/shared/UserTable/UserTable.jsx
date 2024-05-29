@@ -33,6 +33,16 @@ function UserTable({ deleteFunction, updateId }) {
 		setDeleteIDEs(selectedId);
 	}, [selectedId]);
 
+	// Reset form when showCreateModal changes to true
+	useEffect(() => {
+		if (showCreateModal) {
+			setFormulario(prevFormulario => ({
+				...prevFormulario,
+				password: '',
+			}));
+		}
+	}, [showCreateModal, setFormulario]);
+
 	const validateRole = () => {
 		if (moduleName === 'student') {
 			return '3284495c-136e-4215-b8cc-30e6d9ca52b0';
@@ -50,7 +60,7 @@ function UserTable({ deleteFunction, updateId }) {
 			name: user.name,
 			lastName: user.lastName,
 			email: user.email,
-			password: user.password,
+			password: '',
 			idRole: user.idRole,
 		});
 	};
@@ -173,7 +183,7 @@ function UserTable({ deleteFunction, updateId }) {
 							type='password'
 							name='password'
 							className='form-control'
-							value={''}
+							value={formulario.password}
 							onChange={handleChange}
 						/>
 					</div>
