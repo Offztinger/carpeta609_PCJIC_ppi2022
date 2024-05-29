@@ -35,7 +35,7 @@
     animation: biggerOut 0.3s forwards !important;
 }
 
-.sectorList {
+.sectorCourseList {
     margin-right: 40px;
     margin-left: 40px;
     padding: 2%;
@@ -104,7 +104,7 @@ th{
     text-shadow: 0px 0px 5px rgb(236, 236, 236);
 }
 
-.complementosTablasSector {
+.complementosTablasSectorCuourse {
     position: fixed;
     top: 86%;
     left: 21%;
@@ -128,4 +128,9 @@ th{
 
 .crearModulo:hover{
     background-color: #1f925e;
+}
+
+
+.nombrecuadrantelista{
+    width: 10%;
 }

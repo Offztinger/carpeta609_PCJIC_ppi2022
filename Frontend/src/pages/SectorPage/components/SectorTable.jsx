@@ -193,7 +193,7 @@ function SectorTable({ deleteFunction, updateId }) {
 						</table>
 					</div>
 				)}
-				<div className='complementosTablas'>
+				<div className='complementosTablasSector'>
 					<div className='sections'>
 						<span
 							onClick={() => {

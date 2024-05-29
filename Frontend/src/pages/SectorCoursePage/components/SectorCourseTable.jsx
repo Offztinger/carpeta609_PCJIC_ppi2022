@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import '../../SectorPage/components/SectorTable.css';
+import '../../SectorCoursePage/components/SectorCourseTable.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { SectorContext } from '../../../context/SectorContext/SectorContext'; // Importa el contexto de cursos
@@ -136,8 +136,11 @@ function SectorCourseTable({ deleteFunction, updateId }) {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th className='nombrecursolista' scope='col'>
+									<th className='nombrecuadrantelista' scope='col'>
 										Nombre del cuadrante
+									</th>
+									<th className='descripcioncursolista' scope='col'>
+										Curso del cuadrante
 									</th>
 									<th className='descripcioncursolista' scope='col'>
 										Objetivo del cuadrante
@@ -189,7 +192,7 @@ function SectorCourseTable({ deleteFunction, updateId }) {
 						</table>
 					</div>
 				)}
-				<div className='complementosTablas'>
+				<div className='complementosTablasSector'>
 					<div className='sections'>
 						<span
 							onClick={() => {
