@@ -183,31 +183,31 @@ model Sector {
   sectorName      String         @unique @map("sector_name")
   sectorObjective String         @map("sector_objective")
   sectorCourses   SectorCourse[]
-  sectorScores    SectorScore[]
 
   @@map("sector")
 }
 
 model SectorCourse {
-  id                    String @id @default(uuid()) @map("id_sector_course")
-  idSector              String @map("id_sector")
-  idCourse              String @map("id_course")
-  sectorObjectiveCourse String @map("sector_objective_course")
-  Sector                Sector @relation(fields: [idSector], references: [id])
-  Course                Course @relation(fields: [idCourse], references: [id])
+  id                    String        @id @default(uuid()) @map("id_sector_course")
+  idSector              String        @map("id_sector")
+  idCourse              String        @map("id_course")
+  sectorObjectiveCourse String        @map("sector_objective_course")
+  Sector                Sector        @relation(fields: [idSector], references: [id])
+  Course                Course        @relation(fields: [idCourse], references: [id])
+  SectorScore           SectorScore[]
 
   @@map("sector_course")
 }
 
 model SectorScore {
-  id             String  @id @default(uuid()) @map("id_sector_score")
-  idSectorCourse String  @map("id_sector_course")
-  scoreSector    Int     @map("score_sector")
-  folderNumberId String  @map("folder_number_id")
-  userId         String  @map("id_student_score")
-  Sector         Sector  @relation(fields: [idSectorCourse], references: [id])
-  TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
-  User           User    @relation(fields: [userId], references: [id])
+  id             String       @id @default(uuid()) @map("id_sector_score")
+  idSectorCourse String       @map("id_sector_course")
+  scoreSector    Int          @map("score_sector")
+  folderNumberId String       @map("folder_number_id")
+  userId         String       @map("id_student_score")
+  SectorCourse   SectorCourse @relation(fields: [idSectorCourse], references: [id])
+  TeamPPI        TeamPPI      @relation(fields: [folderNumberId], references: [id])
+  User           User         @relation(fields: [userId], references: [id])
 
   @@map("sector_score")
 }

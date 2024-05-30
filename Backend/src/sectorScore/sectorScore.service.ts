@@ -8,9 +8,20 @@ export class SectorScoreService {
     constructor(private prisma: PrismaService) { }
 
     async createSectorScore(data: SectorScoreDTO) {
-        return this.prisma.sectorScore.create({
-            data,
-        });
+        try {
+            return await this.prisma.sectorScore.create({
+                data: {
+                    idSectorCourse: data.idSectorCourse,
+                    scoreSector: data.scoreSector,
+                    folderNumberId: data.folderNumberId,
+                    userId: data.userId,
+                },
+            });
+        } catch (error) {
+            // Handle any potential errors here
+            console.error("Error creating sector score:", error);
+            throw new Error("Failed to create sector score.");
+        }
     }
 
     async findAllSectorScores() {

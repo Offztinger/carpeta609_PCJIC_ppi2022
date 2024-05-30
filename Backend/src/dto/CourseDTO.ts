@@ -34,7 +34,7 @@ export class CourseUserDTO {
     idUser: string
     @ApiProperty({ type: String, description: 'Id del curso' })
     @IsNotEmpty({ message: 'El idCourse no puede estar vacío' })
-    @IsBoolean({ message: 'El idCourse debe ser un booleano' })
+    @IsString({ message: 'El idCourse debe ser un string' })
     idCourse: string
     @ApiProperty({ type: Boolean, description: 'Estado del curso' })
     @IsNotEmpty({ message: 'El estado active no puede estar vacío' })

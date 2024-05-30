@@ -29,7 +29,7 @@ export class SectorCourseDTO {
 }
 
 export class SectorScoreDTO {
-    idSectorScore: string;
+    id: string;
 
     @ApiProperty({ type: String, description: 'Id del sector curso' })
     @IsNotEmpty({ message: 'El id del sector curso no puede estar vacío' })
