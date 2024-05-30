@@ -7,7 +7,7 @@ import LogbookDetails from './components/LogbookDetails';
 
 const LogbookContainer = () => {
 	const { GETRequest } = useAxiosHandler();
-	const { getMethod, setTeam, setTeamMembers, setLogbook, logbookDetails } =
+	const { getMethod, setTeam, setTeamMembers, setLogbook, showLogbookDetails } =
 		useContext(LogbookContext);
 	const path = window.location.pathname;
 	const id = path.split('/')[2];
@@ -20,8 +20,8 @@ const LogbookContainer = () => {
 
 	return (
 		<main>
-			{logbookDetails.length > 0 && <LogbookDetails />}
-			{logbookDetails.length == 0 && <Logbook />}
+			{showLogbookDetails && <LogbookDetails folderNumber={id} />}
+			{!showLogbookDetails && <Logbook />}
 		</main>
 	);
 };

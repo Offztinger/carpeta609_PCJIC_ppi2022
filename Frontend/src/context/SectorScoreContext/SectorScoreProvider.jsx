@@ -9,43 +9,64 @@ const SectorScoreProvider = ({ children }) => {
 	const [sectorScores, setSectorScores] = useState(undefined);
 	const [selectedId, setSelectedId] = useState('');
 	const [showSectorScores, setShowSectorScores] = useState(false);
-	const [folderId, setFolderId] = useState(undefined);
+	const [idSectorScore, setIdSectorScore] = useState('');
 
 	const url = 'http://127.0.0.1:4000/sectorScore';
 
-    const [formulario, setFormulario] = useState({
-        id: '',
-        idSectorCourse: '',
-        scoreSector: '',
-        folderNumberId: '',
-        idUser: '',
+	const [formulario, setFormulario] = useState({
+		id: '',
+		idSectorCourse: '',
+		scoreSector: 0,
+		folderNumberId: '',
+		idUser: '',
 	});
-    
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        if (!isNaN(value) && value >= 0 && value <= 5) {
-            setFormulario((prevFormulario) => ({
-                ...prevFormulario,
-                [name]: value,
-            }));
-        }
-    };
 
-	const getMethod = setState => {
+	const handleChange = event => {
+		const { name, value } = event.target ? event.target : event;
+		if (name === 'scoreSector' && !isNaN(value) && value >= 0 && value <= 5) {
+			setFormulario(prevFormulario => ({
+				...prevFormulario,
+				[name]: value,
+			}));
+		} else if (name !== 'scoreSector') {
+			setFormulario(prevFormulario => ({
+				...prevFormulario,
+				[name]: value,
+			}));
+		}
+	};
+
+	const getMethod = (url, setState) => {
 		GETRequest(url, setState);
 	};
 
 	const getSectorScores = async () => {
-		await GETRequest(`${url}`, setSectorScores);
+		await GETRequest(
+			`http://127.0.0.1:4000/sectorScore/${idSectorScore}`,
+			setSectorScores,
+		);
 	};
 
 	const postSectorScore = async sectorScore => {
-		await POSTRequest(sectorScore, url);
+		const data = {
+			idSectorCourse: sectorScore.idSectorCourse,
+			scoreSector: parseInt(sectorScore.scoreSector, 10),
+			folderNumberId: sectorScore.folderNumberId,
+			idUser: sectorScore.idUser,
+		};
+		await POSTRequest(data, url);
 		getSectorScores();
 	};
 
 	const putSectorScore = async sectorScore => {
-		await PUTRequest(sectorScore, url);
+		const data = {
+			id: sectorScore.id,
+			idSectorCourse: sectorScore.idSectorCourse,
+			scoreSector: parseInt(sectorScore.scoreSector, 10),
+			folderNumberId: sectorScore.folderNumberId,
+			idUser: sectorScore.idUser,
+		};
+		await PUTRequest(data, url);
 		getSectorScores();
 	};
 
@@ -54,12 +75,29 @@ const SectorScoreProvider = ({ children }) => {
 		getSectorScores();
 	};
 
+	const handleRequestFunction = async () => {
+		if (
+			formulario.folderNumberId != '' &&
+			formulario.idSectorCourse != '' &&
+			formulario.idUser != '' &&
+			formulario.scoreSector != 0
+		) {
+			if (formulario.id == '') {
+				await postSectorScore(formulario);
+			} else if (formulario.id !== '') {
+				await putSectorScore(formulario);
+			}
+
+			await getSectorScores();
+		}
+	};
+
 	return (
 		<SectorScoreContext.Provider
 			value={{
-                handleChange,
-                formulario,
-                setFormulario,
+				handleChange,
+				formulario,
+				setFormulario,
 				setSectorScores,
 				sectorScores,
 				getSectorScores,
@@ -70,9 +108,10 @@ const SectorScoreProvider = ({ children }) => {
 				selectedId,
 				setShowSectorScores,
 				showSectorScores,
-				folderId,
-				setFolderId,
 				getMethod,
+				setIdSectorScore,
+				idSectorScore,
+				handleRequestFunction,
 			}}
 		>
 			{children}

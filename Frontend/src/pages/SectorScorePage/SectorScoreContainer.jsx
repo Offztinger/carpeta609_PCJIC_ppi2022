@@ -3,15 +3,24 @@ import { SectorScoreContext } from '../../context/SectorScoreContext/SectorScore
 import SectorScoreTable from './components/SectorScoreTable';
 
 const SectorScoreContainer = () => {
-	const { getSectorScores, deleteSectorScore, setSelectedId } =
-		useContext(SectorScoreContext);
+	const {
+		deleteSectorScore,
+		setSelectedId,
+		getMethod,
+		setSectorScores,
+		setIdSectorScore,
+	} = useContext(SectorScoreContext);
 
 	useEffect(() => {
-		getSectorScores();
+		const path = window.location.pathname;
+		const parts = path.split('/');
+		setIdSectorScore(parts[2]);
+		const url = `http://127.0.0.1:4000/sectorScore/${parts[2]}`;
+		getMethod(url, setSectorScores);
 	}, []);
 
 	const onDelete = async idToDelete => {
-		idToDelete && (await deleteSectorScore('sectorScore', idToDelete));
+		idToDelete && (await deleteSectorScore(idToDelete));
 	};
 
 	const updateId = id => {

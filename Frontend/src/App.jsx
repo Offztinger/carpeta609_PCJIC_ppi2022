@@ -26,7 +26,6 @@ import CourseUserPage from './pages/CourseUserPage/CourseUserPage';
 const App = () => {
 	const { schedule, getSchedule } = useContext(ScheduleContext);
 	const { user } = useSelector(state => state.auth);
-	const cronogramaActual = [];
 
 	useEffect(() => {
 		getSchedule('schedule');
@@ -85,7 +84,7 @@ const App = () => {
 												</button>
 											</div>
 											<ul className='notifications-list'>
-												{cronogramaActual.map((actividades, index) => {
+												{schedule.map((actividades, index) => {
 													return (
 														<li
 															className='d-flex justify-content-start'
@@ -93,8 +92,8 @@ const App = () => {
 														>
 															<a href='#'>
 																<strong>Actividad: </strong>
-																{actividades.titulo} <strong>Hora: </strong>
-																{actividades.hora_inicio}
+																{'Asesoria'} <strong>Hora: </strong>
+																{actividades.scheduleHour}
 															</a>
 														</li>
 													);
@@ -123,7 +122,10 @@ const App = () => {
 											path='/sectorCourse/:id'
 											element={<SectorCoursePage />}
 										/>
-										<Route path='/sectorScore' element={<SectorScorePage />} />
+										<Route
+											path='/sectorScore/:id'
+											element={<SectorScorePage />}
+										/>
 										<Route path='/courseUser' element={<CourseUserPage />} />
 									</Routes>
 								</div>

@@ -107,9 +107,7 @@ model TeamPPI {
   SectorScore  SectorScore[]
   Logbook      Logbook?
   Meeting      Meeting[]
-
-  scheduleId String?
-  Schedule   Schedule[]
+  Schedule     Schedule[]
 
   @@map("team_ppi")
 }

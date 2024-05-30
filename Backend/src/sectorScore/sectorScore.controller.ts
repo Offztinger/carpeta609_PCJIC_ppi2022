@@ -25,9 +25,9 @@ export class SectorScoreController {
         return this.sectorScoreService.findAllSectorScores();
     }
 
-    @Get(':idSectorScore')
-    findSectorScoreById(@Param('idSectorScore') idSectorScore: string) {
-        return this.sectorScoreService.findSectorScoreById(idSectorScore);
+    @Get(':folderNumberId')
+    findSectorScoreById(@Param('folderNumberId') folderNumberId: string) {
+        return this.sectorScoreService.findSectorScoreByFolderId(folderNumberId);
     }
 
     @Put(':idSectorScore')

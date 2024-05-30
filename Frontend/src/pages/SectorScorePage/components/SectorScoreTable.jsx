@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { SectorScoreContext } from '../../../context/SectorScoreContext/SectorScoreContext';
 import { Tooltip } from 'react-tooltip';
+import SectorScoreBody from './SectorScoreBody';
 
 const SectorScoreTable = ({ deleteFunction, updateId }) => {
 	const [deleteID, setDeleteID] = useState();
@@ -14,36 +15,32 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
 
-	const {
-		sectorScores,
-		selectedId,
-		setFormulario,
-		formulario,
-		handleChange,
-		handleRequestFunction,
-	} = useContext(SectorScoreContext);
+	const { sectorScores, selectedId, setFormulario, handleRequestFunction } =
+		useContext(SectorScoreContext);
 
 	useEffect(() => {
 		setDeleteID(selectedId);
 	}, [selectedId]);
 
 	useEffect(() => {
-		if (showCreateModal) {
+		if (showCreateModal && selectedId === '') {
 			setFormulario(prevFormulario => ({
 				...prevFormulario,
 				scoreSector: 0,
 			}));
 		}
-	}, [showCreateModal, setFormulario]);
+	}, [showCreateModal]);
 
 	const mountEditInfo = sectorScore => {
+		console.log('sectorScore', sectorScore);
 		updateId(sectorScore.id);
 		setShowCreateModal(true);
 		setFormulario({
 			id: sectorScore.id,
 			idSectorCourse: sectorScore.idSectorCourse,
-			scoreSector: sectorScore.scoreSector,
-			folderNumberId: sectorScore.folderNumber,
+			scoreSector: parseInt(sectorScore.scoreSector, 10),
+			folderNumberId: sectorScore.folderNumberId,
+			idUser: sectorScore.idUser,
 		});
 	};
 
@@ -104,7 +101,7 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 						className='btn btn-warning'
 						onClick={() => {
 							hideModal(setShowDeleteModal);
-							deleteFunction(deleteIDEs);
+							deleteFunction(deleteID);
 						}}
 					>
 						Sí, deseo eliminarlo
@@ -121,20 +118,11 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 			>
 				<Modal.Header closeButton>
 					<Modal.Title>
-						{selectedId ? 'Editar' : 'Crear'} {'calificación de cuadrante'}
+						{selectedId ? 'Editar' : 'Crear'} {'cuadrante'}
 					</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
-					<div className='form-group'>
-						<label>Calificación del cuadrante</label>
-						<input
-							type='number'
-							name='scoreSector'
-							className='form-control'
-							value={formulario.scoreSector}
-							onChange={handleChange}
-						/>
-					</div>
+					<SectorScoreBody />
 				</Modal.Body>
 				<Modal.Footer>
 					<Button
@@ -163,14 +151,11 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 						<table className='table'>
 							<thead>
 								<tr>
-									<th className='descripcioncursolista' scope='col'>
-										Nombre del usuario
-									</th>
 									<th className='nombrecursolista' scope='col'>
 										Objetivo del cuadrante
 									</th>
 									<th className='descripcioncursolista' scope='col'>
-										Número de carpeta
+										Cedula del estudiante
 									</th>
 									<th className='descripcioncursolista' scope='col'>
 										Calificación del cuadrante
@@ -183,14 +168,13 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 							<tbody>
 								{secciones[currentSection].map((sectorScore, idx) => (
 									<tr key={idx}>
-										<td>{`${sectorScore.student.name} ${sectorScore.student.lastName}`}</td>
-										<td>{sectorScore.sectorCourse.sectorObjectiveCourse}</td>
-										<td>{sectorScore.folderNumber.folderNumber}</td>
-										<td>{sectorScore.sectorScore.scoreSector}</td>
+										<td>{sectorScore.SectorCourse?.sectorObjectiveCourse}</td>
+										<td>{sectorScore.User?.documentNumber}</td>
+										<td>{sectorScore.scoreSector}</td>
 										<td className='botonesaccion'>
 											<button
-												data-tooltip-id='editscore'
-												data-tooltip-content='Editar calififcación'
+												data-tooltip-id='editsector'
+												data-tooltip-content='Editar nota cuadrante'
 												data-tooltip-place='top'
 												type='button'
 												className='btn btn-success'
@@ -200,10 +184,10 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 											>
 												<FontAwesomeIcon icon={faPenToSquare} />
 											</button>
-											<Tooltip id='editscore' />
+											<Tooltip id='editsector' />
 											<button
-												data-tooltip-id='deletescore'
-												data-tooltip-content='Eliminar calificación'
+												data-tooltip-id='deletesector'
+												data-tooltip-content='Eliminar nota cuadrante'
 												data-tooltip-place='top'
 												type='button'
 												className='btn btn-danger'
@@ -214,7 +198,7 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
-											<Tooltip id='deletescore' />
+											<Tooltip id='deletesector' />
 										</td>
 									</tr>
 								))}
@@ -254,6 +238,24 @@ const SectorScoreTable = ({ deleteFunction, updateId }) => {
 							→
 						</span>
 					</div>
+					<a>
+						<button
+							className='crearModulo'
+							onClick={() => {
+								setFormulario({
+									id: '',
+									idSectorCourse: '',
+									scoreSector: 0,
+									folderNumberId: '',
+									userId: '',
+								});
+								updateId('');
+								setShowCreateModal(true);
+							}}
+						>
+							Calificar cuadrante
+						</button>
+					</a>
 				</div>
 			</div>
 		</div>

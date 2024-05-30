@@ -13,6 +13,7 @@ function Logbook() {
 		teamMembers,
 		getMethod,
 		setLogbookDetails,
+		setShowLogbookDetails,
 	} = useContext(LogbookContext);
 
 	useEffect(() => {
@@ -147,8 +148,9 @@ function Logbook() {
 				</button>
 				<button
 					className='crearModulo'
-					onClick={async () => {
-						await getMethod(formulario.id, 'logbookDetail', setLogbookDetails);
+					onClick={() => {
+						getMethod(formulario.id, 'logbookDetail', setLogbookDetails);
+						setShowLogbookDetails(true);
 					}}
 				>
 					Detalle Bitacora

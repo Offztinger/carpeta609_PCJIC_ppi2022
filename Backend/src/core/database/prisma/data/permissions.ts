@@ -166,7 +166,7 @@ export const professorPermissions = [
     },
     {
         "idFormPermission": "4cdeda63-becf-470e-a553-20b3bd686f13",
-        "create": false,
+        "create": true,
         "update": false,
         "read": true,
         "delete": false,

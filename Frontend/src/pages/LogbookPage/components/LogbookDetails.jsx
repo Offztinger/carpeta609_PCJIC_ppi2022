@@ -1,11 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import { LogbookContext } from '../../../context/LogbookContext/LogbookContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faCheck } from '@fortawesome/free-solid-svg-icons';
 import useAxiosHandler from '../../../hooks/axiosHandler';
+import { useNavigate } from 'react-router-dom';
 
-const LogbookDetails = () => {
+const LogbookDetails = ({ folderNumber }) => {
+	const navigate = useNavigate();
 	const { logbookDetails, teamMembers, setLogbookDetails } =
 		useContext(LogbookContext);
 	const { user } = useSelector(state => state.auth);
@@ -14,18 +16,33 @@ const LogbookDetails = () => {
 	const [professors, setProfessors] = useState([]);
 	const [isAdding, setIsAdding] = useState(false);
 	const [formIsValid, setFormIsValid] = useState(false);
+	const [logbookId, setLogbookId] = useState(undefined);
 	const [newLogbookDetail, setNewLogbookDetail] = useState({
 		meetingDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
 		missingStudents: [],
 		meetingComments: '',
 		meetingCommit: '',
 		idUser: '',
-		logbookId: logbookDetails[0]?.logbookId,
+		logbookId: '',
 	});
+
+	const [isEdit, setIsEdit] = useState([]);
 
 	useEffect(() => {
 		GETRequest('http://localhost:4000/professor', setProfessors);
 	}, []);
+
+	useEffect(() => {
+		if (logbookDetails[0] != undefined) {
+			setLogbookId(logbookDetails[0].logbookId);
+		}
+		if (logbookId != undefined) {
+			setNewLogbookDetail(prevDetail => ({
+				...prevDetail,
+				logbookId: logbookId,
+			}));
+		}
+	}, [logbookId, logbookDetails]);
 
 	useEffect(() => {
 		const professor = professors.find(prof => prof.email === user.email);
@@ -35,7 +52,7 @@ const LogbookDetails = () => {
 				idUser: professor.id,
 			}));
 		}
-	}, [professors]);
+	}, [professors, user.email]);
 
 	useEffect(() => {
 		setFormIsValid(
@@ -44,7 +61,7 @@ const LogbookDetails = () => {
 		);
 	}, [newLogbookDetail.meetingComments, newLogbookDetail.meetingCommit]);
 
-	const handleCheckboxChange = (studentId, isEdit = true) => {
+	const handleCheckboxChange = useCallback((studentId, isEdit = true) => {
 		const updater = isEdit ? setLogbookDetailToEdit : setNewLogbookDetail;
 		updater(prevDetail => {
 			const missingStudents = prevDetail.missingStudents.includes(studentId)
@@ -52,54 +69,72 @@ const LogbookDetails = () => {
 				: [...prevDetail.missingStudents, studentId];
 			return { ...prevDetail, missingStudents };
 		});
-	};
+	}, []);
 
-	const handleInputChange = (e, isEdit = true) => {
+	const handleInputChange = useCallback((e, isEdit = true) => {
 		const { name, value } = e.target;
 		const updater = isEdit ? setLogbookDetailToEdit : setNewLogbookDetail;
 		updater(prevDetail => ({
 			...prevDetail,
 			[name]: value,
 		}));
-	};
+	}, []);
 
-	const onPutSubmit = async () => {
+	const onPutSubmit = useCallback(async () => {
 		await PUTRequest(
 			logbookDetailToEdit,
 			'http://127.0.0.1:4000/logbookDetail',
-		);
-		GETRequest(
-			`http://localhost:4000/logbookDetail/${logbookDetailToEdit.logbookId}`,
-			setLogbookDetails,
-		);
-		setLogbookDetailToEdit({
-			meetingDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
-			missingStudents: [],
-			meetingComments: '',
-			meetingCommit: '',
-			idUser: '',
-			logbookId: logbookDetails[0]?.logbookId,
+		).finally(() => {
+			GETRequest(
+				`http://localhost:4000/logbookDetail/${logbookId}`,
+				setLogbookDetails,
+			);
+			setLogbookDetailToEdit({
+				meetingDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
+				missingStudents: [],
+				meetingComments: '',
+				meetingCommit: '',
+				idUser: '',
+				logbookId: logbookId,
+			});
+			setIsEdit([]);
 		});
-	};
+	}, [
+		logbookDetailToEdit,
+		GETRequest,
+		PUTRequest,
+		logbookId,
+		setLogbookDetails,
+	]);
 
-	const onAddSubmit = async () => {
+	const onAddSubmit = useCallback(async () => {
 		await POSTRequest(
 			newLogbookDetail,
 			'http://127.0.0.1:4000/logbookDetail',
-		).finally(() => setIsAdding(false));
-		GETRequest(
-			`http://localhost:4000/logbookDetail/${logbookDetailToEdit.logbookId}`,
-			setLogbookDetails,
-		);
-		setLogbookDetailToEdit({
-			meetingDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
-			missingStudents: [],
-			meetingComments: '',
-			meetingCommit: '',
-			idUser: '',
-			logbookId: logbookDetails[0]?.logbookId,
+		).finally(() => {
+			setIsAdding(false);
+			GETRequest(
+				`http://localhost:4000/logbookDetail/${logbookId}`,
+				setLogbookDetails,
+			);
+			setNewLogbookDetail({
+				meetingDate: new Date().toISOString().slice(0, 10), // YYYY-MM-DD
+				missingStudents: [],
+				meetingComments: '',
+				meetingCommit: '',
+				idUser: '',
+				logbookId: logbookId,
+			});
 		});
-	};
+	}, [newLogbookDetail, GETRequest, POSTRequest, logbookId, setLogbookDetails]);
+
+	const handleEditToggle = useCallback(index => {
+		setIsEdit(prevState => {
+			const newState = [...prevState];
+			newState[index] = !newState[index];
+			return newState;
+		});
+	}, []);
 
 	return (
 		<section className='w-full flex flex-column items-center'>
@@ -107,15 +142,13 @@ const LogbookDetails = () => {
 			<p className='text-xl text-[red]'>Por favor, editar uno al tiempo.</p>
 			<div className='flex flex-wrap justify-center'>
 				{logbookDetails.map((logbook, index) => {
-					const [isEdit, setIsEdit] = useState(true);
-					let professorName = '';
-					let professor = [];
-					if (professors.length > 0) {
-						professor = professors.filter(prof => prof.id === logbook.idUser);
-						professorName = `${professor[0]?.name} ${professor[0]?.lastName}`;
-					}
-					const isCurrentEdit = logbookDetailToEdit.id === logbook.id;
+					const isCurrentEdit = isEdit[index];
 					const currentDetail = isCurrentEdit ? logbookDetailToEdit : logbook;
+					const professor = professors.find(prof => prof.id === logbook.idUser);
+					const professorName = professor
+						? `${professor.name} ${professor.lastName}`
+						: '';
+
 					return (
 						<div className='flex' key={index}>
 							<div className='m-2'>
@@ -143,6 +176,12 @@ const LogbookDetails = () => {
 												type='checkbox'
 												checked={isChecked}
 												disabled={true}
+												onChange={() =>
+													handleCheckboxChange(
+														element.student.id,
+														isCurrentEdit,
+													)
+												}
 											/>
 											<label>
 												{element.student.name} {element.student.lastName}
@@ -158,8 +197,8 @@ const LogbookDetails = () => {
 									name='meetingComments'
 									value={currentDetail.meetingComments}
 									className='form-control w-[90%]'
-									disabled={!isCurrentEdit || isEdit}
-									onChange={handleInputChange}
+									disabled={!isCurrentEdit}
+									onChange={e => handleInputChange(e, isCurrentEdit)}
 								/>
 							</div>
 							<div className='m-2'>
@@ -171,8 +210,8 @@ const LogbookDetails = () => {
 									name='meetingCommit'
 									value={currentDetail.meetingCommit}
 									className='form-control w-[90%]'
-									disabled={!isCurrentEdit || isEdit}
-									onChange={handleInputChange}
+									disabled={!isCurrentEdit}
+									onChange={e => handleInputChange(e, isCurrentEdit)}
 								/>
 							</div>
 							<div className='m-2'>
@@ -191,112 +230,126 @@ const LogbookDetails = () => {
 									type='button'
 									className='btn btn-success'
 									onClick={() => {
-										if (isCurrentEdit) {
-											// Aquí puedes agregar la lógica para guardar los cambios
-										}
-										setIsEdit(!isEdit);
+										handleEditToggle(index);
 										setLogbookDetailToEdit(logbook);
 									}}
 								>
 									<FontAwesomeIcon icon={faPenToSquare} />
 								</button>
+								<button
+									type='button'
+									className='btn btn-success ml-2'
+									onClick={onPutSubmit}
+									disabled={!isEdit[index]}
+								>
+									<FontAwesomeIcon icon={faCheck} />
+								</button>
 							</div>
 						</div>
 					);
 				})}
-			</div>
-			{isAdding && (
-				<div className='flex'>
-					<div className='m-2'>
-						<h1 className='text-lg font-bold mb-2'>Fecha revision</h1>
-						<textarea
-							type='text'
-							name='meetingDate'
-							value={newLogbookDetail.meetingDate}
-							className='form-control w-[90%]'
-							disabled={true}
-						/>
-					</div>
-					<div className='m-2'>
-						<h1 className='text-lg font-bold mb-2'>
-							Estudiantes que no asisten
-						</h1>
-						{teamMembers.map((element, key) => (
-							<div key={key}>
-								<input
-									className='mr-2'
-									type='checkbox'
-									checked={newLogbookDetail.missingStudents.includes(
-										element.student.id,
-									)}
-									onChange={() =>
-										handleCheckboxChange(element.student.id, false)
-									}
+				{isAdding ? (
+					<div className='w-full flex justify-center'>
+						<div className='flex'>
+							<div className='m-2'>
+								<h1 className='text-lg font-bold mb-2'>Fecha revision</h1>
+								<textarea
+									type='text'
+									name='meetingDate'
+									value={newLogbookDetail.meetingDate}
+									className='form-control w-[90%]'
+									disabled={true}
 								/>
-								<label>
-									{element.student.name} {element.student.lastName}
-								</label>
 							</div>
-						))}
+							<div className='m-2'>
+								<h1 className='text-lg font-bold mb-2'>
+									Estudiantes que no asisten
+								</h1>
+								{teamMembers.map((element, key) => {
+									const isChecked = newLogbookDetail.missingStudents.includes(
+										element.student.id,
+									);
+									return (
+										<div key={key}>
+											<input
+												className='mr-2'
+												type='checkbox'
+												checked={isChecked}
+												onChange={() =>
+													handleCheckboxChange(element.student.id, false)
+												}
+											/>
+											<label>
+												{element.student.name} {element.student.lastName}
+											</label>
+										</div>
+									);
+								})}
+							</div>
+							<div className='m-2'>
+								<h1 className='text-lg font-bold mb-2'>Observaciones</h1>
+								<textarea
+									type='text'
+									name='meetingComments'
+									value={newLogbookDetail.meetingComments}
+									className='form-control w-[90%]'
+									onChange={e => handleInputChange(e, false)}
+								/>
+							</div>
+							<div className='m-2'>
+								<h1 className='text-lg font-bold mb-2'>
+									Compromisos para la siguiente asesoria
+								</h1>
+								<textarea
+									type='text'
+									name='meetingCommit'
+									value={newLogbookDetail.meetingCommit}
+									className='form-control w-[90%]'
+									onChange={e => handleInputChange(e, false)}
+								/>
+							</div>
+							<div className='m-2'>
+								<h1 className='text-lg font-bold mb-2'>
+									Nombre de la persona que dio la asesoria
+								</h1>
+								<textarea
+									type='text'
+									value={`${user.firstName} ${user.lastName}`}
+									className='form-control w-[90%]'
+									disabled={true}
+								/>
+							</div>
+							<div className='flex justify-center items-end pb-6 m-2'>
+								<button
+									type='button'
+									className='btn btn-success'
+									disabled={!formIsValid}
+									onClick={onAddSubmit}
+								>
+									<FontAwesomeIcon icon={faCheck} />
+								</button>
+							</div>
+						</div>
 					</div>
-					<div className='m-2'>
-						<h1 className='text-lg font-bold mb-2'>Observaciones</h1>
-						<textarea
-							type='text'
-							name='meetingComments'
-							value={newLogbookDetail.meetingComments}
-							className='form-control w-[90%]'
-							onChange={e => handleInputChange(e, false)}
-						/>
-					</div>
-					<div className='m-2'>
-						<h1 className='text-lg font-bold mb-2'>
-							Compromisos para la siguiente asesoria
-						</h1>
-						<textarea
-							type='text'
-							name='meetingCommit'
-							value={newLogbookDetail.meetingCommit}
-							className='form-control w-[90%]'
-							onChange={e => handleInputChange(e, false)}
-						/>
-					</div>
-					<div className='m-2'>
-						<h1 className='text-lg font-bold mb-2'>
-							Nombre de la persona que dio la asesoria
-						</h1>
-						<textarea
-							type='text'
-							value={`${user.firstName} ${user.lastName}`}
-							className='form-control w-[90%]'
-							disabled={true}
-						/>
-					</div>
-					<div className='flex justify-center items-end pb-6 m-2'>
+				) : (
+					<div className='w-full flex justify-center'>
 						<button
-							onClick={onAddSubmit}
-							className='btn btn-success'
-							disabled={!formIsValid} // Botón deshabilitado si el formulario no es válido
+							type='button'
+							className='btn btn-success w-[200px] mr-[50px]'
+							onClick={() => setIsAdding(true)}
 						>
-							<FontAwesomeIcon icon={faCheck} />
+							Agregar registro
+						</button>
+						<button
+							onClick={() => {
+								navigate(`/sectorScore/${folderNumber}`);
+							}}
+							className='btn btn-success w-[200px] '
+						>
+							Calificar cuadrante
 						</button>
 					</div>
-				</div>
-			)}
-			<div className='flex w-[full]'>
-				<button
-					onClick={onPutSubmit}
-					className='btn btn-success w-[200px] mr-[50px]'
-				>
-					Guardar cambios
-				</button>
-				<button
-					onClick={() => setIsAdding(true)}
-					className='btn btn-success w-[200px]'
-					disabled={isAdding}
-				>
-					Añadir registro
-				</button>
+				)}
 			</div>
 		</section>
 	);

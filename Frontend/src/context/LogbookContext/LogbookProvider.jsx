@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAxiosHandler from '../../hooks/axiosHandler';
 import { LogbookContext } from './LogbookContext';
 
@@ -9,6 +9,7 @@ const LogbookProvider = ({ children }) => {
 	const [logbookDetails, setLogbookDetails] = useState([]);
 	const [logbook, setLogbook] = useState([]);
 	const [selectedId, setSelectedId] = useState('');
+	const [showLogbookDetails, setShowLogbookDetails] = useState(false);
 	const [formulario, setFormulario] = useState({
 		id: '',
 		projectName: '',
@@ -28,7 +29,14 @@ const LogbookProvider = ({ children }) => {
 		const getUrl = `${url}${moduleName}`;
 		const getByIdUrl = `${url}${moduleName}/${id}`;
 		await GETRequest(id != '' ? getByIdUrl : getUrl, setState);
+		if (moduleName === 'logbookDetails') {
+			setShowLogbookDetails(true);
+		}
 	};
+
+	useEffect(() => {
+		console.log('logbookDetails', logbookDetails);
+	}, [logbookDetails]);
 
 	const postLogbook = async (moduleName, logbook) => {
 		await POSTRequest(logbook, `${url}${moduleName}`);
@@ -70,6 +78,8 @@ const LogbookProvider = ({ children }) => {
 				teamMembers,
 				setLogbookDetails,
 				logbookDetails,
+				setShowLogbookDetails,
+				showLogbookDetails,
 			}}
 		>
 			{children}

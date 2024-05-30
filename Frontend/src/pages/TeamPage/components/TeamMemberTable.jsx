@@ -17,8 +17,14 @@ export default function TeamMemberTable({
 }) {
 	const navigate = useNavigate();
 	const { POSTRequest } = useAxiosHandler();
-	const { teamMembers, selectedId, data, getTeamMembers, setFolderId } =
-		useContext(TeamContext);
+	const {
+		teamMembers,
+		selectedId,
+		data,
+		getTeamMembers,
+		setFolderId,
+		setData,
+	} = useContext(TeamContext);
 	const [currentSection, setCurrentSection] = useState(0);
 	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 	const secciones = chunkArray(teamMembers, 10);
@@ -47,9 +53,19 @@ export default function TeamMemberTable({
 		}, 200); // Timeout should match animation duration
 	};
 
+	useEffect(() => {
+		setData([]);
+	}, []);
+
 	const onSubmit = async () => {
+		// Eliminar todos los miembros existentes antes de proceder
+		for (const member of teamMembers) {
+			await deleteFunction(member.id);
+		}
+
 		if (data.length > 0) {
-			if (teamMembers.length < 3) {
+			if (data.length <= 3) {
+				// Si hay menos o igual a 3 estudiantes en data, procede a enviar el POST
 				await POSTRequest(data, 'http://127.0.0.1:4000/teamMember');
 				getTeamMembers(folderNumber);
 				showModal(setShowCreateModal);
@@ -60,7 +76,6 @@ export default function TeamMemberTable({
 			alert('No hay estudiantes seleccionados');
 		}
 	};
-
 	return (
 		<div>
 			<Modal

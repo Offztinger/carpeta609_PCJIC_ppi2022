@@ -65,10 +65,6 @@ export default function CourseUserBody({ type }) {
 		);
 	}, []);
 
-	const handleInputChange = (e, field) => {
-		setFormulario({ ...formulario, [field]: e.target.value });
-	};
-
 	const getSelectedOption = (options, value) => {
 		return options.find(option => option.value === value) || null;
 	};
@@ -85,7 +81,7 @@ export default function CourseUserBody({ type }) {
 							? 'Selecciona un estudiante...'
 							: 'Selecciona un profesor...'
 					}
-					value={getSelectedOption(course, formulario.idCourse)}
+					value={getSelectedOption(type == 'student' ? students : professors, formulario.idUser)}
 					onChange={selectedOption =>
 						handleChange({
 							target: { name: 'idUser', value: selectedOption.value },

@@ -57,9 +57,13 @@ export class SectorScoreService {
         }
     }
 
-    async findSectorScoreById(id: string) {
-        return await this.prisma.sectorScore.findUnique({
-            where: { id },
+    async findSectorScoreByFolderId(id: string) {
+        return await this.prisma.sectorScore.findMany({
+            where: { folderNumberId: id },
+            include: {
+                SectorCourse: true,
+                User: true,
+            }
         });
     }
 
