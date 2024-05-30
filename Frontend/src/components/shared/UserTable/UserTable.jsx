@@ -132,8 +132,8 @@ function UserTable({ deleteFunction, updateId }) {
 
 			<Modal
 				show={showCreateModal}
-				onHide={() => hideModal(setShowCreateModal)}
 				dialogClassName=''
+				onHide={() => hideModal(setShowCreateModal)}
 				onEntered={() => showModal(setShowCreateModal)}
 				onExit={() => hideModal(setShowCreateModal)}
 			>

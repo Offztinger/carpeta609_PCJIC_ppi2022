@@ -12,6 +12,7 @@ const TeamContainer = () => {
 		getTeamMembers,
 		folderId,
 		setFolderId,
+		deleteTeam,
 	} = useContext(TeamContext);
 
 	const updateId = id => {
@@ -36,10 +37,16 @@ const TeamContainer = () => {
 		}
 	}, [folderId]);
 
+	const onDelete = async idToDelete => {
+		idToDelete && (await deleteTeam(idToDelete));
+	};
+
 	return (
 		<main>
-			{teams && folderId == undefined && <TeamTable updateId={updateId} />}
-			{folderId != undefined && <TeamMemberTable updateId={updateId} />}
+			{teams && folderId == undefined && (
+				<TeamTable deleteFunction={onDelete} updateId={updateId} />
+			)}
+			{folderId != undefined && <TeamMemberTable updateId={updateId} folderNumber={id} />}
 		</main>
 	);
 };

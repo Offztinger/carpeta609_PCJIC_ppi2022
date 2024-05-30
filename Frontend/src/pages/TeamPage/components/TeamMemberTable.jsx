@@ -4,15 +4,112 @@ import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useState } from 'react';
 import { TeamContext } from '../../../context/TeamContext/TeamContext';
 import usePaginatorHandler from '../../../hooks/paginatorHandler';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import TeamMemberForm from './TeamMemberForm';
+import useAxiosHandler from '../../../hooks/axiosHandler';
 
-export default function TeamMemberTable({ updateId }) {
-	const { teamMembers } = useContext(TeamContext);
+export default function TeamMemberTable({ updateId, folderNumber }) {
+	const { POSTRequest } = useAxiosHandler();
+	const { teamMembers, selectedId, data, getTeamMembers } =
+		useContext(TeamContext);
 	const [currentSection, setCurrentSection] = useState(0);
 	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 	const secciones = chunkArray(teamMembers, 10);
+	const [showCreateModal, setShowCreateModal] = useState(false);
+	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const showModal = setter => {
+		setter(true);
+		requestAnimationFrame(() => {
+			document.querySelector('.modal-content').classList.add('active');
+		});
+	};
+
+	const hideModal = setter => {
+		const modalContent = document.querySelector('.modal-content');
+		modalContent.classList.remove('active');
+		modalContent.classList.add('inactive');
+		setTimeout(() => {
+			setter(false);
+			modalContent.classList.remove('inactive');
+		}, 200); // Timeout should match animation duration
+	};
+
+	const onSubmit = async () => {
+		if (data.length > 0) {
+			await POSTRequest(data, 'http://127.0.0.1:4000/teamMember');
+			getTeamMembers(folderNumber);
+			showModal(setShowCreateModal);
+		} else {
+			alert('No hay estudiantes seleccionados');
+		}
+	};
 
 	return (
 		<div>
+			<Modal
+				show={showDeleteModal}
+				onHide={() => hideModal(setShowDeleteModal)}
+				dialogClassName=''
+				onEntered={() => showModal(setShowDeleteModal)}
+				onExit={() => hideModal(setShowDeleteModal)}
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Eliminar registro</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>Está seguro que desea eliminar este registro?</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant='secondary'
+						className='btn btn-dark'
+						onClick={() => setShowDeleteModal(false)}
+					>
+						¡No!
+					</Button>
+					<Button
+						variant='primary'
+						className='btn btn-warning'
+						onClick={() => {
+							setShowDeleteModal(false);
+							deleteFunction(deleteId);
+						}}
+					>
+						Sí, deseo eliminarlo
+					</Button>
+				</Modal.Footer>
+			</Modal>
+			<Modal
+				show={showCreateModal}
+				onHide={() => hideModal(setShowCreateModal)}
+				onEntered={() => showModal(setShowCreateModal)}
+				onExit={() => hideModal(setShowCreateModal)}
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>{selectedId ? 'Editar' : 'Crear'}</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<TeamMemberForm folderNumber={folderNumber} />
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant='secondary'
+						className='btn btn-dark'
+						onClick={() => hideModal(setShowCreateModal)}
+					>
+						Cancelar
+					</Button>
+					<Button
+						variant='primary'
+						className='btn btn-success'
+						onClick={() => {
+							hideModal(setShowCreateModal);
+							onSubmit();
+						}}
+					>
+						{selectedId ? 'Editar' : 'Crear'}
+					</Button>
+				</Modal.Footer>
+			</Modal>
 			<div className='teamsList'>
 				{secciones[currentSection] && (
 					<div key={currentSection} className='seccion'>
@@ -98,6 +195,17 @@ export default function TeamMemberTable({ updateId }) {
 							→
 						</span>
 					</div>
+					<a>
+						<button
+							className='crearModulo'
+							onClick={() => {
+								updateId('');
+								showModal(setShowCreateModal);
+							}}
+						>
+							Añadir estudiantes
+						</button>
+					</a>
 				</div>
 			</div>
 		</div>

@@ -1,17 +1,28 @@
 /* eslint-disable react/prop-types */
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TeamContext } from './TeamContext';
 import useAxiosHandler from '../../hooks/axiosHandler';
+import useToastHandler from '../../hooks/toastHandler';
+import axios from 'axios';
 
 const TeamProvider = ({ children }) => {
 	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
 		useAxiosHandler();
+	const { toastError } = useToastHandler();
+
 	const [teams, setTeams] = useState(undefined);
 	const [teamMembers, setTeamMembers] = useState([]);
 	const [selectedId, setSelectedId] = useState('');
 	const [showTeamMembers, setShowTeamMembers] = useState(false);
 	const [folderId, setFolderId] = useState(undefined);
-
+	const [studentsEquipo, setStudentsEquipo] = useState([]);
+	const [formulario, setFormulario] = useState({
+		folderNumber: '',
+		teamName: '',
+		idCourse: '',
+		idUser: '',
+	});
+	const [data, setData] = useState([]);
 	const url = 'http://127.0.0.1:4000/teams';
 	const getTeams = async () => {
 		await GETRequest(`${url}/front`, setTeams);
@@ -21,18 +32,60 @@ const TeamProvider = ({ children }) => {
 		await GETRequest(`http://127.0.0.1:4000/teamMember/${id}`, setTeamMembers);
 	};
 
-	const postTeams = async team => {
+	const postTeam = async team => {
 		await POSTRequest(team, url);
 		getTeams();
 	};
 
-	const putTeams = async team => {
+	const putTeam = async team => {
 		await PUTRequest(team, url);
 		getTeams();
 	};
 
-	const deleteTeams = async id => {
-		await DELETERequest(url, id);
+	const deleteTeam = async id => {
+		await axios
+			.get(`http://127.0.0.1:4000/logbook/${id}`, {
+				headers: {
+					'Content-Type': 'application/json', // También cambiamos el Content-Type aquí si es necesario
+					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
+				},
+			})
+			.then(async res => {
+				if (res.data?.id != undefined) {
+					await DELETERequest(`http://127.0.0.1:4000/logbook`, res.data.id);
+				}
+				await DELETERequest(url, id);
+				await getTeams();
+			})
+			.catch(error => {
+				toastError(error.response.data.message);
+				console.error(error);
+			});
+	};
+
+	const handleChange = e => {
+		const { name, value } = e.target;
+		if (name == 'id') {
+			setStudentsEquipo(value);
+		} else {
+			setFormulario({ ...formulario, [name]: value });
+		}
+	};
+
+	const onSubmit = async () => {
+		const team = {
+			folderNumber: formulario.folderNumber,
+			teamName: formulario.teamName,
+			idCourse: formulario.idCourse,
+			idUser: formulario.idUser,
+		};
+		await postTeam(team);
+		setFormulario({
+			folderNumber: '',
+			teamName: '',
+			idCourse: '',
+			idUser: '',
+		});
 		getTeams();
 	};
 
@@ -41,9 +94,9 @@ const TeamProvider = ({ children }) => {
 			value={{
 				teams,
 				getTeams,
-				postTeams,
-				putTeams,
-				deleteTeams,
+				postTeam,
+				putTeam,
+				deleteTeam,
 				setSelectedId,
 				selectedId,
 				setShowTeamMembers,
@@ -53,6 +106,14 @@ const TeamProvider = ({ children }) => {
 				folderId,
 				setFolderId,
 				getTeamMembers,
+				formulario,
+				setFormulario,
+				handleChange,
+				studentsEquipo,
+				setStudentsEquipo,
+				onSubmit,
+				setData,
+				data,
 			}}
 		>
 			{children}

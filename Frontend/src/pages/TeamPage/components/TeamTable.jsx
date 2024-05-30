@@ -13,41 +13,68 @@ import {
 import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
 import { useNavigate } from 'react-router-dom';
 import { Tooltip } from 'react-tooltip';
-
-export default function TeamTable({ updateId }) {
+import TeamForm from './TeamForm';
+import useAxiosHandler from '../../../hooks/axiosHandler';
+export default function TeamTable({ deleteFunction, updateId }) {
+	const { GETRequest } = useAxiosHandler();
 	const navigate = useNavigate();
-
-	const { setIdLogbook, logbook } = useContext(ScheduleContext);
-	const { teams, selectedId, setShowTeamMembers, setFolderId } =
-		useContext(TeamContext);
-	const [deleteIDEs, setDeleteIDEs] = useState();
-	const [show, setShow] = useState(false);
+	const {
+		teams,
+		selectedId,
+		setShowTeamMembers,
+		setFolderId,
+		setFormulario,
+		onSubmit,
+		formulario,
+	} = useContext(TeamContext);
+	const [deleteId, setDeleteId] = useState();
 	const [currentSection, setCurrentSection] = useState(0);
 	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 
 	useEffect(() => {
-		setDeleteIDEs(selectedId);
+		setDeleteId(selectedId);
 	}, [selectedId]);
 
 	const secciones = chunkArray(teams, 10);
 
-	const mountEditInfo = team => {
+	const mountEditInfo = async team => {
 		updateId(team.id);
 		setShowCreateModal(true);
-		setFormulario({
-			id: team.id,
-			folderNumber: team.folderNumber,
-			teamName: team.teamName,
-			idCourse: team.idCourse,
-			idUser: team.idUser,
+		await GETRequest(`http://127.0.0.1:4000/teams/${team.id}`, setFormulario);
+	};
+
+	useEffect(() => {
+		console.log('formulario', formulario);
+	}, [formulario]);
+
+	const showModal = setter => {
+		setter(true);
+		requestAnimationFrame(() => {
+			document.querySelector('.modal-content').classList.add('active');
 		});
+	};
+
+	const hideModal = setter => {
+		const modalContent = document.querySelector('.modal-content');
+		modalContent.classList.remove('active');
+		modalContent.classList.add('inactive');
+		setTimeout(() => {
+			setter(false);
+			modalContent.classList.remove('inactive');
+		}, 200); // Timeout should match animation duration
 	};
 
 	return (
 		<div>
-			<Modal show={show} onHide={() => setShow(false)}>
+			<Modal
+				show={showDeleteModal}
+				onHide={() => hideModal(setShowDeleteModal)}
+				dialogClassName=''
+				onEntered={() => showModal(setShowDeleteModal)}
+				onExit={() => hideModal(setShowDeleteModal)}
+			>
 				<Modal.Header closeButton>
 					<Modal.Title>Eliminar registro</Modal.Title>
 				</Modal.Header>
@@ -56,7 +83,7 @@ export default function TeamTable({ updateId }) {
 					<Button
 						variant='secondary'
 						className='btn btn-dark'
-						onClick={() => setShow(false)}
+						onClick={() => setShowDeleteModal(false)}
 					>
 						¡No!
 					</Button>
@@ -64,11 +91,43 @@ export default function TeamTable({ updateId }) {
 						variant='primary'
 						className='btn btn-warning'
 						onClick={() => {
-							setShow(false);
-							deleteEquipo();
+							setShowDeleteModal(false);
+							deleteFunction(deleteId);
 						}}
 					>
 						Sí, deseo eliminarlo
+					</Button>
+				</Modal.Footer>
+			</Modal>
+			<Modal
+				show={showCreateModal}
+				onHide={() => hideModal(setShowCreateModal)}
+				onEntered={() => showModal(setShowCreateModal)}
+				onExit={() => hideModal(setShowCreateModal)}
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>{selectedId ? 'Editar' : 'Crear'}</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<TeamForm />
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant='secondary'
+						className='btn btn-dark'
+						onClick={() => hideModal(setShowCreateModal)}
+					>
+						Cancelar
+					</Button>
+					<Button
+						variant='primary'
+						className='btn btn-success'
+						onClick={() => {
+							hideModal(setShowCreateModal);
+							onSubmit();
+						}}
+					>
+						{selectedId ? 'Editar' : 'Crear'}
 					</Button>
 				</Modal.Footer>
 			</Modal>
@@ -106,8 +165,8 @@ export default function TeamTable({ updateId }) {
 													data-tooltip-place='top'
 													type='button'
 													className='btn btn-success'
-													onClick={() => {
-														mountEditInfo(team);
+													onClick={async () => {
+														await mountEditInfo(team);
 													}}
 												>
 													<FontAwesomeIcon icon={faPenToSquare} />
@@ -150,7 +209,7 @@ export default function TeamTable({ updateId }) {
 													data-tip='Eliminar'
 													onClick={() => {
 														setShowDeleteModal(true);
-														setDeleteIDEs(team.id);
+														setDeleteId(team.id);
 													}}
 												>
 													<FontAwesomeIcon icon={faTrashCan} />
@@ -208,7 +267,7 @@ export default function TeamTable({ updateId }) {
 									idUser: '',
 								});
 								updateId('');
-								setShowCreateModal(true);
+								showModal(setShowCreateModal);
 							}}
 						>
 							Crear equipo
