@@ -19,11 +19,14 @@ const LogbookDetails = () => {
 			<div className='flex flex-wrap justify-center'>
 				{logbookDetails.map((logbook, index) => {
 					const [isEdit, setIsEdit] = useState(true);
-					const professor = professors.filter(
-						professor => professor.id === logbook.idUser,
-					);
-					console.log(professor);
-					// const professorName = `${professor[0].name} ${professor[0].lastName}`;
+					let professorName = '';
+					let professor = [];
+					if (professors.length > 0) {
+						professor = professors.filter(
+							professor => professor.id === logbook.idUser,
+						);
+						professorName = `${professor[0].name} ${professor[0].lastName}`;
+					}
 					return (
 						<div className='flex' key={index}>
 							<div className='m-2'>
@@ -39,7 +42,29 @@ const LogbookDetails = () => {
 								<h1 className='text-lg font-bold mb-2'>
 									Estudiantes que no asisten
 								</h1>
-								{teamMembers.map(element => console.log(element))}
+								{teamMembers.map((element, key) => {
+									return (
+										<div>
+											<input
+												className='mr-2'
+												type='checkbox'
+												id={key}
+												name={
+													element.student.name + element.student.name.lastName
+												}
+												value={false}
+												disabled={isEdit}
+											/>
+											<label
+												htmlFor={
+													element.student.name + element.student.name.lastName
+												}
+											>
+												{element.student.name} {element.student.lastName}
+											</label>
+										</div>
+									);
+								})}
 							</div>
 							<div className='m-2'>
 								<h1 className='text-lg font-bold mb-2'>Observaciones</h1>
@@ -67,7 +92,7 @@ const LogbookDetails = () => {
 								</h1>
 								<textarea
 									type='text'
-									value={''}
+									value={professorName}
 									className='form-control w-[90%]'
 									disabled={true}
 								/>
@@ -78,6 +103,7 @@ const LogbookDetails = () => {
 									className='btn btn-success'
 									onClick={() => {
 										setIsEdit(!isEdit);
+                                        setLogbookDetailToEdit(logbook);
 									}}
 								>
 									<FontAwesomeIcon icon={faPenToSquare} />
