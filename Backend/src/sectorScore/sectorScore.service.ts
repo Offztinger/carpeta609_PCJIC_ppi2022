@@ -33,7 +33,7 @@ export class SectorScoreService {
                     this.prisma.user.findUnique({
                         where: { id: sectorScore.idUser },
                     }),
-                    this.prisma.user.findUnique({
+                    this.prisma.teamPPI.findUnique({
                         where: { id: sectorScore.folderNumberId },
                     }),
                     this.prisma.sectorCourse.findUnique({
