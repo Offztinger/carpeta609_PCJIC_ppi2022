@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, getDay, startOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -66,8 +66,8 @@ export default function CalendarComponent({ cronograma }) {
 	});
 
 	const navigate = useNavigate();
-
-	const { setIdLogbook } = useContext(ScheduleContext);
+	const greenColor = '#38a169';
+	const { setIdLogbook, handlePOST } = useContext(ScheduleContext);
 
 	const showModal = setter => {
 		setter(true);
@@ -84,6 +84,27 @@ export default function CalendarComponent({ cronograma }) {
 			setter(false);
 			modalContent.classList.remove('inactive');
 		}, 200); // Timeout should match animation duration
+	};
+
+	const isSameDay = (date1, date2) => {
+		return (
+			date1.getFullYear() === date2.getFullYear() &&
+			date1.getMonth() === date2.getMonth() &&
+			date1.getDate() === date2.getDate()
+		);
+	};
+
+	const handleSelectEvent = async e => {
+		const today = new Date(); // Obtener la fecha actual
+		const eventDate = new Date(e.start); // Obtener la fecha del evento seleccionado
+
+		// Comparar si las fechas coinciden
+		if (isSameDay(today, eventDate)) {
+			await setIdLogbook(e.folder);
+			navigate(`/logbook/${e.folder}`);
+		} else {
+			console.log('La fecha del evento no coincide con la fecha actual');
+		}
 	};
 
 	return (
@@ -121,6 +142,7 @@ export default function CalendarComponent({ cronograma }) {
 						className='btn btn-success'
 						onClick={() => {
 							hideModal(setShowScheduleModal);
+							handlePOST();
 						}}
 					>
 						Crear
@@ -148,8 +170,14 @@ export default function CalendarComponent({ cronograma }) {
 				culture='es'
 				style={{ width: '100%', height: '100%' }}
 				onSelectEvent={async e => {
-					await setIdLogbook(e.folder);
-					navigate(`/logbook/${e.folder}`);
+					handleSelectEvent(e);
+				}}
+				eventPropGetter={event => {
+					const backgroundColor = event.colorEvento
+						? event.colorEvento
+						: greenColor;
+					const color = event.color ? event.color : 'white';
+					return { style: { backgroundColor, color } };
 				}}
 			/>
 		</div>

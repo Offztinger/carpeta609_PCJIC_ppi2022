@@ -22,9 +22,9 @@ const ScheduleProvider = ({ children }) => {
 		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setState);
 	};
 
-	const postSchedule = formulario => {
+	const postSchedule = async formulario => {
 		if (formulario) {
-			POSTRequest(formulario, url);
+			await POSTRequest(formulario, url);
 		}
 	};
 
@@ -41,6 +41,26 @@ const ScheduleProvider = ({ children }) => {
 	const deleteSchedule = id => {
 		if (id) {
 			DELETERequest(url, id);
+		}
+	};
+
+	const handleChange = e => {
+		const { name, value } = e.target;
+		setFormularioAsesoria({ ...formularioAsesoria, [name]: value });
+	};
+
+	const handlePOST = async () => {
+		if (
+			formularioAsesoria.folderNumberId !== '' &&
+			formularioAsesoria.idUser !== '' &&
+			formularioAsesoria.scheduleDate !== '' &&
+			formularioAsesoria.schedulePlace !== '' &&
+			formularioAsesoria.scheduleHour !== ''
+		) {
+			await postSchedule(formularioAsesoria);
+			getMethod('schedule', setSchedule);
+		} else {
+			alert('Valide los datos en el formulario');
 		}
 	};
 
@@ -73,6 +93,8 @@ const ScheduleProvider = ({ children }) => {
 				setFormularioAsesoria,
 				formularioAsesoria,
 				getMethod,
+				handleChange,
+				handlePOST,
 			}}
 		>
 			{children}

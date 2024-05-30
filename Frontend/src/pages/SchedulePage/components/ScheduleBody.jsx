@@ -15,10 +15,18 @@ const customStyles = {
 	}),
 	option: (base, state) => ({
 		...base,
-		backgroundColor: state.isFocused ? '#38a169' : base.backgroundColor,
-		color: state.isFocused ? 'white' : base.color,
+		backgroundColor: state.isSelected
+			? '#2f855a'
+			: state.isFocused
+				? '#38a169'
+				: base.backgroundColor,
+		color: state.isFocused || state.isSelected ? 'white' : base.color,
 		'&:active': {
 			backgroundColor: '#2f855a',
+		},
+		'&:hover': {
+			backgroundColor: state.isSelected ? '#2f855a' : '#38a169',
+			color: 'white',
 		},
 	}),
 };
@@ -47,10 +55,11 @@ const ScheduleBody = () => {
 	return (
 		<form>
 			<div className='form-group'>
-				<label>Número de Folder</label>
+				<label>Número de carpeta</label>
 				<Select
 					options={teams}
 					styles={customStyles}
+					placeholder='Selecciona un equipo...'
 					onChange={selectedOption =>
 						handleChange(
 							{
@@ -66,6 +75,7 @@ const ScheduleBody = () => {
 				<Select
 					options={professors}
 					styles={customStyles}
+					placeholder='Selecciona un profesor...'
 					onChange={selectedOption =>
 						handleChange(
 							{ target: { name: 'idUser', value: selectedOption.value } },
@@ -83,6 +93,7 @@ const ScheduleBody = () => {
 					}
 					dateFormat='MMMM d, yyyy'
 					className='form-control'
+					minDate={new Date()} // Esto establece la fecha mínima como la fecha actual
 				/>
 			</div>
 			<div className='form-group'>
@@ -100,7 +111,19 @@ const ScheduleBody = () => {
 					type='time'
 					className='form-control'
 					value={formularioAsesoria.scheduleHour}
-					onChange={e => handleInputChange(e, 'scheduleHour')}
+					onChange={e => {
+						const selectedTime = e.target.value;
+						const minTime = '06:00'; // Hora mínima permitida
+						const maxTime = '18:00'; // Hora máxima permitida
+
+						if (selectedTime < minTime || selectedTime > maxTime) {
+							// Si la hora seleccionada está fuera del rango permitido, establecerla en la hora mínima permitida
+							handleInputChange({ target: { value: minTime } }, 'scheduleHour');
+						} else {
+							// Si la hora seleccionada está dentro del rango permitido, actualizar el estado normalmente
+							handleInputChange(e, 'scheduleHour');
+						}
+					}}
 				/>
 			</div>
 		</form>
