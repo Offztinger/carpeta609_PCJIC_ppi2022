@@ -68,6 +68,15 @@ export default function Sidebar() {
 				</li>
 				<li className='nav-item'>
 					<NavLink
+						to='/courseUser'
+						className='nav-link text-white'
+						activeClassName='active'
+					>
+						Relaciones Curso-Usuario
+					</NavLink>
+				</li>
+				<li className='nav-item'>
+					<NavLink
 						to='/sector'
 						className='nav-link text-white'
 						activeClassName='active'
@@ -84,15 +93,7 @@ export default function Sidebar() {
 						Asesorias
 					</NavLink>
 				</li>
-				<li className='nav-item'>
-					<NavLink
-						to='/courseUser'
-						className='nav-link text-white'
-						activeClassName='active'
-					>
-						Curso Usuario
-					</NavLink>
-				</li>
+				
 			</ul>
 			<hr />
 			<div className='flex justify-around items-center h-[10%] p-2'>
