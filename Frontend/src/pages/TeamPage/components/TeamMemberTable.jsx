@@ -98,24 +98,6 @@ export default function TeamMemberTable({ updateId }) {
 							→
 						</span>
 					</div>
-					<a >
-						<button
-							className='crearModulo'
-							onClick={() => {
-								setFormulario({
-									id: '',
-									folderNumber: '',
-									teamName: '',
-									idCourse: '',
-									idUser: '',
-								});
-								updateId('');
-								setShowCreateModal(true);
-							}}
-						>
-							Crear equipo
-						</button>
-					</a>
 				</div>
 			</div>
 		</div>
