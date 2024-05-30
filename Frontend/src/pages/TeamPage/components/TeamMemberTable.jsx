@@ -216,7 +216,7 @@ export default function TeamMemberTable({
 						</a>
 						<a>
 							<button
-								className='crearModulo'
+								className='volverEquipo'
 								onClick={() => {
 									updateId('');
 									navigate('/teams');

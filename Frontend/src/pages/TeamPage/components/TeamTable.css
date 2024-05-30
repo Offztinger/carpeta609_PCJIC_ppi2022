@@ -126,3 +126,13 @@ th{
 .botonesaccionteammember{
     text-align: center;
 }
+
+.volverEquipo{
+    margin-left: 23vw;
+    color: white;
+    background-color: #196844;
+    height: 8vh;
+    width: 9vw;
+    border-radius: 5px;
+    font-size: 1.2em;
+} 
