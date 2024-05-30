@@ -3,11 +3,11 @@ import { SectorScoreContext } from '../../context/SectorScoreContext/SectorScore
 import SectorScoreTable from './components/SectorScoreTable';
 
 const SectorScoreContainer = () => {
-	const { getMethod, deleteSectorScore, setSelectedId, setSectorScores } =
+	const { getSectorScores, deleteSectorScore, setSelectedId } =
 		useContext(SectorScoreContext);
 
 	useEffect(() => {
-		getMethod('sectorScore', setSectorScores);
+		getSectorScores();
 	}, []);
 
 	const onDelete = async idToDelete => {

@@ -11,18 +11,19 @@ const SectorScoreProvider = ({ children }) => {
 	const [showSectorScores, setShowSectorScores] = useState(false);
 	const [folderId, setFolderId] = useState(undefined);
 
-	const url = 'http://127.0.0.1:4000/sectorScores';
+	const url = 'http://127.0.0.1:4000/sectorScore';
+
+	const getMethod = setState => {
+		GETRequest(url, setState);
+	};
+
 	const getSectorScores = async () => {
-		await GETRequest(`${url}/front`, setSectorScores);
+		await GETRequest(`${url}`, setSectorScores);
 	};
 
 	const postSectorScore = async sectorScore => {
 		await POSTRequest(sectorScore, url);
 		getSectorScores();
-	};
-
-    const getMethod = (setState) => {
-		GETRequest(`http://127.0.0.1:4000/sectorScore`, setState);
 	};
 
 	const putSectorScore = async sectorScore => {
@@ -38,7 +39,7 @@ const SectorScoreProvider = ({ children }) => {
 	return (
 		<SectorScoreContext.Provider
 			value={{
-                setSectorScores,
+				setSectorScores,
 				sectorScores,
 				getSectorScores,
 				postSectorScore,
@@ -50,7 +51,7 @@ const SectorScoreProvider = ({ children }) => {
 				showSectorScores,
 				folderId,
 				setFolderId,
-                getMethod,
+				getMethod,
 			}}
 		>
 			{children}

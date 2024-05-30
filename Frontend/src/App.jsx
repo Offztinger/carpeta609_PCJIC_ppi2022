@@ -19,7 +19,7 @@ import TeamPage from './pages/TeamPage/TeamPage';
 import LogbookPage from './pages/LogbookPage/LogbookPage';
 import SectorPage from './pages/SectorPage/SectorPage';
 import SectorCoursePage from './pages/SectorCoursePage/SectorCoursePage';
-import SectorScorePage from './pages/SectorScore/SectorScorePage';
+import SectorScorePage from './pages/SectorScorePage/SectorScorePage';
 import TeamForm from './pages/TeamPage/components/TeamForm';
 
 const App = () => {
@@ -122,7 +122,10 @@ const App = () => {
 										<Route path='/teamform' element={<TeamForm />} />
 										<Route path='/logbook/:id' element={<LogbookPage />} />
 										<Route path='/sector' element={<SectorPage />} />
-										<Route path='/sectorCourse/:id' element={<SectorCoursePage />} />
+										<Route
+											path='/sectorCourse/:id'
+											element={<SectorCoursePage />}
+										/>
 										<Route path='/sectorScore' element={<SectorScorePage />} />
 									</Routes>
 								</div>
