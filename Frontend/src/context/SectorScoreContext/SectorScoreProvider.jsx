@@ -13,6 +13,24 @@ const SectorScoreProvider = ({ children }) => {
 
 	const url = 'http://127.0.0.1:4000/sectorScore';
 
+    const [formulario, setFormulario] = useState({
+        id: '',
+        idSectorCourse: '',
+        scoreSector: '',
+        folderNumberId: '',
+        idUser: '',
+	});
+    
+    const handleChange = (event) => {
+        const { name, value } = event.target;
+        if (!isNaN(value) && value >= 0 && value <= 5) {
+            setFormulario((prevFormulario) => ({
+                ...prevFormulario,
+                [name]: value,
+            }));
+        }
+    };
+
 	const getMethod = setState => {
 		GETRequest(url, setState);
 	};
@@ -39,6 +57,9 @@ const SectorScoreProvider = ({ children }) => {
 	return (
 		<SectorScoreContext.Provider
 			value={{
+                handleChange,
+                formulario,
+                setFormulario,
 				setSectorScores,
 				sectorScores,
 				getSectorScores,
