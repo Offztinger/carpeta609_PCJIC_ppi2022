@@ -35,7 +35,7 @@
     animation: biggerOut 0.3s forwards !important;
 }
 
-.sectorCourseList {
+.sectorScoreList {
     margin-right: 40px;
     margin-left: 40px;
     padding: 2%;
@@ -128,9 +128,4 @@ th{
 
 .crearModulo:hover{
     background-color: #1f925e;
-}
-
-
-.nombrecuadrantelista{
-    width: 10%;
 }

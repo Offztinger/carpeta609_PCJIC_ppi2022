@@ -1,6 +1,5 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import { studentFormatter } from "./studentFormatter";
 
 export default function TeamForm() {
   const [formulario, setFormulario] = useState({

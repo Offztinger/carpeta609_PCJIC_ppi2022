@@ -19,6 +19,8 @@ import TeamPage from './pages/TeamPage/TeamPage';
 import LogbookPage from './pages/LogbookPage/LogbookPage';
 import SectorPage from './pages/SectorPage/SectorPage';
 import SectorCoursePage from './pages/SectorCoursePage/SectorCoursePage';
+import SectorScorePage from './pages/SectorScore/SectorScorePage';
+import TeamForm from './pages/TeamPage/components/TeamForm';
 
 const App = () => {
 	const { schedule, getSchedule } = useContext(ScheduleContext);
@@ -117,9 +119,11 @@ const App = () => {
 										<Route path='/course' element={<CoursesPage />} />
 										<Route path='/teams' element={<TeamPage />} />
 										<Route path='/teams/:id' element={<TeamPage />} />
+										<Route path='/teamform' element={<TeamForm />} />
 										<Route path='/logbook/:id' element={<LogbookPage />} />
 										<Route path='/sector' element={<SectorPage />} />
 										<Route path='/sectorCourse/:id' element={<SectorCoursePage />} />
+										<Route path='/sectorScore' element={<SectorScorePage />} />
 									</Routes>
 								</div>
 							</div>

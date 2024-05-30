@@ -29,7 +29,7 @@ function Logbook() {
 
 	return (
 		<section className='flex w-[100%] flex-col justify-center items-center'>
-			<div className='w-[100%] p-8 grid grid-cols-2'>
+			<div className='w-[100%] p-3 grid grid-cols-2 ml-20'>
 				<div>
 					<h1 className='text-xl font-bold'>Nombre del proyecto:</h1>
 					<input
