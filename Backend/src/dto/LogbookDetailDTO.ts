@@ -1,4 +1,4 @@
-import { ArrayNotEmpty, IsArray, IsNotEmpty, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class LogbookDetailDTO {
     id: string
@@ -15,7 +15,6 @@ export class LogbookDetailDTO {
 
     @ApiProperty({ type: String, description: 'Estudiantes que faltaron a la asesoría' })
     @IsArray({ message: 'Los estudiantes deben ser un array' })
-    @ArrayNotEmpty({ message: 'El array de estudiantes no puede estar vacío' })
     @IsString({ each: true, message: 'Cada estudiante debe ser una cadena' })
     missingStudents: string[]
 

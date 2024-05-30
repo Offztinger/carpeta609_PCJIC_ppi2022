@@ -18,8 +18,8 @@ export class LogbookDetailService {
     }
 
     async findLogbookDetailById(id: string) {
-        return await this.prisma.logbookDetail.findUnique({
-            where: { id },
+        return await this.prisma.logbookDetail.findMany({
+            where: { logbookId: id },
         });
     }
 
