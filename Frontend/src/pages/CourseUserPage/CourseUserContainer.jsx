@@ -3,7 +3,7 @@ import { CourseUserContext } from '../../context/CourseUserContext/CourseUserCon
 import CourseUserTable from './components/CourseUserTable';
 
 const CourseUserContainer = () => {
-	const { getUserCourse, deleteUserCourse, setSelectedId } =
+	const { getUserCourse, deleteUserCourse, setSelectedId, userCourses } =
 		useContext(CourseUserContext);
 
 	useEffect(() => {
@@ -11,7 +11,8 @@ const CourseUserContainer = () => {
 	}, []);
 
 	const onDelete = async idToDelete => {
-		idToDelete && (await deleteUserCourse('course', idToDelete));
+		idToDelete && (await deleteUserCourse(idToDelete));
+		await getUserCourse();
 	};
 
 	const updateId = id => {
@@ -20,7 +21,9 @@ const CourseUserContainer = () => {
 
 	return (
 		<main>
-			<CourseUserTable deleteFunction={onDelete} updateId={updateId} />
+			{userCourses && (
+				<CourseUserTable deleteFunction={onDelete} updateId={updateId} />
+			)}
 		</main>
 	);
 };
