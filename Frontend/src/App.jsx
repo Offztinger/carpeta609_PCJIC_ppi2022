@@ -28,10 +28,6 @@ const App = () => {
 	const { user } = useSelector(state => state.auth);
 	const cronogramaActual = [];
 
-	const cronogramaActual1 = schedule.filter(element => {
-		return element;
-	});
-
 	useEffect(() => {
 		getSchedule('schedule');
 		console.log('user', user);

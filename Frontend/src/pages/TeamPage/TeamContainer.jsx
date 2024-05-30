@@ -3,6 +3,7 @@ import TeamTable from './components/TeamTable';
 import { useContext } from 'react';
 import { TeamContext } from '../../context/TeamContext/TeamContext';
 import TeamMemberTable from './components/TeamMemberTable';
+import useAxiosHandler from '../../hooks/axiosHandler';
 
 const TeamContainer = () => {
 	const {
@@ -14,6 +15,8 @@ const TeamContainer = () => {
 		setFolderId,
 		deleteTeam,
 	} = useContext(TeamContext);
+
+	const { DELETERequest } = useAxiosHandler();
 
 	const updateId = id => {
 		setSelectedId(id);
@@ -27,6 +30,8 @@ const TeamContainer = () => {
 		getTeams();
 		if (id != 'teams') {
 			setFolderId(id);
+		} else {
+			setFolderId(undefined);
 		}
 	}, []);
 
@@ -41,12 +46,24 @@ const TeamContainer = () => {
 		idToDelete && (await deleteTeam(idToDelete));
 	};
 
+	const onDeleteMember = async idToDelete => {
+		idToDelete &&
+			(await DELETERequest('http://127.0.0.1:4000/teamMember', idToDelete));
+		await getTeamMembers(folderId);
+	};
+
 	return (
 		<main>
-			{teams && folderId == undefined && (
+			{teams && folderId === undefined && (
 				<TeamTable deleteFunction={onDelete} updateId={updateId} />
 			)}
-			{folderId != undefined && <TeamMemberTable updateId={updateId} folderNumber={id} />}
+			{folderId != undefined && (
+				<TeamMemberTable
+					updateId={updateId}
+					folderNumber={id}
+					deleteFunction={onDeleteMember}
+				/>
+			)}
 		</main>
 	);
 };

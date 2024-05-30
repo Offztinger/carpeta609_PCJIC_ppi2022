@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { useContext, useState } from 'react';
 import { TeamContext } from '../../../context/TeamContext/TeamContext';
 import usePaginatorHandler from '../../../hooks/paginatorHandler';
@@ -8,16 +8,28 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import TeamMemberForm from './TeamMemberForm';
 import useAxiosHandler from '../../../hooks/axiosHandler';
+import { useNavigate } from 'react-router-dom';
 
-export default function TeamMemberTable({ updateId, folderNumber }) {
+export default function TeamMemberTable({
+	updateId,
+	folderNumber,
+	deleteFunction,
+}) {
+	const navigate = useNavigate();
 	const { POSTRequest } = useAxiosHandler();
-	const { teamMembers, selectedId, data, getTeamMembers } =
+	const { teamMembers, selectedId, data, getTeamMembers, setFolderId } =
 		useContext(TeamContext);
 	const [currentSection, setCurrentSection] = useState(0);
 	const { handleSectionClick, chunkArray } = usePaginatorHandler();
 	const secciones = chunkArray(teamMembers, 10);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
+	const [deleteId, setDeleteId] = useState('');
+
+	useEffect(() => {
+		selectedId && setDeleteId(selectedId);
+	}, [selectedId]);
+
 	const showModal = setter => {
 		setter(true);
 		requestAnimationFrame(() => {
@@ -37,9 +49,13 @@ export default function TeamMemberTable({ updateId, folderNumber }) {
 
 	const onSubmit = async () => {
 		if (data.length > 0) {
-			await POSTRequest(data, 'http://127.0.0.1:4000/teamMember');
-			getTeamMembers(folderNumber);
-			showModal(setShowCreateModal);
+			if (teamMembers.length < 3) {
+				await POSTRequest(data, 'http://127.0.0.1:4000/teamMember');
+				getTeamMembers(folderNumber);
+				showModal(setShowCreateModal);
+			} else {
+				alert('No se pueden agregar más de 3 estudiantes');
+			}
 		} else {
 			alert('No hay estudiantes seleccionados');
 		}
@@ -138,19 +154,10 @@ export default function TeamMemberTable({ updateId, folderNumber }) {
 											<td className='botonesaccion'>
 												<button
 													type='button'
-													className='btn btn-success'
-													onClick={() => {
-														console.log('Editar');
-													}}
-												>
-													<FontAwesomeIcon icon={faPenToSquare} />
-												</button>
-
-												<button
-													type='button'
 													className='btn btn-danger'
 													onClick={() => {
-														console.log('Borrar');
+														setShowDeleteModal(true);
+														updateId(teamMember.id);
 													}}
 												>
 													<FontAwesomeIcon icon={faTrashCan} />
@@ -195,17 +202,31 @@ export default function TeamMemberTable({ updateId, folderNumber }) {
 							→
 						</span>
 					</div>
-					<a>
-						<button
-							className='crearModulo'
-							onClick={() => {
-								updateId('');
-								showModal(setShowCreateModal);
-							}}
-						>
-							Añadir estudiantes
-						</button>
-					</a>
+					<div className='flex'>
+						<a>
+							<button
+								className='crearModulo mr-8'
+								onClick={() => {
+									updateId('');
+									showModal(setShowCreateModal);
+								}}
+							>
+								Añadir estudiantes
+							</button>
+						</a>
+						<a>
+							<button
+								className='crearModulo'
+								onClick={() => {
+									updateId('');
+									navigate('/teams');
+									setFolderId(undefined);
+								}}
+							>
+								Volver a equipo
+							</button>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div>

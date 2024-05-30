@@ -36,6 +36,7 @@ export default function TeamMemberForm({ folderNumber }) {
 	const { handleChange, formulario, data, setData } = useContext(TeamContext);
 	const [studentsOptions, setStudentsOptions] = useState([]);
 	const [students, setStudents] = useState([]);
+	const [courseUsers, setCourseUsers] = useState([]);
 
 	useEffect(() => {
 		GETRequest('http://localhost:4000/student', data =>
@@ -47,6 +48,7 @@ export default function TeamMemberForm({ folderNumber }) {
 			),
 		);
 		GETRequest('http://localhost:4000/student', setStudents);
+		GETRequest('http://localhost:4000/courseUser', setCourseUsers);
 	}, []);
 
 	const getSelectedOption = (options, value) => {
