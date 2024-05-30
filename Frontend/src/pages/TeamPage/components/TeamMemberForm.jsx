@@ -98,9 +98,9 @@ export default function TeamMemberForm({ folderNumber }) {
 				<table>
 					<thead>
 						<tr>
-							<th>Nombre</th>
-							<th>Correo</th>
-							<th>Acciones</th>
+							<th className='nombreteammembertyle'>Nombre</th>
+							<th className='emailteammemberstyle'>Correo</th>
+							<th className='botonesaccionteammember'>Acciones</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -112,7 +112,7 @@ export default function TeamMemberForm({ folderNumber }) {
 								<tr key={idx}>
 									<td>{`${student?.name} ${student?.lastName}`}</td>
 									<td>{student?.email}</td>
-									<td>
+									<td className='botonesaccionteammember'>
 										<button
 											type='button'
 											className='btn btn-danger'
