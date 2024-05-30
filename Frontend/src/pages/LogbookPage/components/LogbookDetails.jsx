@@ -103,7 +103,7 @@ const LogbookDetails = () => {
 									className='btn btn-success'
 									onClick={() => {
 										setIsEdit(!isEdit);
-                                        setLogbookDetailToEdit(logbook);
+										setLogbookDetailToEdit(logbook);
 									}}
 								>
 									<FontAwesomeIcon icon={faPenToSquare} />
