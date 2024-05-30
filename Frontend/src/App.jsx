@@ -21,6 +21,7 @@ import SectorPage from './pages/SectorPage/SectorPage';
 import SectorCoursePage from './pages/SectorCoursePage/SectorCoursePage';
 import SectorScorePage from './pages/SectorScorePage/SectorScorePage';
 import TeamForm from './pages/TeamPage/components/TeamForm';
+import CourseUserPage from './pages/CourseUserPage/CourseUserPage';
 
 const App = () => {
 	const { schedule, getSchedule } = useContext(ScheduleContext);
@@ -127,6 +128,7 @@ const App = () => {
 											element={<SectorCoursePage />}
 										/>
 										<Route path='/sectorScore' element={<SectorScorePage />} />
+										<Route path='/courseUser' element={<CourseUserPage />} />
 									</Routes>
 								</div>
 							</div>
