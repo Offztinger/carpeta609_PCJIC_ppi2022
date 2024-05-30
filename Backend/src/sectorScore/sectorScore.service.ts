@@ -25,7 +25,36 @@ export class SectorScoreService {
     }
 
     async findAllSectorScores() {
-        return (await this.prisma.sectorScore.findMany())
+        try {
+            const sectorScores = await this.prisma.sectorScore.findMany();
+
+            const results = await Promise.all(sectorScores.map(async (sectorScore) => {
+                const [student, folderNumber, sectorCourse] = await Promise.all([
+                    this.prisma.user.findUnique({
+                        where: { id: sectorScore.idUser },
+                    }),
+                    this.prisma.user.findUnique({
+                        where: { id: sectorScore.folderNumberId },
+                    }),
+                    this.prisma.sectorCourse.findUnique({
+                        where: { id: sectorScore.idSectorCourse },
+                    }),
+                ]);
+
+                return {
+                    sectorScore,
+                    student,
+                    folderNumber,
+                    sectorCourse,
+                };
+            }));
+
+            return results;
+        } catch (error) {
+            // Handle any potential errors here
+            console.error("Error fetching sector scores:", error);
+            throw new Error("Failed to fetch sector scores.");
+        }
     }
 
     async findSectorScoreById(id: string) {
