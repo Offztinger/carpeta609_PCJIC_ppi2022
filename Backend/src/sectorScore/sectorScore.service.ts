@@ -14,7 +14,7 @@ export class SectorScoreService {
                     idSectorCourse: data.idSectorCourse,
                     scoreSector: data.scoreSector,
                     folderNumberId: data.folderNumberId,
-                    userId: data.userId,
+                    idUser: data.idUser,
                 },
             });
         } catch (error) {

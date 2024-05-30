@@ -171,9 +171,9 @@ model Meeting {
   meetingDate    String  @map("meeting_date")
   meetingPlace   String  @map("meeting_place")
   folderNumberId String  @map("meeting_folder_number")
-  userId         String  @map("meeting_professor_id")
+  idUser         String  @map("meeting_professor_id")
   TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
-  User           User    @relation(fields: [userId], references: [id])
+  User           User    @relation(fields: [idUser], references: [id])
 
   @@map("meeting")
 }
@@ -204,10 +204,10 @@ model SectorScore {
   idSectorCourse String       @map("id_sector_course")
   scoreSector    Int          @map("score_sector")
   folderNumberId String       @map("folder_number_id")
-  userId         String       @map("id_student_score")
+  idUser         String       @map("id_student_score")
   SectorCourse   SectorCourse @relation(fields: [idSectorCourse], references: [id])
   TeamPPI        TeamPPI      @relation(fields: [folderNumberId], references: [id])
-  User           User         @relation(fields: [userId], references: [id])
+  User           User         @relation(fields: [idUser], references: [id])
 
   @@map("sector_score")
 }

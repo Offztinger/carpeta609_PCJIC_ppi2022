@@ -22,6 +22,6 @@ export class MeetingDTO {
     @ApiProperty({ type: String, description: 'Id del profesor' })
     @IsNotEmpty({ message: 'El id del profesor no puede estar vacío' })
     @IsString({ message: 'El id del profesor debe ser un string' })
-    userId: string
+    idUser: string
 
 }

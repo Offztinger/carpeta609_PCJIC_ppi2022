@@ -46,5 +46,5 @@ export class SectorScoreDTO {
     @ApiProperty({ type: String, description: 'Id del estudiante' })
     @IsNotEmpty({ message: 'El id del estudiante no puede estar vacío' })
     @IsString({ message: 'El id del estudiante debe ser un string' })
-    userId: string;
+    idUser: string;
 }
