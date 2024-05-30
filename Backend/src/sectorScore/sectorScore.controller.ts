@@ -4,8 +4,8 @@ import { ApiTags } from '@nestjs/swagger';
 import { SectorScoreDTO } from 'src/dto/SectorDTO';
 import { SectorPipe } from 'src/sector/sector.pipe';
 import { SectorCoursePipe } from 'src/sectorCourse/sectorCourse.pipe';
-import { RoleStudentPipe } from 'src/roles/roleStudent.pipe';
 import { AuthGuard, JwtAuthGuard } from 'src/auth/guards';
+import { UserPipe } from 'src/user/user.pipe';
 
 
 @ApiTags('SectorScore')
@@ -16,7 +16,7 @@ export class SectorScoreController {
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    createSectorScore(@Body(SectorPipe, SectorCoursePipe, RoleStudentPipe) sectorScoreData: SectorScoreDTO) {
+    createSectorScore(@Body(SectorPipe, SectorCoursePipe, UserPipe) sectorScoreData: SectorScoreDTO) {
         return this.sectorScoreService.createSectorScore(sectorScoreData);
     }
 

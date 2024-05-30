@@ -104,10 +104,12 @@ model TeamPPI {
   User         User          @relation(fields: [idUser], references: [id])
   course       Course        @relation(fields: [idCourse], references: [id])
   TeamMembers  TeamMembers[]
-  Schedule     Schedule?
   SectorScore  SectorScore[]
   Logbook      Logbook?
   Meeting      Meeting[]
+
+  scheduleId String?
+  Schedule   Schedule[]
 
   @@map("team_ppi")
 }
@@ -124,13 +126,13 @@ model TeamMembers {
 
 model Schedule {
   id             String  @id @default(uuid()) @map("id_schedule")
-  folderNumberId String  @unique @map("folder_number")
+  folderNumberId String  @map("folder_number")
   idUser         String  @map("id_professor")
   scheduleDate   String  @map("schedule_date")
   schedulePlace  String  @map("schedule_place")
   scheduleHour   String  @map("schedule_hour")
-  TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
   User           User    @relation(fields: [idUser], references: [id])
+  TeamPPI        TeamPPI @relation(fields: [folderNumberId], references: [id])
 
   @@map("schedule")
 }
