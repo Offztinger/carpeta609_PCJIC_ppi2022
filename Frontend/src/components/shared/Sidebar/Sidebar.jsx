@@ -81,7 +81,7 @@ export default function Sidebar() {
 						className='nav-link text-white'
 						activeClassName='active'
 					>
-						Calendario
+						Asesorias
 					</NavLink>
 				</li>
 			</ul>

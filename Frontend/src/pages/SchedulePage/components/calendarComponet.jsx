@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar';
 import { format, parse, getDay, startOfWeek } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -6,8 +6,13 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { Link } from 'react-router-dom';
 import { ScheduleContext } from '../../../context/ScheduleContext/ScheduleContext';
 import { useNavigate } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import ScheduleBody from './ScheduleBody';
 
 export default function CalendarComponent({ cronograma }) {
+	const [showScheduleModal, setShowScheduleModal] = useState(false);
+
 	const locales = {
 		es: es,
 	};
@@ -62,7 +67,24 @@ export default function CalendarComponent({ cronograma }) {
 
 	const navigate = useNavigate();
 
-	const { setIdLogbook, logbook } = useContext(ScheduleContext);
+	const { setIdLogbook } = useContext(ScheduleContext);
+
+	const showModal = setter => {
+		setter(true);
+		requestAnimationFrame(() => {
+			document.querySelector('.modal-content').classList.add('active');
+		});
+	};
+
+	const hideModal = setter => {
+		const modalContent = document.querySelector('.modal-content');
+		modalContent.classList.remove('active');
+		modalContent.classList.add('inactive');
+		setTimeout(() => {
+			setter(false);
+			modalContent.classList.remove('inactive');
+		}, 200); // Timeout should match animation duration
+	};
 
 	return (
 		<div
@@ -73,9 +95,49 @@ export default function CalendarComponent({ cronograma }) {
 				marginTop: '30px',
 			}}
 		>
-			<Link to='/'>
-				<button className='btn btn-success mb-3'>Volver</button>
-			</Link>
+			<Modal
+				show={showScheduleModal}
+				onHide={() => hideModal(setShowScheduleModal)}
+				dialogClassName=''
+				onEntered={() => showModal(setShowScheduleModal)}
+				onExit={() => hideModal(setShowScheduleModal)}
+			>
+				<Modal.Header closeButton>
+					<Modal.Title>Crear asesoria</Modal.Title>
+				</Modal.Header>
+				<Modal.Body>
+					<ScheduleBody />
+				</Modal.Body>
+				<Modal.Footer>
+					<Button
+						variant='secondary'
+						className='btn btn-dark'
+						onClick={() => hideModal(setShowScheduleModal)}
+					>
+						Cancelar
+					</Button>
+					<Button
+						variant='primary'
+						className='btn btn-success'
+						onClick={() => {
+							hideModal(setShowScheduleModal);
+						}}
+					>
+						Crear
+					</Button>
+				</Modal.Footer>
+			</Modal>
+			<div className='flex w-full justify-between'>
+				<Link to='/'>
+					<button className='btn btn-success mb-3'>Volver</button>
+				</Link>
+				<button
+					onClick={() => setShowScheduleModal(true)}
+					className='btn btn-success mb-3'
+				>
+					Solicitar asesoria
+				</button>
+			</div>
 			<Calendar
 				localizer={localizer}
 				events={events}

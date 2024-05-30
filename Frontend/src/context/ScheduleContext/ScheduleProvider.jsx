@@ -9,7 +9,18 @@ const ScheduleProvider = ({ children }) => {
 		useAxiosHandler();
 	const [logbook, setLogbook] = useState(undefined);
 	const [schedule, setSchedule] = useState([]);
+	const [formularioAsesoria, setFormularioAsesoria] = useState({
+		folderNumberId: '',
+		idUser: '',
+		scheduleDate: '',
+		schedulePlace: '',
+		scheduleHour: '',
+	});
 	const url = 'http://127.0.0.1:4000/schedule';
+
+	const getMethod = (moduleName, setState) => {
+		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setState);
+	};
 
 	const postSchedule = formulario => {
 		if (formulario) {
@@ -59,6 +70,9 @@ const ScheduleProvider = ({ children }) => {
 				setIdLogbook,
 				setLogbook,
 				logbook,
+				setFormularioAsesoria,
+				formularioAsesoria,
+				getMethod,
 			}}
 		>
 			{children}

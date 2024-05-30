@@ -19,7 +19,10 @@ const LogbookContainer = () => {
 	}, []);
 
 	return (
-		<main>{logbookDetails.length > 0 ? <LogbookDetails /> : <Logbook />}</main>
+		<main>
+			{logbookDetails.length > 0 && <LogbookDetails />}
+			{logbookDetails.length == 0 && <Logbook />}
+		</main>
 	);
 };
 
