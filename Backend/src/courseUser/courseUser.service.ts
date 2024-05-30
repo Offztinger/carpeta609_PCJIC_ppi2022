@@ -14,7 +14,12 @@ export class CourseUserService {
     }
 
     async findAllCourseUsers() {
-        return (await this.prisma.courseUser.findMany())
+        return await this.prisma.courseUser.findMany({
+            include: {
+                User: true,
+                Course: true,
+            },
+        });
     }
 
     async findCourseUserById(id: string) {
