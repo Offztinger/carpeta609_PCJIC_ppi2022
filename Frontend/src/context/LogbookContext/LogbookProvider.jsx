@@ -6,7 +6,7 @@ import { LogbookContext } from './LogbookContext';
 const LogbookProvider = ({ children }) => {
 	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
 		useAxiosHandler();
-
+	const [logbookDetails, setLogbookDetails] = useState([]);
 	const [logbook, setLogbook] = useState([]);
 	const [selectedId, setSelectedId] = useState('');
 	const [formulario, setFormulario] = useState({
@@ -22,31 +22,31 @@ const LogbookProvider = ({ children }) => {
 	const [team, setTeam] = useState([]);
 	const [teamMembers, setTeamMembers] = useState([]);
 
-	const url = 'http://127.0.0.1:4000/logbook';
-	const getLogbook = async (id = '') => {
-		const getUrl = `${url}/${id}`;
-		await GETRequest(id != '' ? getUrl : url, setLogbook);
+	const url = 'http://127.0.0.1:4000/';
+
+	const getMethod = async (id = '', moduleName, setState) => {
+		const getUrl = `${url}${moduleName}`;
+		const getByIdUrl = `${url}${moduleName}/${id}`;
+		await GETRequest(id != '' ? getByIdUrl : getUrl, setState);
 	};
 
-	const postLogbook = async logbook => {
-		await POSTRequest(logbook, url);
-		getLogbook();
+	const postLogbook = async (moduleName, logbook) => {
+		await POSTRequest(logbook, `${url}${moduleName}`);
 	};
 
-	const deleteLogbook = async id => {
-		await DELETERequest(url, id);
-		getLogbook();
+	const deleteLogbook = async (moduleName, id) => {
+		await DELETERequest(`${url}${moduleName}`, id);
 	};
 
-	const handleChange = e => {
+	const handleChangeLogbook = e => {
 		const { name, value } = e.target;
 		setFormulario(prevFormulario => ({ ...prevFormulario, [name]: value }));
 	};
 
-	const handleSubmit = async e => {
+	const handleSubmit = async (e, moduleName) => {
 		e.preventDefault();
 		// Aquí puedes hacer una petición HTTP para publicar los cambios
-		const body = await PUTRequest(formulario, url);
+		const body = await PUTRequest(formulario, `${url}${moduleName}`);
 		setFormulario(body);
 	};
 
@@ -54,19 +54,22 @@ const LogbookProvider = ({ children }) => {
 		<LogbookContext.Provider
 			value={{
 				logbook,
-				getLogbook,
+				setLogbook,
+				getMethod,
 				postLogbook,
 				deleteLogbook,
 				setSelectedId,
 				selectedId,
 				setFormulario,
 				formulario,
-				handleChange,
+				handleChangeLogbook,
 				handleSubmit,
 				setTeam,
 				team,
 				setTeamMembers,
 				teamMembers,
+				setLogbookDetails,
+				logbookDetails,
 			}}
 		>
 			{children}

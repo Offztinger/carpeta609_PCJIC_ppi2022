@@ -1,16 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { LogbookContext } from '../../../context/LogbookContext/LogbookContext';
 import './Logbook.css';
 
 function Logbook() {
 	const {
 		formulario,
-		handleChange,
+		handleChangeLogbook,
 		handleSubmit,
 		setFormulario,
 		logbook,
 		team,
 		teamMembers,
+		getMethod,
+		setLogbookDetails,
 	} = useContext(LogbookContext);
 
 	useEffect(() => {
@@ -35,7 +37,7 @@ function Logbook() {
 						name='projectName'
 						className='form-control w-[90%]'
 						value={formulario.projectName}
-						onChange={handleChange}
+						onChange={e => handleChangeLogbook(e)}
 					/>
 					{/* <p>{logbook.projectName}</p> */}
 				</div>
@@ -88,7 +90,7 @@ function Logbook() {
 						name='description'
 						className='form-control w-[95%]'
 						value={formulario.description}
-						onChange={handleChange}
+						onChange={e => handleChangeLogbook(e)}
 						rows={4}
 					/>
 				</div>
@@ -103,7 +105,7 @@ function Logbook() {
 						name='detailedScope'
 						className='form-control w-[95%]'
 						value={formulario.detailedScope}
-						onChange={handleChange}
+						onChange={e => handleChangeLogbook(e)}
 						rows={4}
 					/>
 				</div>
@@ -116,7 +118,7 @@ function Logbook() {
 						name='firstMeetingScope'
 						className='form-control w-[95%]'
 						value={formulario.firstMeetingScope}
-						onChange={handleChange}
+						onChange={e => handleChangeLogbook(e)}
 						rows={4}
 					/>
 				</div>
@@ -129,79 +131,31 @@ function Logbook() {
 						name='secondMeetingScope'
 						className='form-control w-[95%]'
 						value={formulario.secondMeetingScope}
-						onChange={handleChange}
+						onChange={e => handleChangeLogbook(e)}
 						rows={4}
 					/>
 				</div>
 			</div>
-			<div className='flex'>
+			<div className='w-full flex justify-around'>
 				<button
 					className='crearModulo'
 					onClick={e => {
-						handleSubmit(e);
+						handleSubmit(e, 'logbook');
 					}}
 				>
 					Guardar cambios
 				</button>
+				<button
+					className='crearModulo'
+					onClick={async () => {
+						await getMethod(formulario.id, 'logbookDetail', setLogbookDetails);
+					}}
+				>
+					Detalle Bitacora
+				</button>
 			</div>
 		</section>
 	);
-}
-
-{
-	/* <form onSubmit={handleSubmit}>
-<label>
-	Nombre:
-	<input
-		type='text'
-		name='nombre'
-		value={formulario.nombre}
-		onChange={handleChange}
-	/>
-</label>
-<br />
-<label>
-	Apellido:
-	<input
-		type='text'
-		name='apellido'
-		value={formulario.apellido}
-		onChange={handleChange}
-	/>
-</label>
-<br />
-<label>
-	Email:
-	<input
-		type='email'
-		name='email'
-		value={formulario.email}
-		onChange={handleChange}
-	/>
-</label>
-<br />
-<label>
-	Teléfono:
-	<input
-		type='tel'
-		name='telefono'
-		value={formulario.telefono}
-		onChange={handleChange}
-	/>
-</label>
-<br />
-<label>
-	Dirección:
-	<input
-		type='text'
-		name='direccion'
-		value={formulario.direccion}
-		onChange={handleChange}
-	/>
-</label>
-<br />
-<button type='submit'>Publicar cambios</button>
-</form> */
 }
 
 export default Logbook;
