@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt, faEdit, faTable } from '@fortawesome/free-solid-svg-icons';
 import { Tooltip } from 'react-tooltip';
 import CourseUserBody from './CourseUserBody';
+import './CourseUserTable.css'
 
 function CourseUserTable({ deleteFunction, updateId }) {
 	const {
@@ -144,7 +145,7 @@ function CourseUserTable({ deleteFunction, updateId }) {
 										<tr key={course.id}>
 											<td>{`${course.User.name} ${course.User.lastName}`}</td>
 											<td>{course.Course.courseName}</td>
-											<td>{course.Course.courseLevel}</td>
+											<td className='courseuserlevelstyle'>{course.Course.courseLevel}</td>
 											<td className='botonesaccion'>
 												<button
 													data-tooltip-id='deletecourse'

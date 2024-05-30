@@ -37,7 +37,7 @@
 
 .usersList {
     margin-right: 130px;
-    margin-left: 100px;
+    margin-left: 68px;
     padding: 2%;
     opacity: 100%;
     border-radius: 1%;
@@ -73,7 +73,6 @@ tr:nth-child(even) { /* filas impares */
 }
 
 .sections {
-    margin-left: 15%;
     color: white;
     display: flex;
     justify-content: space-around;
