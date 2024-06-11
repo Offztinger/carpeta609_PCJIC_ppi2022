@@ -12,13 +12,13 @@ services:
     volumes:
       - ./postgres_data:/var/lib/postgresql/data
       
-  node:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    env_file:
-      - .env
-    ports:
-      - 4000:4000
-    depends_on:
-      - postgres
+  # node:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 4000:4000
+  #   depends_on:
+  #     - postgres
