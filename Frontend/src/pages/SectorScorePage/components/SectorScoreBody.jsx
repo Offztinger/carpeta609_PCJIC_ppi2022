@@ -39,8 +39,8 @@ const SectorScoreBody = () => {
 	const [students, setStudents] = useState([]);
 	const [team, setTeam] = useState([]);
 	useEffect(() => {
-		GETRequest(`http://3.15.235.33:4000/teams/${idSectorScore}`, setTeam);
-		GETRequest(`http://3.15.235.33:4000/teamMember/${idSectorScore}`, data =>
+		GETRequest(`https://backend.portalppi.site/teams/${idSectorScore}`, setTeam);
+		GETRequest(`https://backend.portalppi.site/teamMember/${idSectorScore}`, data =>
 			setStudents(
 				data.map(student => ({
 					value: student.student.id,
@@ -54,7 +54,7 @@ const SectorScoreBody = () => {
 	useEffect(() => {
 		if (team.idCourse !== undefined) {
 			GETRequest(
-				`http://3.15.235.33:4000/sectorCourse/course/${team.idCourse}`,
+				`https://backend.portalppi.site/sectorCourse/course/${team.idCourse}`,
 				data =>
 					setSectorCourse(
 						data.map(sector => ({

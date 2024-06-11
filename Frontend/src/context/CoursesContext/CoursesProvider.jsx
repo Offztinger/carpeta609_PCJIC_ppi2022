@@ -16,7 +16,7 @@ const CoursesProvider = ({ children }) => {
 		isAlternative: false,
 	});
 	const [formError, setFormError] = useState(true);
-	const url = 'http://3.15.235.33:4000/course';
+	const url = 'https://backend.portalppi.site/course';
 
 	const getCourses = () => {
 		GETRequest(url, setCourses);

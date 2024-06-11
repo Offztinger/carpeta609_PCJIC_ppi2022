@@ -29,7 +29,7 @@ const LogbookDetails = ({ folderNumber }) => {
 	const [isEdit, setIsEdit] = useState([]);
 
 	useEffect(() => {
-		GETRequest('http://3.15.235.33:4000/professor', setProfessors);
+		GETRequest('https://backend.portalppi.site/professor', setProfessors);
 	}, []);
 
 	useEffect(() => {
@@ -83,10 +83,10 @@ const LogbookDetails = ({ folderNumber }) => {
 	const onPutSubmit = useCallback(async () => {
 		await PUTRequest(
 			logbookDetailToEdit,
-			'http://3.15.235.33:4000/logbookDetail',
+			'https://backend.portalppi.site/logbookDetail',
 		).finally(() => {
 			GETRequest(
-				`http://3.15.235.33:4000/logbookDetail/${logbookId}`,
+				`https://backend.portalppi.site/logbookDetail/${logbookId}`,
 				setLogbookDetails,
 			);
 			setLogbookDetailToEdit({
@@ -110,11 +110,11 @@ const LogbookDetails = ({ folderNumber }) => {
 	const onAddSubmit = useCallback(async () => {
 		await POSTRequest(
 			newLogbookDetail,
-			'http://3.15.235.33:4000/logbookDetail',
+			'https://backend.portalppi.site/logbookDetail',
 		).finally(() => {
 			setIsAdding(false);
 			GETRequest(
-				`http://3.15.235.33:4000/logbookDetail/${logbookId}`,
+				`https://backend.portalppi.site/logbookDetail/${logbookId}`,
 				setLogbookDetails,
 			);
 			setNewLogbookDetail({

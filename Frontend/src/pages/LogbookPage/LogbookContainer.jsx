@@ -14,8 +14,8 @@ const LogbookContainer = () => {
 
 	useEffect(() => {
 		getMethod(id, 'logbook', setLogbook);
-		GETRequest(`http://3.15.235.33:4000/teams/${id}`, setTeam);
-		GETRequest(`http://3.15.235.33:4000/teamMember/${id}`, setTeamMembers);
+		GETRequest(`https://backend.portalppi.site/teams/${id}`, setTeam);
+		GETRequest(`https://backend.portalppi.site/teamMember/${id}`, setTeamMembers);
 	}, []);
 
 	return (

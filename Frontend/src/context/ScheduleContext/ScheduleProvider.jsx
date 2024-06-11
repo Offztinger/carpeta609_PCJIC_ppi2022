@@ -16,10 +16,10 @@ const ScheduleProvider = ({ children }) => {
 		schedulePlace: '',
 		scheduleHour: '',
 	});
-	const url = 'http://3.15.235.33:4000/schedule';
+	const url = 'https://backend.portalppi.site/schedule';
 
 	const getMethod = (moduleName, setState) => {
-		GETRequest(`http://3.15.235.33:4000/${moduleName}`, setState);
+		GETRequest(`https://backend.portalppi.site/${moduleName}`, setState);
 	};
 
 	const postSchedule = async formulario => {
@@ -75,7 +75,7 @@ const ScheduleProvider = ({ children }) => {
 	}, [logbook]);
 
 	const setIdLogbook = async id => {
-		await GETRequest(`http://3.15.235.33:4000/logbook/${id}`, setLogbook);
+		await GETRequest(`https://backend.portalppi.site/logbook/${id}`, setLogbook);
 		return logbook;
 	};
 
