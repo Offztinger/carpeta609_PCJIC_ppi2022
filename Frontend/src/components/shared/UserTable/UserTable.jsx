@@ -15,7 +15,7 @@ function UserTable({ deleteFunction, updateId }) {
 	const [showDeleteModal, setShowDeleteModal] = useState(false);
 	const [showCreateModal, setShowCreateModal] = useState(false);
 	const [currentSection, setCurrentSection] = useState(0);
-	
+
 	const {
 		users,
 		exportToExcel,
@@ -150,6 +150,7 @@ function UserTable({ deleteFunction, updateId }) {
 							type='number'
 							name='documentNumber'
 							className='form-control'
+							disabled={selectedId ? true : false}
 							value={formulario.documentNumber}
 							onChange={handleChange}
 						/>
@@ -316,7 +317,7 @@ function UserTable({ deleteFunction, updateId }) {
 							→
 						</span>
 					</div>
-					<a >
+					<a>
 						<button
 							className='crearModulo'
 							onClick={() => {
