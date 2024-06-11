@@ -1,4 +1,4 @@
-ARG NODEJS=20-alpine
+ARG NODEJS=node:20-alpine
 
 FROM ${NODEJS} as build
 
