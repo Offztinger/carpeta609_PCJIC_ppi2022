@@ -39,7 +39,7 @@ export default function TeamMemberForm({ folderNumber }) {
 	const [courseUsers, setCourseUsers] = useState([]);
 
 	useEffect(() => {
-		GETRequest('http://localhost:4000/student', data =>
+		GETRequest('http://3.147.42.128:4000/student', data =>
 			setStudentsOptions(
 				data.map(student => ({
 					value: student.id,
@@ -47,8 +47,8 @@ export default function TeamMemberForm({ folderNumber }) {
 				})),
 			),
 		);
-		GETRequest('http://localhost:4000/student', setStudents);
-		GETRequest('http://localhost:4000/courseUser', setCourseUsers);
+		GETRequest('http://3.147.42.128:4000/student', setStudents);
+		GETRequest('http://3.147.42.128:4000/courseUser', setCourseUsers);
 	}, []);
 
 	const getSelectedOption = (options, value) => {

@@ -13,7 +13,7 @@ const CourseUserProvider = ({ children }) => {
 		active: true,
 	});
 	const [formError, setFormError] = useState(false);
-	const url = 'http://127.0.0.1:4000/courseUser';
+	const url = 'http://3.147.42.128:4000/courseUser';
 
 	const getUserCourse = async () => {
 		await GETRequest(url, setUserCourses);

@@ -37,7 +37,7 @@ export default function TeamForm() {
 	const [course, setCourses] = useState([]);
 
 	useEffect(() => {
-		GETRequest('http://localhost:4000/professor', data =>
+		GETRequest('http://3.147.42.128:4000/professor', data =>
 			setProfessors(
 				data.map(professor => ({
 					value: professor.id,
@@ -45,7 +45,7 @@ export default function TeamForm() {
 				})),
 			),
 		);
-		GETRequest('http://localhost:4000/course', data =>
+		GETRequest('http://3.147.42.128:4000/course', data =>
 			setCourses(
 				data.map(course => ({
 					value: course.id,

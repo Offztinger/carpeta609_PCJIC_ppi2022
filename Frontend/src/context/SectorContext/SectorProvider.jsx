@@ -36,7 +36,7 @@ const SectorProvider = ({ children }) => {
 			};
 		}
 		if (data) {
-			await POSTRequest(data, `http://127.0.0.1:4000/${moduleName}`);
+			await POSTRequest(data, `http://3.147.42.128:4000/${moduleName}`);
 			if (moduleName === 'sector') {
 				getMethod(moduleName, setSectors);
 			} else if (moduleName === 'sectorCourse') {
@@ -46,12 +46,12 @@ const SectorProvider = ({ children }) => {
 	};
 
 	const getMethod = (moduleName, setState) => {
-		GETRequest(`http://127.0.0.1:4000/${moduleName}`, setState);
+		GETRequest(`http://3.147.42.128:4000/${moduleName}`, setState);
 	};
 
 	const putSector = async (moduleName, formulario) => {
 		if (formulario) {
-			await PUTRequest(formulario, `http://127.0.0.1:4000/${moduleName}`);
+			await PUTRequest(formulario, `http://3.147.42.128:4000/${moduleName}`);
 			if (moduleName === 'sector') {
 				getMethod(moduleName, setSectors);
 			} else if (moduleName === 'sectorCourse') {
@@ -62,7 +62,7 @@ const SectorProvider = ({ children }) => {
 
 	const deleteSector = async (moduleName, id) => {
 		if (id) {
-			await DELETERequest(`http://127.0.0.1:4000/${moduleName}`, id);
+			await DELETERequest(`http://3.147.42.128:4000/${moduleName}`, id);
 			if (moduleName === 'sector') {
 				getMethod(moduleName, setSectors);
 			} else if (moduleName === 'sectorCourse') {

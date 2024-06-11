@@ -42,7 +42,7 @@ export default function TeamTable({ deleteFunction, updateId }) {
 	const mountEditInfo = async team => {
 		updateId(team.id);
 		setShowCreateModal(true);
-		await GETRequest(`http://127.0.0.1:4000/teams/${team.id}`, setFormulario);
+		await GETRequest(`http://3.147.42.128:4000/teams/${team.id}`, setFormulario);
 	};
 
 	useEffect(() => {

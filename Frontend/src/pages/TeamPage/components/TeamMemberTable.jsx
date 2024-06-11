@@ -66,7 +66,7 @@ export default function TeamMemberTable({
 		if (data.length > 0) {
 			if (data.length <= 3) {
 				// Si hay menos o igual a 3 estudiantes en data, procede a enviar el POST
-				await POSTRequest(data, 'http://127.0.0.1:4000/teamMember');
+				await POSTRequest(data, 'http://3.147.42.128:4000/teamMember');
 				getTeamMembers(folderNumber);
 				showModal(setShowCreateModal);
 			} else {

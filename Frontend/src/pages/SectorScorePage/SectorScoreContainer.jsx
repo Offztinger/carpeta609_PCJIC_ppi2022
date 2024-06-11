@@ -15,7 +15,7 @@ const SectorScoreContainer = () => {
 		const path = window.location.pathname;
 		const parts = path.split('/');
 		setIdSectorScore(parts[2]);
-		const url = `http://127.0.0.1:4000/sectorScore/${parts[2]}`;
+		const url = `http://3.147.42.128:4000/sectorScore/${parts[2]}`;
 		getMethod(url, setSectorScores);
 	}, []);
 
