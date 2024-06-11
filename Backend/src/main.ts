@@ -1,43 +1,14 @@
-import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
+
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import fmp from '@fastify/multipart';
 import helmet from 'helmet';
 import configurations from './core/config/configurations';
 import { Environments } from './core/interfaces';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const fastifyAdapter = new FastifyAdapter({
-    logger: false,
-  });
-
-  fastifyAdapter.register(fmp, {
-    limits: {
-      fieldNameSize: 1000, // Max field name size in bytes
-      fieldSize: 100, // Max field value size in bytes
-      fields: 10, // Max number of non-file fields
-      fileSize: 20971520, //20971520 = 20MB,  For multipart forms, the max file size
-      files: 1, // Max number of file fields
-      headerPairs: 200, // Max number of header key=>value pairs
-    },
-  });
-
-  const app = await NestFactory.create<NestFastifyApplication>(AppModule, fastifyAdapter);
-
-  app.getHttpAdapter()
-    .getInstance()
-    .addHook('onRequest', (request: any, reply: any, done: any) => {
-      reply.setHeader = function (key: any, value: any) {
-        return this.raw.setHeader(key, value);
-      };
-      reply.end = function () {
-        this.raw.end();
-      };
-      request.res = reply;
-      done();
-    });
+  const app = await NestFactory.create(AppModule);
 
   app.use(
     helmet({

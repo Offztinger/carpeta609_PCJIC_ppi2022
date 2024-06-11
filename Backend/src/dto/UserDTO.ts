@@ -1,7 +1,8 @@
 import { IsEmail, IsNotEmpty, IsNumber, IsString, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class UserDTO {
-    id: string;
+    @IsOptional()
+    id?: string;
 
     @ApiProperty({ type: Number, description: 'Número de documento' })
     @IsNumber({}, { message: 'El número de documento debe ser un número' })

@@ -405,3 +405,4 @@ postgres_data
 # Mongo
 mongo_data
 
+/dist
