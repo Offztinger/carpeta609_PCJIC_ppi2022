@@ -23,13 +23,13 @@ const TeamProvider = ({ children }) => {
 		idUser: '',
 	});
 	const [data, setData] = useState([]);
-	const url = 'http://127.0.0.1:4000/teams';
+	const url = 'http://3.15.235.33:4000/teams';
 	const getTeams = async () => {
 		await GETRequest(`${url}/front`, setTeams);
 	};
 
 	const getTeamMembers = async id => {
-		await GETRequest(`http://127.0.0.1:4000/teamMember/${id}`, setTeamMembers);
+		await GETRequest(`http://3.15.235.33:4000/teamMember/${id}`, setTeamMembers);
 	};
 
 	const postTeam = async team => {
@@ -44,7 +44,7 @@ const TeamProvider = ({ children }) => {
 
 	const deleteTeam = async id => {
 		await axios
-			.get(`http://127.0.0.1:4000/logbook/${id}`, {
+			.get(`http://3.15.235.33:4000/logbook/${id}`, {
 				headers: {
 					'Content-Type': 'application/json', // También cambiamos el Content-Type aquí si es necesario
 					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
@@ -52,7 +52,7 @@ const TeamProvider = ({ children }) => {
 			})
 			.then(async res => {
 				if (res.data?.id != undefined) {
-					await DELETERequest(`http://127.0.0.1:4000/logbook`, res.data.id);
+					await DELETERequest(`http://3.15.235.33:4000/logbook`, res.data.id);
 				}
 				await DELETERequest(url, id);
 				await getTeams();

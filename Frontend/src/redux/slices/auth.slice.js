@@ -10,7 +10,7 @@ export const loginUser = createAsyncThunk(
 		try {
 			const { toastError } = useToastHandler();
 			const response = await axios
-				.post('http://127.0.0.1:4000/auth/login', credentials)
+				.post('http://3.15.235.33:4000/auth/login', credentials)
 				.catch(error => {
 					toastError(error.response.data.message);
 				});
@@ -26,7 +26,7 @@ export const loginWithGoogle = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const response = await axios.get(
-				'http://127.0.0.1:4000/auth/google/redirect',
+				'http://3.15.235.33:4000/auth/google/redirect',
 			);
 			return response.data;
 		} catch (error) {

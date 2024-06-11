@@ -29,7 +29,7 @@ const LogbookDetails = ({ folderNumber }) => {
 	const [isEdit, setIsEdit] = useState([]);
 
 	useEffect(() => {
-		GETRequest('http://127.0.0.1:4000/professor', setProfessors);
+		GETRequest('http://3.15.235.33:4000/professor', setProfessors);
 	}, []);
 
 	useEffect(() => {
@@ -83,10 +83,10 @@ const LogbookDetails = ({ folderNumber }) => {
 	const onPutSubmit = useCallback(async () => {
 		await PUTRequest(
 			logbookDetailToEdit,
-			'http://127.0.0.1:4000/logbookDetail',
+			'http://3.15.235.33:4000/logbookDetail',
 		).finally(() => {
 			GETRequest(
-				`http://127.0.0.1:4000/logbookDetail/${logbookId}`,
+				`http://3.15.235.33:4000/logbookDetail/${logbookId}`,
 				setLogbookDetails,
 			);
 			setLogbookDetailToEdit({
@@ -110,11 +110,11 @@ const LogbookDetails = ({ folderNumber }) => {
 	const onAddSubmit = useCallback(async () => {
 		await POSTRequest(
 			newLogbookDetail,
-			'http://127.0.0.1:4000/logbookDetail',
+			'http://3.15.235.33:4000/logbookDetail',
 		).finally(() => {
 			setIsAdding(false);
 			GETRequest(
-				`http://127.0.0.1:4000/logbookDetail/${logbookId}`,
+				`http://3.15.235.33:4000/logbookDetail/${logbookId}`,
 				setLogbookDetails,
 			);
 			setNewLogbookDetail({

@@ -14,8 +14,8 @@ const LogbookContainer = () => {
 
 	useEffect(() => {
 		getMethod(id, 'logbook', setLogbook);
-		GETRequest(`http://127.0.0.1:4000/teams/${id}`, setTeam);
-		GETRequest(`http://127.0.0.1:4000/teamMember/${id}`, setTeamMembers);
+		GETRequest(`http://3.15.235.33:4000/teams/${id}`, setTeam);
+		GETRequest(`http://3.15.235.33:4000/teamMember/${id}`, setTeamMembers);
 	}, []);
 
 	return (
