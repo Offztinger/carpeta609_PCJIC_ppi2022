@@ -77,7 +77,14 @@ const UserProvider = ({ children }) => {
 			if (selectedId) {
 				await putUser(path, formulario);
 			} else if (!selectedId) {
-				await postUser(path, formulario);
+				const data = {
+					documentNumber: formulario.documentNumber,
+					name: formulario.name,
+					lastName: formulario.lastName,
+					email: formulario.email,
+					idRole: formulario.idRole,
+				}
+				await postUser(path, data);
 			}
 		} else if (!formulario.email.includes('@elpoli.edu.co')) {
 			alert('El correo debe ser institucional');

@@ -16,6 +16,7 @@ const ProfessorContainer = () => {
 	const updateId = id => {
 		setSelectedId(id);
 	};
+	
 	return (
 		<main>
 			<UserTable deleteFunction={deleteProfessor} updateId={updateId} />
