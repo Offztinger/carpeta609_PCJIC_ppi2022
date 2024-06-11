@@ -23,7 +23,7 @@ const LogbookProvider = ({ children }) => {
 	const [team, setTeam] = useState([]);
 	const [teamMembers, setTeamMembers] = useState([]);
 
-	const url = 'http://3.147.42.128:4000/';
+	const url = 'http://3.15.235.33:4000/';
 
 	const getMethod = async (id = '', moduleName, setState) => {
 		const getUrl = `${url}${moduleName}`;

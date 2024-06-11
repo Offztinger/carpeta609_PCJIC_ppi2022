@@ -16,10 +16,10 @@ const ScheduleProvider = ({ children }) => {
 		schedulePlace: '',
 		scheduleHour: '',
 	});
-	const url = 'http://3.147.42.128:4000/schedule';
+	const url = 'http://3.15.235.33:4000/schedule';
 
 	const getMethod = (moduleName, setState) => {
-		GETRequest(`http://3.147.42.128:4000/${moduleName}`, setState);
+		GETRequest(`http://3.15.235.33:4000/${moduleName}`, setState);
 	};
 
 	const postSchedule = async formulario => {
@@ -75,7 +75,7 @@ const ScheduleProvider = ({ children }) => {
 	}, [logbook]);
 
 	const setIdLogbook = async id => {
-		await GETRequest(`http://3.147.42.128:4000/logbook/${id}`, setLogbook);
+		await GETRequest(`http://3.15.235.33:4000/logbook/${id}`, setLogbook);
 		return logbook;
 	};
 

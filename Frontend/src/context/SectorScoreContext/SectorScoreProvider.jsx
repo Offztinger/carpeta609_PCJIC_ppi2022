@@ -11,7 +11,7 @@ const SectorScoreProvider = ({ children }) => {
 	const [showSectorScores, setShowSectorScores] = useState(false);
 	const [idSectorScore, setIdSectorScore] = useState('');
 
-	const url = 'http://3.147.42.128:4000/sectorScore';
+	const url = 'http://3.15.235.33:4000/sectorScore';
 
 	const [formulario, setFormulario] = useState({
 		id: '',
@@ -42,7 +42,7 @@ const SectorScoreProvider = ({ children }) => {
 
 	const getSectorScores = async () => {
 		await GETRequest(
-			`http://3.147.42.128:4000/sectorScore/${idSectorScore}`,
+			`http://3.15.235.33:4000/sectorScore/${idSectorScore}`,
 			setSectorScores,
 		);
 	};

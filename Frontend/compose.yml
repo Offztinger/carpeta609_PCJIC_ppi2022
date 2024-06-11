@@ -1,7 +1,9 @@
 services:
-  node:
+  frontend:
+    container_name: frontend
+    image: offztinger/frontend-vite:latest
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 5173:5173
+      - 80:80

@@ -1,2 +1,2 @@
-export const backendURL = 'http://3.147.42.128:8080/'
+export const backendURL = 'http://3.15.235.33:8080/'
 export const estudiante = 'estudiante/'
