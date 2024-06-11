@@ -39,7 +39,7 @@ export default function CourseUserBody({ type }) {
 	const [course, setCourses] = useState([]);
 
 	useEffect(() => {
-		GETRequest('http://3.15.235.33:4000/professor', data =>
+		GETRequest('http://127.0.0.1:4000/professor', data =>
 			setProfessors(
 				data.map(professor => ({
 					value: professor.id,
@@ -47,7 +47,7 @@ export default function CourseUserBody({ type }) {
 				})),
 			),
 		);
-		GETRequest('http://3.15.235.33:4000/student', data =>
+		GETRequest('http://127.0.0.1:4000/student', data =>
 			setStudents(
 				data.map(student => ({
 					value: student.id,
@@ -55,7 +55,7 @@ export default function CourseUserBody({ type }) {
 				})),
 			),
 		);
-		GETRequest('http://3.15.235.33:4000/course', data =>
+		GETRequest('http://127.0.0.1:4000/course', data =>
 			setCourses(
 				data.map(course => ({
 					value: course.id,

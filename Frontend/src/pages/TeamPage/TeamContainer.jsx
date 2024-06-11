@@ -48,7 +48,7 @@ const TeamContainer = () => {
 
 	const onDeleteMember = async idToDelete => {
 		idToDelete &&
-			(await DELETERequest('http://3.15.235.33:4000/teamMember', idToDelete));
+			(await DELETERequest('http://127.0.0.1:4000/teamMember', idToDelete));
 		await getTeamMembers(folderId);
 	};
 

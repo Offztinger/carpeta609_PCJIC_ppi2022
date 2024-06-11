@@ -16,7 +16,7 @@ const CoursesProvider = ({ children }) => {
 		isAlternative: false,
 	});
 	const [formError, setFormError] = useState(true);
-	const url = 'http://3.15.235.33:4000/course';
+	const url = 'http://127.0.0.1:4000/course';
 
 	const getCourses = () => {
 		GETRequest(url, setCourses);
