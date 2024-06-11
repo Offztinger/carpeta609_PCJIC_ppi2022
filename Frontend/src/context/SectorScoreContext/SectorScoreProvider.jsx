@@ -11,7 +11,7 @@ const SectorScoreProvider = ({ children }) => {
 	const [showSectorScores, setShowSectorScores] = useState(false);
 	const [idSectorScore, setIdSectorScore] = useState('');
 
-	const url = 'https://backend.portalppi.site/sectorScore';
+	const path = 'sectorScore';
 
 	const [formulario, setFormulario] = useState({
 		id: '',
@@ -36,15 +36,12 @@ const SectorScoreProvider = ({ children }) => {
 		}
 	};
 
-	const getMethod = (url, setState) => {
-		GETRequest(url, setState);
+	const getMethod = (path, setState) => {
+		GETRequest(path, setState);
 	};
 
 	const getSectorScores = async () => {
-		await GETRequest(
-			`https://backend.portalppi.site/sectorScore/${idSectorScore}`,
-			setSectorScores,
-		);
+		await GETRequest(`sectorScore/${idSectorScore}`, setSectorScores);
 	};
 
 	const postSectorScore = async sectorScore => {
@@ -54,7 +51,7 @@ const SectorScoreProvider = ({ children }) => {
 			folderNumberId: sectorScore.folderNumberId,
 			idUser: sectorScore.idUser,
 		};
-		await POSTRequest(data, url);
+		await POSTRequest(data, path);
 		getSectorScores();
 	};
 
@@ -66,12 +63,12 @@ const SectorScoreProvider = ({ children }) => {
 			folderNumberId: sectorScore.folderNumberId,
 			idUser: sectorScore.idUser,
 		};
-		await PUTRequest(data, url);
+		await PUTRequest(data, path);
 		getSectorScores();
 	};
 
 	const deleteSectorScore = async id => {
-		await DELETERequest(url, id);
+		await DELETERequest(path, id);
 		getSectorScores();
 	};
 

@@ -29,7 +29,7 @@ const LogbookDetails = ({ folderNumber }) => {
 	const [isEdit, setIsEdit] = useState([]);
 
 	useEffect(() => {
-		GETRequest('https://backend.portalppi.site/professor', setProfessors);
+		GETRequest('professor', setProfessors);
 	}, []);
 
 	useEffect(() => {
@@ -83,10 +83,10 @@ const LogbookDetails = ({ folderNumber }) => {
 	const onPutSubmit = useCallback(async () => {
 		await PUTRequest(
 			logbookDetailToEdit,
-			'https://backend.portalppi.site/logbookDetail',
+			'logbookDetail',
 		).finally(() => {
 			GETRequest(
-				`https://backend.portalppi.site/logbookDetail/${logbookId}`,
+				`logbookDetail/${logbookId}`,
 				setLogbookDetails,
 			);
 			setLogbookDetailToEdit({
@@ -110,11 +110,11 @@ const LogbookDetails = ({ folderNumber }) => {
 	const onAddSubmit = useCallback(async () => {
 		await POSTRequest(
 			newLogbookDetail,
-			'https://backend.portalppi.site/logbookDetail',
+			'logbookDetail',
 		).finally(() => {
 			setIsAdding(false);
 			GETRequest(
-				`https://backend.portalppi.site/logbookDetail/${logbookId}`,
+				`logbookDetail/${logbookId}`,
 				setLogbookDetails,
 			);
 			setNewLogbookDetail({

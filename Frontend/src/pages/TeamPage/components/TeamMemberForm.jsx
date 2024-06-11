@@ -39,7 +39,7 @@ export default function TeamMemberForm({ folderNumber }) {
 	const [courseUsers, setCourseUsers] = useState([]);
 
 	useEffect(() => {
-		GETRequest('https://backend.portalppi.site/student', data =>
+		GETRequest('student', data =>
 			setStudentsOptions(
 				data.map(student => ({
 					value: student.id,
@@ -47,8 +47,8 @@ export default function TeamMemberForm({ folderNumber }) {
 				})),
 			),
 		);
-		GETRequest('https://backend.portalppi.site/student', setStudents);
-		GETRequest('https://backend.portalppi.site/courseUser', setCourseUsers);
+		GETRequest('student', setStudents);
+		GETRequest('courseUser', setCourseUsers);
 	}, []);
 
 	const getSelectedOption = (options, value) => {

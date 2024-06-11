@@ -16,10 +16,10 @@ const CoursesProvider = ({ children }) => {
 		isAlternative: false,
 	});
 	const [formError, setFormError] = useState(true);
-	const url = 'https://backend.portalppi.site/course';
+	const path = 'course';
 
 	const getCourses = () => {
-		GETRequest(url, setCourses);
+		GETRequest(path, setCourses);
 	};
 
 	const postCourse = async formulario => {
@@ -30,21 +30,21 @@ const CoursesProvider = ({ children }) => {
 			isAlternative: false, // Añadir el campo isAlternative con el valor true
 		};
 		if (data) {
-			await POSTRequest(data, url);
+			await POSTRequest(data, path);
 			getCourses();
 		}
 	};
 
 	const putCourse = async formulario => {
 		if (formulario) {
-			await PUTRequest(formulario, url);
+			await PUTRequest(formulario, path);
 			getCourses();
 		}
 	};
 
 	const deleteCourse = async () => {
 		if (selectedId) {
-			await DELETERequest(url, selectedId);
+			await DELETERequest(path, selectedId);
 			getCourses();
 		}
 	};

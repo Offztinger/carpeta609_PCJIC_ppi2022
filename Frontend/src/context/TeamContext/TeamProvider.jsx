@@ -23,28 +23,28 @@ const TeamProvider = ({ children }) => {
 		idUser: '',
 	});
 	const [data, setData] = useState([]);
-	const url = 'https://backend.portalppi.site/teams';
+	const path = 'teams';
 	const getTeams = async () => {
-		await GETRequest(`${url}/front`, setTeams);
+		await GETRequest(`${path}/front`, setTeams);
 	};
 
 	const getTeamMembers = async id => {
-		await GETRequest(`https://backend.portalppi.site/teamMember/${id}`, setTeamMembers);
+		await GETRequest(`teamMember/${id}`, setTeamMembers);
 	};
 
 	const postTeam = async team => {
-		await POSTRequest(team, url);
+		await POSTRequest(team, path);
 		getTeams();
 	};
 
 	const putTeam = async team => {
-		await PUTRequest(team, url);
+		await PUTRequest(team, path);
 		getTeams();
 	};
 
 	const deleteTeam = async id => {
 		await axios
-			.get(`https://backend.portalppi.site/logbook/${id}`, {
+			.get(`logbook/${id}`, {
 				headers: {
 					'Content-Type': 'application/json', // También cambiamos el Content-Type aquí si es necesario
 					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
@@ -52,9 +52,12 @@ const TeamProvider = ({ children }) => {
 			})
 			.then(async res => {
 				if (res.data?.id != undefined) {
-					await DELETERequest(`https://backend.portalppi.site/logbook`, res.data.id);
+					await DELETERequest(
+						`logbook`,
+						res.data.id,
+					);
 				}
-				await DELETERequest(url, id);
+				await DELETERequest(path, id);
 				await getTeams();
 			})
 			.catch(error => {

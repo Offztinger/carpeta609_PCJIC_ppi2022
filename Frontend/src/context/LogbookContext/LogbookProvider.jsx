@@ -23,13 +23,11 @@ const LogbookProvider = ({ children }) => {
 	const [team, setTeam] = useState([]);
 	const [teamMembers, setTeamMembers] = useState([]);
 
-	const url = 'https://backend.portalppi.site/';
-
-	const getMethod = async (id = '', moduleName, setState) => {
-		const getUrl = `${url}${moduleName}`;
-		const getByIdUrl = `${url}${moduleName}/${id}`;
-		await GETRequest(id != '' ? getByIdUrl : getUrl, setState);
-		if (moduleName === 'logbookDetails') {
+	const getMethod = async (id = '', path, setState) => {
+		const getPath = `${path}`;
+		const getByIdPath = `${path}/${id}`;
+		await GETRequest(id != '' ? getByIdPath : getPath, setState);
+		if (path === 'logbookDetails') {
 			setShowLogbookDetails(true);
 		}
 	};
@@ -38,12 +36,12 @@ const LogbookProvider = ({ children }) => {
 		console.log('logbookDetails', logbookDetails);
 	}, [logbookDetails]);
 
-	const postLogbook = async (moduleName, logbook) => {
-		await POSTRequest(logbook, `${url}${moduleName}`);
+	const postLogbook = async (path, logbook) => {
+		await POSTRequest(logbook, path);
 	};
 
-	const deleteLogbook = async (moduleName, id) => {
-		await DELETERequest(`${url}${moduleName}`, id);
+	const deleteLogbook = async (path, id) => {
+		await DELETERequest(path, id);
 	};
 
 	const handleChangeLogbook = e => {
@@ -51,10 +49,10 @@ const LogbookProvider = ({ children }) => {
 		setFormulario(prevFormulario => ({ ...prevFormulario, [name]: value }));
 	};
 
-	const handleSubmit = async (e, moduleName) => {
+	const handleSubmit = async (e, path) => {
 		e.preventDefault();
 		// Aquí puedes hacer una petición HTTP para publicar los cambios
-		const body = await PUTRequest(formulario, `${url}${moduleName}`);
+		const body = await PUTRequest(formulario, path);
 		setFormulario(body);
 	};
 

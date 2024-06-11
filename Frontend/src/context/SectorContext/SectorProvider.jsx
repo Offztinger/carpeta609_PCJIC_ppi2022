@@ -36,7 +36,7 @@ const SectorProvider = ({ children }) => {
 			};
 		}
 		if (data) {
-			await POSTRequest(data, `https://backend.portalppi.site/${moduleName}`);
+			await POSTRequest(data, `${moduleName}`);
 			if (moduleName === 'sector') {
 				getMethod(moduleName, setSectors);
 			} else if (moduleName === 'sectorCourse') {
@@ -46,12 +46,12 @@ const SectorProvider = ({ children }) => {
 	};
 
 	const getMethod = (moduleName, setState) => {
-		GETRequest(`https://backend.portalppi.site/${moduleName}`, setState);
+		GETRequest(`${moduleName}`, setState);
 	};
 
 	const putSector = async (moduleName, formulario) => {
 		if (formulario) {
-			await PUTRequest(formulario, `https://backend.portalppi.site/${moduleName}`);
+			await PUTRequest(formulario, `${moduleName}`);
 			if (moduleName === 'sector') {
 				getMethod(moduleName, setSectors);
 			} else if (moduleName === 'sectorCourse') {
@@ -62,7 +62,7 @@ const SectorProvider = ({ children }) => {
 
 	const deleteSector = async (moduleName, id) => {
 		if (id) {
-			await DELETERequest(`https://backend.portalppi.site/${moduleName}`, id);
+			await DELETERequest(`${moduleName}`, id);
 			if (moduleName === 'sector') {
 				getMethod(moduleName, setSectors);
 			} else if (moduleName === 'sectorCourse') {

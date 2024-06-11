@@ -16,31 +16,31 @@ const ScheduleProvider = ({ children }) => {
 		schedulePlace: '',
 		scheduleHour: '',
 	});
-	const url = 'https://backend.portalppi.site/schedule';
+	const path = 'schedule';
 
-	const getMethod = (moduleName, setState) => {
-		GETRequest(`https://backend.portalppi.site/${moduleName}`, setState);
+	const getMethod = (path, setState) => {
+		GETRequest(path, setState);
 	};
 
 	const postSchedule = async formulario => {
 		if (formulario) {
-			await POSTRequest(formulario, url);
+			await POSTRequest(formulario, path);
 		}
 	};
 
 	const getSchedule = () => {
-		GETRequest(url, setSchedule);
+		GETRequest(path, setSchedule);
 	};
 
 	const putSchedule = formulario => {
 		if (formulario) {
-			PUTRequest(formulario, url);
+			PUTRequest(formulario, path);
 		}
 	};
 
 	const deleteSchedule = id => {
 		if (id) {
-			DELETERequest(url, id);
+			DELETERequest(path, id);
 		}
 	};
 
@@ -75,7 +75,7 @@ const ScheduleProvider = ({ children }) => {
 	}, [logbook]);
 
 	const setIdLogbook = async id => {
-		await GETRequest(`https://backend.portalppi.site/logbook/${id}`, setLogbook);
+		await GETRequest(`logbook/${id}`, setLogbook);
 		return logbook;
 	};
 

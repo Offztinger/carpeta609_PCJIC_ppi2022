@@ -18,9 +18,8 @@ const UserProvider = ({ children }) => {
 		idRole: '',
 	});
 	const [formError, setFormError] = useState(true);
-	const url = 'https://backend.portalppi.site/';
 
-	const postUser = async (moduleName, formulario) => {
+	const postUser = async (path, formulario) => {
 		const data = {
 			...formulario,
 			documentNumber: parseInt(formulario.documentNumber),
@@ -29,16 +28,16 @@ const UserProvider = ({ children }) => {
 				: `Cc.${formulario.documentNumber}`,
 		};
 		if (data) {
-			await POSTRequest(data, `${url + moduleName}`);
-			getUsers(moduleName);
+			await POSTRequest(data, path);
+			getUsers(path);
 		}
 	};
 
-	const getUsers = moduleName => {
-		GETRequest(`${url + moduleName}`, setUsers);
+	const getUsers = path => {
+		GETRequest(path, setUsers);
 	};
 
-	const putUser = async (moduleName, formulario) => {
+	const putUser = async (path, formulario) => {
 		const data = {
 			...formulario,
 			documentNumber: parseInt(formulario.documentNumber),
@@ -46,15 +45,15 @@ const UserProvider = ({ children }) => {
 		};
 
 		if (data) {
-			await PUTRequest(data, `${url + moduleName}`);
-			getUsers(moduleName);
+			await PUTRequest(data, path);
+			getUsers(path);
 		}
 	};
 
-	const deleteUser = async (moduleName, id) => {
+	const deleteUser = async (path, id) => {
 		if (id) {
-			await DELETERequest(`${url + moduleName}`, id);
-			getUsers(moduleName);
+			await DELETERequest(path, id);
+			getUsers(path);
 		}
 	};
 
@@ -66,7 +65,7 @@ const UserProvider = ({ children }) => {
 		});
 	};
 
-	const handleRequestFunction = async moduleName => {
+	const handleRequestFunction = async path => {
 		if (
 			formulario.documentNumber !== 0 &&
 			formulario.name !== '' &&
@@ -76,9 +75,9 @@ const UserProvider = ({ children }) => {
 		) {
 			setFormError(false);
 			if (selectedId) {
-				await putUser(moduleName, formulario);
+				await putUser(path, formulario);
 			} else if (!selectedId) {
-				await postUser(moduleName, formulario);
+				await postUser(path, formulario);
 			}
 		} else if (!formulario.email.includes('@elpoli.edu.co')) {
 			alert('El correo debe ser institucional');
@@ -87,7 +86,7 @@ const UserProvider = ({ children }) => {
 		}
 	};
 
-	const exportToExcel = moduleName => {
+	const exportToExcel = path => {
 		const wb = XLSX.utils.book_new();
 		let row = [
 			[

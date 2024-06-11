@@ -13,29 +13,29 @@ const CourseUserProvider = ({ children }) => {
 		active: true,
 	});
 	const [formError, setFormError] = useState(false);
-	const url = 'https://backend.portalppi.site/courseUser';
+	const path = 'courseUser';
 
 	const getUserCourse = async () => {
-		await GETRequest(url, setUserCourses);
+		await GETRequest(path, setUserCourses);
 	};
 
 	const postUserCourse = async formData => {
 		if (formData) {
-			await POSTRequest(formData, url);
+			await POSTRequest(formData, path);
 			getUserCourse();
 		}
 	};
 
 	const putUserCourse = async formData => {
 		if (formData) {
-			await PUTRequest(formData, `${url}/${formData.id}`);
+			await PUTRequest(formData, `${path}/${formData.id}`);
 			getUserCourse();
 		}
 	};
 
 	const deleteUserCourse = async id => {
 		if (id) {
-			await DELETERequest(url, id);
+			await DELETERequest(path, id);
 			getUserCourse();
 		}
 	};

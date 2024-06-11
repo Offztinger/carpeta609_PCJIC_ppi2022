@@ -37,7 +37,7 @@ export default function TeamForm() {
 	const [course, setCourses] = useState([]);
 
 	useEffect(() => {
-		GETRequest('https://backend.portalppi.site/professor', data =>
+		GETRequest('professor', data =>
 			setProfessors(
 				data.map(professor => ({
 					value: professor.id,
@@ -45,7 +45,7 @@ export default function TeamForm() {
 				})),
 			),
 		);
-		GETRequest('https://backend.portalppi.site/course', data =>
+		GETRequest('course', data =>
 			setCourses(
 				data.map(course => ({
 					value: course.id,

@@ -1,13 +1,14 @@
 import useToastHandler from './toastHandler';
 import axios from 'axios';
+import { backendURL } from '../config/constants';
 
 const useAxiosHandler = () => {
 	const { toastSuccess, toastError } = useToastHandler();
 
-	const POSTRequest = async (data, url) => {
+	const POSTRequest = async (data, path) => {
 		await axios
 			.post(
-				url,
+				`${backendURL}${path}`,
 				data, // Enviamos el data directamente como objeto
 				{
 					headers: {
@@ -27,9 +28,9 @@ const useAxiosHandler = () => {
 			});
 	};
 
-	const GETRequest = async (url, setState = undefined) => {
+	const GETRequest = async (path, setState = undefined) => {
 		await axios
-			.get(url, {
+			.get(`${backendURL}${path}`, {
 				headers: {
 					'Content-Type': 'application/json', // También cambiamos el Content-Type aquí si es necesario
 					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),
@@ -45,11 +46,11 @@ const useAxiosHandler = () => {
 			});
 	};
 
-	const PUTRequest = async (data, url) => {
+	const PUTRequest = async (data, path) => {
 		let body;
 		await axios
 			.put(
-				`${url}/${data.id}`,
+				`${backendURL}${path}/${data.id}`,
 				data, // Enviamos el data directamente como objeto
 				{
 					headers: {
@@ -71,9 +72,9 @@ const useAxiosHandler = () => {
 		return body;
 	};
 
-	const DELETERequest = async (url, id) => {
+	const DELETERequest = async (path, id) => {
 		await axios
-			.delete(`${url}/${id}`, {
+			.delete(`${backendURL}${path}/${id}`, {
 				headers: {
 					'Content-Type': 'application/json', // Cambiamos el Content-Type si es necesario
 					Authorization: 'Bearer ' + (localStorage.getItem('token') || ''),

@@ -48,7 +48,7 @@ const TeamContainer = () => {
 
 	const onDeleteMember = async idToDelete => {
 		idToDelete &&
-			(await DELETERequest('https://backend.portalppi.site/teamMember', idToDelete));
+			(await DELETERequest('teamMember', idToDelete));
 		await getTeamMembers(folderId);
 	};
 

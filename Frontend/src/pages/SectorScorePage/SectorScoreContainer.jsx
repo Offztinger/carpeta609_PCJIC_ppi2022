@@ -15,8 +15,7 @@ const SectorScoreContainer = () => {
 		const path = window.location.pathname;
 		const parts = path.split('/');
 		setIdSectorScore(parts[2]);
-		const url = `https://backend.portalppi.site/sectorScore/${parts[2]}`;
-		getMethod(url, setSectorScores);
+		getMethod(`sectorScore/${parts[2]}`, setSectorScores);
 	}, []);
 
 	const onDelete = async idToDelete => {

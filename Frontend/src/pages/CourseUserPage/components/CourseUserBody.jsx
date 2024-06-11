@@ -39,7 +39,7 @@ export default function CourseUserBody({ type }) {
 	const [course, setCourses] = useState([]);
 
 	useEffect(() => {
-		GETRequest('https://backend.portalppi.site/professor', data =>
+		GETRequest('professor', data =>
 			setProfessors(
 				data.map(professor => ({
 					value: professor.id,
@@ -47,7 +47,7 @@ export default function CourseUserBody({ type }) {
 				})),
 			),
 		);
-		GETRequest('https://backend.portalppi.site/student', data =>
+		GETRequest('student', data =>
 			setStudents(
 				data.map(student => ({
 					value: student.id,
@@ -55,7 +55,7 @@ export default function CourseUserBody({ type }) {
 				})),
 			),
 		);
-		GETRequest('https://backend.portalppi.site/course', data =>
+		GETRequest('course', data =>
 			setCourses(
 				data.map(course => ({
 					value: course.id,

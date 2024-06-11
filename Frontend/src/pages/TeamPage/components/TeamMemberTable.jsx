@@ -66,7 +66,7 @@ export default function TeamMemberTable({
 		if (data.length > 0) {
 			if (data.length <= 3) {
 				// Si hay menos o igual a 3 estudiantes en data, procede a enviar el POST
-				await POSTRequest(data, 'https://backend.portalppi.site/teamMember');
+				await POSTRequest(data, 'teamMember');
 				getTeamMembers(folderNumber);
 				showModal(setShowCreateModal);
 			} else {

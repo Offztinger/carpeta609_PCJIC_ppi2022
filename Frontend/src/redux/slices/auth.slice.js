@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { saveState } from '../../utils/localStorage';
 import axios from 'axios';
 import useToastHandler from '../../hooks/toastHandler'; // Asegúrate de tener la ruta correcta
+import { backendURL } from '../../config/constants';
 
 export const loginUser = createAsyncThunk(
 	'auth/loginUser',
@@ -10,7 +11,7 @@ export const loginUser = createAsyncThunk(
 		try {
 			const { toastError } = useToastHandler();
 			const response = await axios
-				.post('https://backend.portalppi.site/auth/login', credentials)
+				.post(`${backendURL}auth/login`, credentials)
 				.catch(error => {
 					toastError(error.response.data.message);
 				});
@@ -25,9 +26,7 @@ export const loginWithGoogle = createAsyncThunk(
 	'auth/loginWithGoogle',
 	async (_, { rejectWithValue }) => {
 		try {
-			const response = await axios.get(
-				'https://backend.portalppi.site/auth/google/redirect',
-			);
+			const response = await axios.get(`${backendURL}auth/google/redirect`);
 			return response.data;
 		} catch (error) {
 			return rejectWithValue(error.response.data);
