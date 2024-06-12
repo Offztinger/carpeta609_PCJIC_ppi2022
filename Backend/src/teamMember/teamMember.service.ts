@@ -56,6 +56,7 @@ export class TeamMemberService {
   }
 
 
+  
   async addStudentToTeam(members: TeamMembersDTO[]) {
     for (const member of members) {
       await this.prisma.teamMembers.create({

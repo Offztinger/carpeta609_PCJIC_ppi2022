@@ -51,8 +51,7 @@ export class StudentService {
 
     return { errors };
   }
-
-
+  
   async createStudent(data: UserDTO) {
     try {
       return await this.prisma.user.create(

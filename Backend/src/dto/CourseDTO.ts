@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsString, IsBoolean } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsBoolean, IsOptional } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 export class CourseDTO {
     id: string
@@ -26,7 +26,8 @@ export class CourseDTO {
 
 
 export class CourseUserDTO {
-    id: string
+    @IsOptional()
+    id?: string
 
     @ApiProperty({ type: String, description: 'Id del usuario' })
     @IsNotEmpty({ message: 'El idUser no puede estar vacío' })

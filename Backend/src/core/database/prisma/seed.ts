@@ -4,6 +4,7 @@ import formsSeed from "./data/forms";
 import { studentPermissions, professorPermissions, adminPermissions } from "./data/permissions";
 import coursesSeed from "./data/courses";
 import * as bcrypt from 'bcrypt';
+import userSeed from "./data/users";
 
 const prisma = new PrismaClient();
 
@@ -85,16 +86,18 @@ async function main() {
         });
     }
 
-    await prisma.user.create({
-        data: {
-            documentNumber: 333635425,
-            email: "luis_calvo23211@elpoli.edu.co",
-            password: bcrypt.hashSync("admin", 10),
-            name: "Luis",
-            lastName: "Calvo",
-            idRole: "c27a2360-6bd6-4939-b03c-98e09d25fece"
-        }
-    })
+    for (const user of userSeed) {
+        await prisma.user.create({
+            data: {
+                documentNumber: user.documentNumber,
+                email: user.email,
+                password: bcrypt.hashSync(user.password, 10),
+                name: user.name,
+                lastName: user.lastName,
+                idRole: user.idRole,
+            }
+        })
+    }
 }
 
 main()

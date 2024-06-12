@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/core/database/prisma/prisma.service";
 import { TeamDTO } from "src/dto/TeamDTO";
-
+import * as XLSX from 'xlsx';
 
 @Injectable()
 export class TeamsService {
@@ -32,6 +32,44 @@ export class TeamsService {
       // Maneja cualquier error que pueda ocurrir durante la creación del team o del logbook
       throw new Error('Failed to create team and logbook: ' + error.message);
     }
+  }
+
+  async processXlsx(fileBuffer: any) {
+    const workbook = XLSX.read(fileBuffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const sheet: any[] = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+    const errors = [];
+
+    for (const row of sheet) {
+      try {
+        const teamDTO: TeamDTO = {
+          folderNumber: row['folderNumber'],
+          teamName: row['teamName'],
+          idCourse: row['idCourse'],
+          idUser: row['idUser'],
+        };
+
+        if (!teamDTO.folderNumber || !teamDTO.teamName || !teamDTO.idCourse || !teamDTO.idUser) {
+          throw new Error('Missing required fields');
+        }
+
+        // Validar que el correo electrónico termine con @elpoli.edu.co
+
+        const existingTeam = await this.prisma.teamPPI.findFirst({
+          where: { folderNumber: teamDTO.folderNumber },
+        });
+
+        if (existingTeam) {
+          await this.updateTeam(existingTeam.id, teamDTO);
+        } else {
+          await this.createTeam(teamDTO);
+        }
+      } catch (error) {
+        errors.push({ row, error: error.message });
+      }
+    }
+
+    return { errors };
   }
 
   async findAllTeams() {

@@ -1,8 +1,9 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class TeamDTO {
-    id: string;
+    @IsOptional()
+    id?: string;
 
     @ApiProperty({ type: String, description: 'Número de carpeta' })
     @IsNotEmpty({ message: 'El número de carpeta no puede estar vacío' })

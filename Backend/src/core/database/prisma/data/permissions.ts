@@ -105,6 +105,15 @@ export const studentPermissions = [
         "delete": false,
         "idRole": "3284495c-136e-4215-b8cc-30e6d9ca52b0"
     },
+    {
+        "idFormPermission": "c2f5d4fe-2fda-44fc-ba0e-69feba33975b",
+        "create": false,
+        "update": false,
+        "read": true,
+        "delete": false,
+        "idRole": "3284495c-136e-4215-b8cc-30e6d9ca52b0"
+    },
+
 ]
 
 export const professorPermissions = [
@@ -212,6 +221,14 @@ export const professorPermissions = [
         "delete": false,
         "idRole": "1164b212-c28e-4f5c-a886-36795031cbf3"
     },
+    {
+        "idFormPermission": "c2f5d4fe-2fda-44fc-ba0e-69feba33975b",
+        "create": true,
+        "update": true,
+        "read": true,
+        "delete": true,
+        "idRole": "1164b212-c28e-4f5c-a886-36795031cbf3"
+    },
 ]
 
 export const adminPermissions = [
@@ -313,6 +330,14 @@ export const adminPermissions = [
     },
     {
         "idFormPermission": "9bac9db4-0c93-496b-90f3-975820451f46",
+        "create": true,
+        "update": true,
+        "read": true,
+        "delete": true,
+        "idRole": "c27a2360-6bd6-4939-b03c-98e09d25fece"
+    },
+    {
+        "idFormPermission": "c2f5d4fe-2fda-44fc-ba0e-69feba33975b",
         "create": true,
         "update": true,
         "read": true,

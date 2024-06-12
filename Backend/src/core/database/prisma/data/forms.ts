@@ -77,6 +77,12 @@ const formsSeed = [
         "formDescription": "Endpoints para notas cuadrante",
         "route": "/sectorScore"
     },
+    {
+        "idForm": "c2f5d4fe-2fda-44fc-ba0e-69feba33975b",
+        "formName": "Disponibilidad",
+        "formDescription": "Endpoints para disponibilidad",
+        "route": "/agenda"
+    },
 ];
 
 export default formsSeed;
