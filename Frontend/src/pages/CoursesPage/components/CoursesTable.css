@@ -56,12 +56,12 @@ th {
 }
 
 .nivelcursolista {
-	width: 8% !important;
+	width: 5% !important;
 	text-align: center !important;
 }
 
 .acciones {
-	width: 7% !important;
+	width: 15% !important;
 	text-align: center;
 }
 
@@ -74,11 +74,11 @@ th {
 }
 
 .nombrecursolista {
-	width: 20% !important;
+	width: 0% !important;
 }
 
 .tipomodulo {
-	width: 5% !important;
+	width: 2% !important;
 }
 
 .botonesaccion button {

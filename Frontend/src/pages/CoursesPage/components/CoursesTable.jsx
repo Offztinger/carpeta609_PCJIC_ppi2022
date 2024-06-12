@@ -10,6 +10,7 @@ import {
     faTrashCan,
     faPenToSquare,
     faTable,
+    faCopy,
 } from '@fortawesome/free-solid-svg-icons';
 import { CoursesContext } from '../../../context/CoursesContext/CoursesContext';
 import usePaginatorHandler from '../../../hooks/paginatorHandler';
@@ -20,7 +21,7 @@ function CoursesTable({ deleteFunction, updateId }) {
     const [deleteId, setDeleteId] = useState();
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
-    const [currentSection, setCurrentSection] = useState(1); // Start at the second section
+    const [currentSection, setCurrentSection] = useState(0);
     const { handleSectionClick, chunkArray } = usePaginatorHandler();
 
     const {
@@ -291,6 +292,24 @@ function CoursesTable({ deleteFunction, updateId }) {
                                                 <FontAwesomeIcon icon={faTrashCan} />
                                             </button>
                                             <Tooltip id='deletecourse' />
+                                            <button
+												data-tooltip-id='copyid'
+												data-tooltip-content='Copiar ID del Usuario'
+												data-tooltip-place='top'
+												type='button'
+												className='btn btn-primary'
+												onClick={() => {
+													navigator.clipboard
+														.writeText(course.id)
+														.then(() => alert('ID copiado al portapapeles'))
+														.catch(error =>
+															console.error('Error al copiar ID: ', error),
+														);
+												}}
+											>
+												<FontAwesomeIcon icon={faCopy} />
+											</button>
+											<Tooltip id='copyid' />
                                         </td>
                                     </tr>
                                 ))}
