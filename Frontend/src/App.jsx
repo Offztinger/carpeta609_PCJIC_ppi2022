@@ -22,6 +22,8 @@ import SectorCoursePage from './pages/SectorCoursePage/SectorCoursePage';
 import SectorScorePage from './pages/SectorScorePage/SectorScorePage';
 import TeamForm from './pages/TeamPage/components/TeamForm';
 import CourseUserPage from './pages/CourseUserPage/CourseUserPage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const App = () => {
 	const { schedule, getSchedule } = useContext(ScheduleContext);
@@ -71,7 +73,14 @@ const App = () => {
 					{user && (
 						<section style={{ display: 'flex flex-col', overflow: 'hidden' }}>
 							<div className='header'>
-								<div className='logos-header'>
+								<div className='w-full flex justify-between logos-header'>
+									<a href='mailto:offztinger@gmail.com' target='_blank'>
+										<FontAwesomeIcon
+											style={{ cursor: 'pointer' }}
+											className='w-[60px] h-[60px]'
+											icon={faCircleQuestion}
+										/>
+									</a>
 									<button id='notification-btn' onClick={openPopUp}>
 										<img src={correo} className='correo-logo' />
 									</button>
