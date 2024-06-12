@@ -6,7 +6,11 @@ import Modal from 'react-bootstrap/Modal';
 import './UserTable.css';
 import download from '../../../icons/downloadfile.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+import {
+	faTrashCan,
+	faPenToSquare,
+	faCopy,
+} from '@fortawesome/free-solid-svg-icons';
 import { UserContext } from '../../../context/UserContext/UserContext';
 import { Tooltip } from 'react-tooltip';
 
@@ -18,7 +22,8 @@ function UserTable({ deleteFunction, updateId }) {
 
 	const {
 		users,
-		exportToExcel,
+		exportToExcelProfessors,
+		exportToExcelStudents,
 		selectedId,
 		setFormulario,
 		formulario,
@@ -33,7 +38,6 @@ function UserTable({ deleteFunction, updateId }) {
 		setDeleteIDEs(selectedId);
 	}, [selectedId]);
 
-	// Reset form when showCreateModal changes to true
 	useEffect(() => {
 		if (showCreateModal) {
 			setFormulario(prevFormulario => ({
@@ -75,8 +79,52 @@ function UserTable({ deleteFunction, updateId }) {
 
 	const secciones = chunkArray(users, 10);
 
-	const handleSectionClick = index => {
-		setCurrentSection(index);
+	const renderSectionButtons = () => {
+		const sectionButtons = [];
+
+		sectionButtons.push(
+			<span
+				key={0}
+				onClick={() => handleSectionClick(0, setCurrentSection)}
+				className={currentSection === 0 ? 'active' : ''}
+			>
+				1
+			</span>,
+		);
+
+		if (currentSection >= 2) {
+			sectionButtons.push(
+				<span key={currentSection} className='active'>
+					{currentSection + 1}
+				</span>,
+			);
+		} else {
+			sectionButtons.push(
+				<span
+					key={1}
+					onClick={() => handleSectionClick(1, setCurrentSection)}
+					className={currentSection === 1 ? 'active' : ''}
+				>
+					2
+				</span>,
+			);
+		}
+
+		if (secciones.length > 2) {
+			sectionButtons.push(
+				<span
+					key={secciones.length - 1}
+					onClick={() =>
+						handleSectionClick(secciones.length - 1, setCurrentSection)
+					}
+					className={currentSection === secciones.length - 1 ? 'active' : ''}
+				>
+					{secciones.length}
+				</span>,
+			);
+		}
+
+		return sectionButtons;
 	};
 
 	const showModal = setter => {
@@ -93,7 +141,15 @@ function UserTable({ deleteFunction, updateId }) {
 		setTimeout(() => {
 			setter(false);
 			modalContent.classList.remove('inactive');
-		}, 200); // Timeout should match animation duration
+		}, 200);
+	};
+
+	const exportExcelButton = moduleName => {
+		if (moduleName === 'student') {
+			exportToExcelStudents();
+		} else {
+			exportToExcelProfessors();
+		}
 	};
 
 	return (
@@ -277,7 +333,25 @@ function UserTable({ deleteFunction, updateId }) {
 											>
 												<FontAwesomeIcon icon={faTrashCan} />
 											</button>
-											<Tooltip id='deleteuser' />
+											<Tooltip id='copyid' />
+											<button
+												data-tooltip-id='copyid'
+												data-tooltip-content='Copiar ID del Usuario'
+												data-tooltip-place='top'
+												type='button'
+												className='btn btn-primary'
+												onClick={() => {
+													navigator.clipboard
+														.writeText(user.id)
+														.then(() => alert('ID copiado al portapapeles'))
+														.catch(error =>
+															console.error('Error al copiar ID: ', error),
+														);
+												}}
+											>
+												<FontAwesomeIcon icon={faCopy} />
+											</button>
+											<Tooltip id='copyid' />
 										</td>
 									</tr>
 								))}
@@ -297,18 +371,10 @@ function UserTable({ deleteFunction, updateId }) {
 						>
 							←
 						</span>
-						{secciones.map((_, index) => (
-							<span
-								key={index}
-								onClick={() => handleSectionClick(index, setCurrentSection)}
-								className={currentSection === index ? 'active' : ''}
-							>
-								{index + 1}
-							</span>
-						))}
+						{renderSectionButtons()}
 						<span
 							onClick={() => {
-								if (currentSection + 1 <= secciones.length - 1) {
+								if (currentSection < secciones.length - 1) {
 									handleSectionClick(currentSection + 1, setCurrentSection);
 								}
 							}}
@@ -337,7 +403,7 @@ function UserTable({ deleteFunction, updateId }) {
 							Crear {moduleName == 'student' ? 'estudiante' : 'profesor'}
 						</button>
 					</a>
-					<button className='exportarExcel' onClick={exportToExcel}>
+					<button className='exportarExcel' onClick={() => exportExcelButton()}>
 						<img src={download} alt='' style={{ height: '7vh' }} />
 					</button>
 				</div>

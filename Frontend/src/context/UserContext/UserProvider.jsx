@@ -4,8 +4,7 @@ import useAxiosHandler from '../../hooks/axiosHandler';
 import * as XLSX from 'xlsx';
 
 const UserProvider = ({ children }) => {
-	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } =
-		useAxiosHandler();
+	const { POSTRequest, GETRequest, PUTRequest, DELETERequest } = useAxiosHandler();
 	const [users, setUsers] = useState([]);
 	const [selectedId, setSelectedId] = useState('');
 	const [formulario, setFormulario] = useState({
@@ -93,7 +92,39 @@ const UserProvider = ({ children }) => {
 		}
 	};
 
-	const exportToExcel = path => {
+	const exportToExcelProfessors = path => {
+		const wb = XLSX.utils.book_new();
+		let row = [
+			[
+				{ v: 'ID', t: 's', s: {} },
+				{ v: 'Número de Documento', t: 's', s: {} },
+				{ v: 'Email', t: 's', s: {} },
+				{ v: 'Contraseña', t: 's', s: {} },
+				{ v: 'Nombre', t: 's', s: {} },
+				{ v: 'Apellido', t: 's', s: {} },
+				{ v: 'Rol', t: 's', s: {} },
+			],
+		];
+		users.forEach(user => {
+			row = [
+				...row,
+				[
+					{ v: user.id, t: 's', s: {} },
+					{ v: user.documentNumber, t: 's', s: {} },
+					{ v: user.email, t: 's', s: {} },
+					{ v: user.password, t: 's', s: {} },
+					{ v: user.name, t: 's', s: {} },
+					{ v: user.lastName, t: 's', s: {} },
+					{ v: user.idRole, t: 's', s: {} },
+				],
+			];
+		});
+		const ws = XLSX.utils.aoa_to_sheet(row);
+		XLSX.utils.book_append_sheet(wb, ws, 'profesores');
+		XLSX.writeFile(wb, 'lista' + 'profesores' + '.xlsx');
+	};
+	
+	const exportToExcelStudents = path => {
 		const wb = XLSX.utils.book_new();
 		let row = [
 			[
@@ -125,12 +156,19 @@ const UserProvider = ({ children }) => {
 		XLSX.writeFile(wb, 'lista' + 'Estudiantes' + '.xlsx');
 	};
 
+    const copyUserId = (userId) => {
+        navigator.clipboard.writeText(userId)
+            .then(() => alert('ID copiado al portapapeles'))
+            .catch((error) => console.error('Error al copiar ID: ', error));
+    };
+
 	return (
 		<UserContext.Provider
 			value={{
 				postUser,
 				getUsers,
 				putUser,
+				copyUserId,
 				deleteUser,
 				users,
 				selectedId,
@@ -138,7 +176,8 @@ const UserProvider = ({ children }) => {
 				formulario,
 				handleChange,
 				handleRequestFunction,
-				exportToExcel,
+				exportToExcelProfessors,
+				exportToExcelStudents,
 				setFormulario,
 			}}
 		>
